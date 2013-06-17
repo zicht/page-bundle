@@ -16,4 +16,12 @@ interface PageInterface
      * @return string
      */
     public function getTemplateName();
+
+
+    /**
+     * A page must always have a title.
+     *
+     * @return mixed
+     */
+    public function getTitle();
 }

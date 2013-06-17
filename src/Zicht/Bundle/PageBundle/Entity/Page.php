@@ -14,6 +14,14 @@ use \Zicht\Bundle\PageBundle\Model\PageInterface;
 abstract class Page implements PageInterface
 {
     /**
+     * Constructor stub
+     */
+    public function __construct()
+    {
+    }
+
+
+    /**
      * @{inheritDoc}
      */
     public function getTemplateName()

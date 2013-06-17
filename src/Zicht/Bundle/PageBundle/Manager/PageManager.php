@@ -141,23 +141,6 @@ class PageManager
 
 
     /**
-     * Returns the page types as a set of choices
-     *
-     * @return array
-     */
-    public function getPageTypeChoices()
-    {
-        $choices = array();
-        foreach ($this->em->getClassMetadata($this->pageClassName)->discriminatorMap as $type => $class) {
-            if ($class !== $this->pageClassName) {
-                $choices[$class] = $class;
-            }
-        }
-        return $choices;
-    }
-
-
-    /**
      * Find a page in the repository and trigger a view event.
      *
      * @param string $id
@@ -198,6 +181,17 @@ class PageManager
             throw new NotFoundHttpException;
         }
         return $ret;
+    }
+
+
+    /**
+     * Returns all pages from the base repository
+     *
+     * @return array
+     */
+    public function findAll()
+    {
+        return $this->getBaseRepository()->findAll();
     }
 
     /**

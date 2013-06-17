@@ -16,6 +16,9 @@
         "symfony/symfony": "*",
         "doctrine/orm": ">=2.2.3,<2.4-dev",
         "doctrine/doctrine-bundle": "1.0.*",
+        "zicht/admin-bundle": "*",
+        "zicht/url-bundle": "*",
+        "sonata-project/admin-bundle": "*",
         "jms/metadata": "*"
     },
     "suggest": {

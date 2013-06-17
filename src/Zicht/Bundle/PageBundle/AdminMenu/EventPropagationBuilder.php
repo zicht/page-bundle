@@ -35,13 +35,14 @@ class EventPropagationBuilder implements PropagationInterface
      */
     public function buildAndForwardEvent(Event $e)
     {
-        if (!$this->sonata) {
+        if (!$e instanceof \Zicht\Bundle\PageBundle\Event\PageViewEvent) {
             return;
         }
 
+        $page = $e->getPage();
         if (
-            ($admin = $this->sonata->getAdminByClass(get_class($e->getPage())))
-            || ($admin = $this->sonata->getAdminByClass(get_parent_class($e->getPage())))
+            ($admin = $this->sonata->getAdminByClass(get_class($page)))
+            || ($admin = $this->sonata->getAdminByClass(get_parent_class($page)))
         ) {
             /** @var \Zicht\Bundle\PageBundle\Event\PageViewEvent $e */
             $e->getDispatcher()->dispatch(
