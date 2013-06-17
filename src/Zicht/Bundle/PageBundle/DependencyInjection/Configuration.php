@@ -25,14 +25,15 @@ class Configuration implements ConfigurationInterface
         $rootNode
             ->children()
                 ->arrayNode('types')
+                    ->isRequired()
                     ->children()
-                        ->arrayNode('page')->prototype('scalar')->end()->end()
-                        ->arrayNode('contentItem')->prototype('scalar')->end()->end()
+                        ->arrayNode('page')->prototype('scalar')->isRequired()->end()->end()
+                        ->arrayNode('contentItem')->prototype('scalar')->isRequired()->end()->end()
                     ->end()
                 ->end()
-                ->scalarNode('pageClass')->end()
-                ->scalarNode('contentItemClass')->end()
-                ->arrayNode('defaultRegions')->prototype('scalar')->end()->end()
+                ->scalarNode('pageClass')->isRequired()->end()
+                ->scalarNode('contentItemClass')->isRequired()->end()
+                ->arrayNode('defaultRegions')->prototype('scalar')->isRequired()->end()->end()
             ->end()
         ;
         // Here you should define the parameters that are allowed to

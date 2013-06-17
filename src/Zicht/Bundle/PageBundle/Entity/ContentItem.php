@@ -20,7 +20,7 @@ abstract class ContentItem implements ContentItemInterface
      */
     public function getShortType()
     {
-        return Str::dash(lcfirst(Str::classname($this->getType())));
+        return Str::dash(lcfirst(Str::classname(Str::rstrip($this->getType(), 'ContentItem'))));
     }
 
     /**

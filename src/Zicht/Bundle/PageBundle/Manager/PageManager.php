@@ -7,6 +7,7 @@
 namespace Zicht\Bundle\PageBundle\Manager;
 
 use \Doctrine\ORM\Mapping\ClassMetadata;
+use Zicht\Bundle\PageBundle\Model\PageInterface;
 use \Doctrine\Bundle\DoctrineBundle\Registry;
 use \Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use \Zicht\Bundle\PageBundle\Event;
@@ -90,7 +91,7 @@ class PageManager
      */
     public function getBaseRepository()
     {
-        return $this->doctrine->getRepository($this->pageClassName);
+        return $this->em->getRepository($this->pageClassName);
     }
 
 
@@ -217,8 +218,12 @@ class PageManager
     {
         if (!$this->loadedPage) {
             if (is_callable($default)) {
-                $this->setLoadedPage(call_user_func($default, $this));
-            } else {
+                if ($page = call_user_func($default, $this)) {
+                    $this->setLoadedPage($page);
+                }
+            }
+
+            if (!$this->loadedPage) {
                 throw new NotFoundHttpException("There is no page currently loaded, but it was expected");
             }
         }
