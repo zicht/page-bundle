@@ -17,7 +17,7 @@ namespace My\PageBundle\Entity {
     }
 }
 
-namespace ZichtTest\Bundle\PageBundle\AdminMenu {
+namespace ZichtTest\Bundle\PageBundle\Manager {
 
     class PageManagerTest extends \PHPUnit_Framework_TestCase
     {

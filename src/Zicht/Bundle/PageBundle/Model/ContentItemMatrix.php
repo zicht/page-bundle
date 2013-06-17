@@ -130,7 +130,7 @@ final class ContentItemMatrix
             foreach ($this->matrix as $types) {
                 $ret = array_merge($ret, $types);
             }
-            return array_unique($ret);
+            return array_values(array_unique($ret));
         }
         return $this->matrix[$region];
     }
@@ -148,12 +148,12 @@ final class ContentItemMatrix
         if (null === $type) {
             return array_keys($this->matrix);
         }
-        $region = array();
+        $ret = array();
         foreach ($this->matrix as $region => $types) {
             if (in_array($type, $types)) {
                 $ret[]= $region;
             }
         }
-        return $region;
+        return $ret;
     }
 }
