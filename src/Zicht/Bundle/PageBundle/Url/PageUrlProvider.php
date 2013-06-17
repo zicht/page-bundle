@@ -59,8 +59,8 @@ class PageUrlProvider extends AbstractRoutingProvider implements SuggestableProv
     {
         $pages = $this->pageManager->getBaseRepository()->createQueryBuilder('p')
             ->andWhere('p.title LIKE :pattern')
-            ->getQuery()
             ->setMaxResults(30)
+            ->getQuery()
             ->execute(array('pattern' => '%' . $pattern . '%'))
         ;
 
@@ -68,7 +68,7 @@ class PageUrlProvider extends AbstractRoutingProvider implements SuggestableProv
         foreach ($pages as $page) {
             $suggestions[]= array(
                 'value' => $this->url($page),
-                'label' => sprintf('%s (pagina)', $page)
+                'label' => sprintf('%s (pagina)', $page->getTitle())
             );
         }
 
