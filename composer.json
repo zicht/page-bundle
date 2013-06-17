@@ -18,6 +18,10 @@
         "doctrine/doctrine-bundle": "1.0.*",
         "jms/metadata": "*"
     },
+    "suggest": {
+        "zicht/url-bundle": "Handle URL aliasing and url generation for pages",
+        "zicht/admin-bundle": "Add the Zicht admin menu to pages when logged in"
+    },
     "autoload": {
         "psr-0": { "": ["src/", "tests/"] }
     },
