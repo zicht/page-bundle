@@ -10,6 +10,7 @@ use \Sonata\AdminBundle\Admin\Pool;
 use \Zicht\Bundle\AdminBundle\Event\AdminEvents;
 use \Zicht\Bundle\AdminBundle\Event\MenuEvent;
 use \Zicht\Bundle\AdminBundle\Event\PropagationInterface;
+use \Zicht\Bundle\PageBundle\Event\PageViewEvent;
 
 /**
  * Propagates a PageView event as an AdminMenu event.
@@ -35,7 +36,7 @@ class EventPropagationBuilder implements PropagationInterface
      */
     public function buildAndForwardEvent(Event $e)
     {
-        if (!$e instanceof \Zicht\Bundle\PageBundle\Event\PageViewEvent) {
+        if (!$e instanceof PageViewEvent) {
             return;
         }
 
