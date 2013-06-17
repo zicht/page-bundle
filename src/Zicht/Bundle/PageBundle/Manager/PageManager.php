@@ -7,10 +7,10 @@
 namespace Zicht\Bundle\PageBundle\Manager;
 
 use \Doctrine\ORM\Mapping\ClassMetadata;
-use Zicht\Bundle\PageBundle\Model\PageInterface;
 use \Doctrine\Bundle\DoctrineBundle\Registry;
 use \Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use \Zicht\Bundle\PageBundle\Event;
+use \Zicht\Bundle\PageBundle\Model\PageInterface;
 use \Zicht\Util\Str;
 
 /**
