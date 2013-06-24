@@ -31,15 +31,12 @@ class GenerateAdminServicesCompilerPass implements \Symfony\Component\Dependency
                 ) . 'Admin';
         };
 
-        if (true || !empty($config['admin'])) {
-            $pageAdmins = array();
-//            $baseIds = $config['admin']['base'];
 
-            // TODO move to config.
-            $baseIds = array(
-                'contentItem' => 'zicht_bhiccore.admin.content_item',
-                'page' => 'zicht_bhiccore.admin.page'
-            );
+//        $container->get
+
+        $config = $container->getParameter('zicht_page.config');
+        if (!empty($config['admin'])) {
+            $baseIds = $config['admin']['base'];
 
             $serviceDefs = array();
             $pageManagerDef = $container->getDefinition('zicht_page.page_manager');
