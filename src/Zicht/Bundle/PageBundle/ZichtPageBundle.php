@@ -13,4 +13,13 @@ use \Symfony\Component\HttpKernel\Bundle\Bundle;
  */
 class ZichtPageBundle extends Bundle
 {
+    public function build(ContainerBuilder $container)
+    {
+        parent::build($container);
+
+        $container->addCompilerPass(
+            new DependencyInjection\CompilerPass\GenerateAdminServicesCompilerPass(),
+            \Symfony\Component\DependencyInjection\Compiler\PassConfig::TYPE_BEFORE_OPTIMIZATION
+        );
+    }
 }

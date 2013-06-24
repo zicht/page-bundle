@@ -8,6 +8,7 @@
 namespace Zicht\Bundle\PageBundle\DependencyInjection;
 
 use \Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Reference;
 use \Symfony\Component\Config\FileLocator;
 use \Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use \Symfony\Component\DependencyInjection\Loader;
@@ -41,7 +42,6 @@ class ZichtPageExtension extends Extension
         $def = $container->getDefinition('zicht_page.page_manager');
         $def->replaceArgument(2, $config['pageClass']);
         $def->replaceArgument(3, $config['contentItemClass']);
-
 
         $def->addMethodCall('setPageTypes', array($config['types']['page']));
         $def->addMethodCall('setContentItemTypes', array($config['types']['contentItem']));
