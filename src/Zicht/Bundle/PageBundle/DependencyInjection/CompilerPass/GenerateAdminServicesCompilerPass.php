@@ -66,7 +66,7 @@ class GenerateAdminServicesCompilerPass implements \Symfony\Component\Dependency
                         $tags['sonata.admin'][0]['label'] = Str::rstrip(Str::classname($entityClassName), 'Page');
                         $adminService->setTags($tags);
 
-                        $adminService->replaceArgument(1, Str::rstrip($entityClassName, 'Page'));
+                        $adminService->replaceArgument(1, $entityClassName);
 
                         $id = $baseIds[$type]. '.' . Str::uscore(Str::classname($entityClassName));
                         $container->setDefinition($id, $adminService);
