@@ -6,6 +6,7 @@
 namespace Zicht\Bundle\PageBundle;
 
 use \Symfony\Component\DependencyInjection\ContainerBuilder;
+use \Symfony\Component\DependencyInjection\Compiler\PassConfig;
 use \Symfony\Component\HttpKernel\Bundle\Bundle;
 
 /**
@@ -13,13 +14,16 @@ use \Symfony\Component\HttpKernel\Bundle\Bundle;
  */
 class ZichtPageBundle extends Bundle
 {
+    /**
+     * @{inheritDoc}
+     */
     public function build(ContainerBuilder $container)
     {
         parent::build($container);
 
         $container->addCompilerPass(
             new DependencyInjection\CompilerPass\GenerateAdminServicesCompilerPass(),
-            \Symfony\Component\DependencyInjection\Compiler\PassConfig::TYPE_BEFORE_OPTIMIZATION
+            PassConfig::TYPE_BEFORE_OPTIMIZATION
         );
     }
 }
