@@ -32,8 +32,6 @@ class GenerateAdminServicesCompilerPass implements \Symfony\Component\Dependency
         };
 
 
-//        $container->get
-
         $config = $container->getParameter('zicht_page.config');
         if (!empty($config['admin'])) {
             $baseIds = $config['admin']['base'];
@@ -65,10 +63,10 @@ class GenerateAdminServicesCompilerPass implements \Symfony\Component\Dependency
 
                         $tags = $adminService->getTags();
                         $tags['sonata.admin'][0]['show_in_dashboard'] = 0;
-                        $tags['sonata.admin'][0]['label'] = \Zicht\Util\Str::rstrip($entityClassName, 'Page');
+                        $tags['sonata.admin'][0]['label'] = Str::rstrip(Str::classname($entityClassName), 'Page');
                         $adminService->setTags($tags);
 
-                        $adminService->replaceArgument(1, $entityClassName);
+                        $adminService->replaceArgument(1, Str::rstrip($entityClassName, 'Page'));
 
                         $id = $baseIds[$type]. '.' . Str::uscore(Str::classname($entityClassName));
                         $container->setDefinition($id, $adminService);
