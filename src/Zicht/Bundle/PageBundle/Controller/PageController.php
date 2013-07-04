@@ -58,9 +58,9 @@ class PageController extends AbstractController
      * @param mixed $query
      * @return Response
      *
-     * @Route("page/{id}/{query}", defaults={"query":""}, requirements={"query":".+"})
+     * @Route("page/{id}")
      */
-    public function viewAction($id, $query = null)
+    public function viewAction($id)
     {
         /** @var $pageManager \Zicht\Bundle\PageBundle\Manager\PageManager */
         $pageManager = $this->getPageManager();
@@ -75,7 +75,6 @@ class PageController extends AbstractController
             $pageManager->getTemplate($page),
             array(
                 'page' => $page,
-                'query' => $query,
                 'id' => $id,
             )
         );
