@@ -44,12 +44,22 @@ class PageUrlProvider extends AbstractRoutingProvider implements SuggestableProv
      */
     public function routing($page)
     {
-        return array(
-            'zicht_page_page_view',
-            array(
-                'id' => $page->getId()
-            )
-        );
+        if ($page->getLanguage()) {
+            return array(
+                'zicht_page_page_view',
+                array(
+                    'id' => $page->getId(),
+                    '_locale' => $page->getLanguage()
+                )
+            );
+        } else {
+            return array(
+                'zicht_page_page_view',
+                array(
+                    'id' => $page->getId()
+                )
+            );
+        }
     }
 
     /**

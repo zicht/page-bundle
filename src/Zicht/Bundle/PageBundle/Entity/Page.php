@@ -28,4 +28,10 @@ abstract class Page implements PageInterface
     {
         return Str::infix(Str::rstrip(Str::classname(get_class($this)), 'Page'), '-');
     }
+
+
+    public function getLanguage()
+    {
+        return null;
+    }
 }

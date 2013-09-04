@@ -7,6 +7,7 @@
 namespace Zicht\Bundle\PageBundle\Controller;
 
 use \Symfony\Component\HttpFoundation\Response;
+use \Zicht\Bundle\PageBundle\Model\PageInterface;
 use \Symfony\Component\HttpFoundation\RedirectResponse;
 
 use \Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -77,11 +78,17 @@ class PageController extends AbstractController
             );
         }
 
+        return $this->renderPage($page);
+    }
+
+
+    protected function renderPage(PageInterface $page, $vars = array())
+    {
         return $this->render(
-            $pageManager->getTemplate($page),
-            array(
+            $this->getPageManager()->getTemplate($page),
+            $vars + array(
                 'page' => $page,
-                'id' => $id,
+                'id' => $page->getId(),
             )
         );
     }
