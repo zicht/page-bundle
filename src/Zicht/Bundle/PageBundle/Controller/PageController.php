@@ -68,7 +68,13 @@ class PageController extends AbstractController
         $page = $pageManager->findForView($id);
 
         if ($page instanceof ControllerPageInterface) {
-            return $this->forward($page->getController(), (array)$page->getControllerParameters());
+            return $this->forward(
+                $page->getController(),
+                (array)$page->getControllerParameters()
+                + array(
+                    'parameters' => $this->getRequest()->query->all()
+                )
+            );
         }
 
         return $this->render(
