@@ -51,4 +51,26 @@ abstract class ContentItem implements ContentItemInterface
     {
         return get_class($this);
     }
+
+
+    protected $convertToType = null;
+
+    /**
+     * Return string
+     *
+     * @return string
+     */
+    final public function getConvertToType()
+    {
+        if (null !== $this->convertToType) {
+            return $this->convertToType;
+        }
+        return $this->getType();
+    }
+
+
+    public function setConvertToType($type)
+    {
+        $this->convertToType = $type;
+    }
 }

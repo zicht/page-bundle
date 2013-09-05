@@ -53,7 +53,7 @@ class ContentItemRegionType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $container = $options['container'];
-        if ($container && $container instanceof ContentItemContainer) {
+        if ($container && $container instanceof ContentItemContainer && null !== $container->getContentItemMatrix()) {
             $choices = array();
             foreach ($container->getContentItemMatrix()->getRegions() as $c) {
                 $choices[$c] = $c;

@@ -46,5 +46,9 @@ class ZichtPageExtension extends Extension
         $def->addMethodCall('setPageTypes', array($config['types']['page']));
         $def->addMethodCall('setContentItemTypes', array($config['types']['contentItem']));
         $container->setParameter('zicht_page.config', $config);
+
+        $formResources = $container->getParameter('twig.form.resources');
+        $formResources[]= 'ZichtPageBundle::form_theme.html.twig';
+        $container->setParameter('twig.form.resources', $formResources);
     }
 }

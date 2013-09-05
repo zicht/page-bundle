@@ -7,6 +7,7 @@ namespace Zicht\Bundle\PageBundle\Entity;
 
 use \Zicht\Util\Str;
 use \Zicht\Bundle\PageBundle\Model\PageInterface;
+use \Zicht\Bundle\PageBundle\Model\ContentItemMatrix;
 
 /**
  * Base class for pages.
@@ -33,5 +34,16 @@ abstract class Page implements PageInterface
     public function getLanguage()
     {
         return null;
+    }
+
+
+    /**
+     * Returns the content item matrix for the item.
+     *
+     * @return ContentItemMatrix
+     */
+    public function getContentItemMatrix()
+    {
+        // TODO: Implement getContentItemMatrix() method.
     }
 }

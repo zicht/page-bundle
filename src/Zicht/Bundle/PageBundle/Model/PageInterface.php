@@ -8,7 +8,7 @@ namespace Zicht\Bundle\PageBundle\Model;
 /**
  * Common interfaces for the page model.
  */
-interface PageInterface
+interface PageInterface extends ContentItemContainer
 {
     /**
      * Returns the template name to be used by the controller.
