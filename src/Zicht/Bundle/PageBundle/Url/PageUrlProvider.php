@@ -42,7 +42,7 @@ class PageUrlProvider extends AbstractRoutingProvider implements SuggestableProv
     /**
      * @{inheritDoc}
      */
-    public function routing($page)
+    public function routing($page, array $options = array())
     {
         if ($page->getLanguage()) {
             return array(
