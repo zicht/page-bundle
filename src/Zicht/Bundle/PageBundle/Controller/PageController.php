@@ -56,7 +56,6 @@ class PageController extends AbstractController
      * View a page.
      *
      * @param string $id
-     * @param mixed $query
      * @return Response
      *
      * @Route("page/{id}")
@@ -82,6 +81,13 @@ class PageController extends AbstractController
     }
 
 
+    /**
+     * Render a page with the specified additional template variables.
+     *
+     * @param \Zicht\Bundle\PageBundle\Model\PageInterface $page
+     * @param array $vars
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
     protected function renderPage(PageInterface $page, $vars = array())
     {
         return $this->render(
