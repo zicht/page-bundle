@@ -156,7 +156,7 @@ class PageManager
             throw new NotFoundHttpException;
         }
         $types = $this->em->getClassMetadata($this->pageClassName)->discriminatorMap;
-        var_dump($types);
+
         $class = $types[$type];
         $ret = $this->em->getRepository($class)->find($id);
         if (!$ret) {
