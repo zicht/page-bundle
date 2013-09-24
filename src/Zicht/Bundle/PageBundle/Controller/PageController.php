@@ -74,6 +74,7 @@ class PageController extends AbstractController
                 + array(
                     'parameters' => $this->getRequest()->query->all()
                 )
+                + $this->getRequest()->attributes->all()
             );
         }
 
