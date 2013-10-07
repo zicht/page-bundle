@@ -33,6 +33,9 @@ class AliasCommand extends ContainerAwareCommand
         $aliaser = $this->getContainer()->get('zicht_page.page_aliaser');
 
         foreach ($this->getContainer()->get('zicht_page.page_manager')->findAll() as $page) {
+            if ($output->getVerbosity() > OutputInterface::VERBOSITY_NORMAL) {
+                $output->writeln("Aliasing page {$page}");
+            }
             $aliaser->createAlias($page);
         }
     }
