@@ -56,7 +56,6 @@ class GenerateAdminServicesCompilerPass implements \Symfony\Component\Dependency
 
                 foreach ($types[$type] as $entityClassName) {
                     $adminClassName = $naming($entityClassName);
-
                     if (class_exists($adminClassName)) {
                         $adminService = clone $def;
                         $adminService->setClass($adminClassName);
@@ -66,9 +65,11 @@ class GenerateAdminServicesCompilerPass implements \Symfony\Component\Dependency
                         $tags['sonata.admin'][0]['label'] = Str::rstrip(Str::classname($entityClassName), 'Page');
                         $adminService->setTags($tags);
 
+                        $id = $baseIds[$type]. '.' . Str::uscore(Str::classname($entityClassName));
+
+                        $adminService->replaceArgument(0, $id);
                         $adminService->replaceArgument(1, $entityClassName);
 
-                        $id = $baseIds[$type]. '.' . Str::uscore(Str::classname($entityClassName));
                         $container->setDefinition($id, $adminService);
 
                         $serviceDefs[$type][]= $id;
