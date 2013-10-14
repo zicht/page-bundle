@@ -51,7 +51,7 @@ class EventPropagationBuilder implements PropagationInterface
                 new MenuEvent(
                     $admin->generateObjectUrl('edit', $e->getPage()),
                     sprintf(
-                        'Edit "%s"',
+                        'Edit "%.20s"',
                         $e->getPage()->getTitle()
                     )
                 )
