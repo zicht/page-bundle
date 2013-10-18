@@ -24,4 +24,12 @@ interface PageInterface extends ContentItemContainer
      * @return mixed
      */
     public function getTitle();
+
+
+    /**
+     * A page must be able to display it's own type as a human readable string.
+     *
+     * @return string
+     */
+    public function getDisplayType();
 }

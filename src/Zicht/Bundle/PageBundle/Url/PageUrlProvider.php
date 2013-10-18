@@ -7,6 +7,8 @@
 namespace Zicht\Bundle\PageBundle\Url;
 
 use \Symfony\Component\Routing\RouterInterface;
+use Zicht\Bundle\PageBundle\Model\PageInterface;
+use \Zicht\Util\Str;
 use \Zicht\Bundle\UrlBundle\Url\SuggestableProvider;
 use \Zicht\Bundle\PageBundle\Manager\PageManager;
 use \Zicht\Bundle\UrlBundle\Url\AbstractRoutingProvider;
@@ -78,10 +80,20 @@ class PageUrlProvider extends AbstractRoutingProvider implements SuggestableProv
         foreach ($pages as $page) {
             $suggestions[]= array(
                 'value' => $this->url($page),
-                'label' => sprintf('%s (pagina)', $page->getTitle())
+                'label' => $this->getLabel($page)
             );
         }
 
         return $suggestions;
+    }
+
+
+    public function getLabel(PageInterface $page)
+    {
+        return sprintf(
+            '%s (pagina, %s)',
+            $page->getTitle(),
+            $page->getDisplayType()
+        );
     }
 }
