@@ -99,6 +99,12 @@ class PageUrlProviderTest extends \PHPUnit_Framework_TestCase
 
 namespace Foo\Bar {
     class Baz {}
-    class Page { public function getId() {} public function getTitle() {} }
+    class Page implements \Zicht\Bundle\PageBundle\Model\PageInterface {
+        public function getId() {}
+        public function getTitle() {}
+        public function getContentItemMatrix() {}
+        public function getTemplateName() {}
+        public function getDisplayType() {}
+    }
     class SubPage extends Page {}
 }

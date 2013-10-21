@@ -44,6 +44,15 @@ abstract class Page implements PageInterface
      */
     public function getContentItemMatrix()
     {
-        // TODO: Implement getContentItemMatrix() method.
+    }
+
+    /**
+     * A page must be able to display it's own type as a human readable string.
+     *
+     * @return string
+     */
+    public function getDisplayType()
+    {
+        return get_class($this);
     }
 }

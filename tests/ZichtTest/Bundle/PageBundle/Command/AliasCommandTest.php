@@ -26,6 +26,10 @@ class AliasCommandTest extends \PHPUnit_Framework_TestCase
     public function testExecute()
     {
         $aliaser = $this->getMockBuilder('Zicht\Bundle\UrlBundle\Aliasing\Aliaser')->disableOriginalConstructor()->getMock();
+        $isCalled = false;
+        $aliaser->expects($this->once())->method('setIsBatch')->with(true)->will($this->returnValue(function () use (&$isCalled) {
+            $isCalled = true;
+        }));
         $pageManager = $this->getMockBuilder('Zicht\Bundle\PageBundle\Manager\PageManager')->disableOriginalConstructor()->getMock();
         $this->container->expects($this->at(0))->method('get')->with('zicht_page.page_aliaser')->will($this->returnValue(
             $aliaser
@@ -42,5 +46,7 @@ class AliasCommandTest extends \PHPUnit_Framework_TestCase
             $this->getMock('Symfony\Component\Console\Input\InputInterface'),
             $this->getMock('Symfony\Component\Console\Output\OutputInterface')
         );
+
+        $this->assertTrue($isCalled);
     }
 }

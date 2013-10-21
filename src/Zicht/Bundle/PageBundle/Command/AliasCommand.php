@@ -32,7 +32,7 @@ class AliasCommand extends ContainerAwareCommand
     {
         $aliaser = $this->getContainer()->get('zicht_page.page_aliaser');
 
-        $onDone = $aliaser->getAliasing()->setIsBatch(true);
+        $onDone = $aliaser->setIsBatch(true);
         foreach ($this->getContainer()->get('zicht_page.page_manager')->findAll() as $page) {
             if ($output->getVerbosity() > OutputInterface::VERBOSITY_NORMAL) {
                 $output->writeln("Aliasing page \"{$page}\"");
