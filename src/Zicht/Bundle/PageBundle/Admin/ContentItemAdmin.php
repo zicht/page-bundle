@@ -10,6 +10,9 @@ use \Sonata\AdminBundle\Datagrid\ListMapper;
 use \Sonata\AdminBundle\Admin\Admin;
 use \Sonata\AdminBundle\Datagrid\DatagridMapper;
 
+/**
+ * Admin for content items.
+ */
 class ContentItemAdmin extends Admin
 {
     /**

@@ -6,10 +6,16 @@
 
 namespace Zicht\Bundle\PageBundle\Entity;
 
+/**
+ * Interface for repositories that have extra logic for finding a page 'for view'
+ */
 interface ViewablePageRepository
 {
     /**
+     * Returns a page requested for 'view'
+     *
+     * @param mixed $id
      * @return \Zicht\Bundle\PageBundle\Model\PageInterface
-     * */
+     */
     public function findForView($id);
 }

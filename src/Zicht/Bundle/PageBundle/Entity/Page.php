@@ -31,6 +31,11 @@ abstract class Page implements PageInterface
     }
 
 
+    /**
+     * May be implemented to support translated pages.
+     *
+     * @return null
+     */
     public function getLanguage()
     {
         return null;

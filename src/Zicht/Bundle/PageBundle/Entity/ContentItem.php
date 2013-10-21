@@ -69,6 +69,12 @@ abstract class ContentItem implements ContentItemInterface
     }
 
 
+    /**
+     * Set the type to convert to.
+     *
+     * @param string $type
+     * @return void
+     */
     public function setConvertToType($type)
     {
         $this->convertToType = $type;

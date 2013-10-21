@@ -10,15 +10,24 @@ use \Symfony\Component\Console\Input\InputOption;
 use \Symfony\Component\Console\Output\OutputInterface;
 use \Symfony\Component\Console\Input\InputInterface;
 
+/**
+ * List all page urls. Useful for testing.
+ */
 class ListCommand extends ContainerAwareCommand
 {
+    /**
+     * @{inheritDoc}
+     */
     protected function configure()
     {
         $this->setName('zicht:page:list')
-            ->addOption('base-url', '', InputOption::VALUE_REQUIRED, 'Base URL for testing urls', null)
+            ->addOption('base-url', '', InputOption::VALUE_REQUIRED, 'Prepend a base url to the url\'s', null)
         ;
     }
 
+    /**
+     * @{inheritDoc}
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $pages = $this->getContainer()->get('zicht_page.page_manager')->getBaseRepository()->findAll();

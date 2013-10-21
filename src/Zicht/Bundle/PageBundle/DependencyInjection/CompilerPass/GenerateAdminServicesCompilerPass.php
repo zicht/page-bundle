@@ -1,24 +1,23 @@
 <?php
-
-namespace Zicht\Bundle\PageBundle\DependencyInjection\CompilerPass;
-
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Zicht\Util\Str;
-use Symfony\Component\DependencyInjection\Reference;
-
 /**
  * @author Gerard van Helden <gerard@zicht.nl>
  * @copyright Zicht Online <http://zicht.nl>
  */
- 
-class GenerateAdminServicesCompilerPass implements \Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface
+
+namespace Zicht\Bundle\PageBundle\DependencyInjection\CompilerPass;
+
+use \Symfony\Component\DependencyInjection\ContainerBuilder;
+use \Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
+use \Symfony\Component\DependencyInjection\Reference;
+use \Zicht\Util\Str;
+
+/**
+ * Generates admin services for all pages and content items, if the admin classes match the entity namespace structure.
+ */
+class GenerateAdminServicesCompilerPass implements CompilerPassInterface
 {
     /**
-     * You can modify the container here before it is dumped to PHP code.
-     *
-     * @param ContainerBuilder $container
-     *
-     * @api
+     * @{inheritDoc}
      */
     public function process(ContainerBuilder $container)
     {
@@ -77,7 +76,7 @@ class GenerateAdminServicesCompilerPass implements \Symfony\Component\Dependency
                 }
             }
 
-            foreach($serviceDefs['contentItem'] as $contentItemServiceId) {
+            foreach ($serviceDefs['contentItem'] as $contentItemServiceId) {
                 foreach ($serviceDefs['page'] as $pageServiceId) {
                     $container->getDefinition($pageServiceId)
                         ->addMethodCall(

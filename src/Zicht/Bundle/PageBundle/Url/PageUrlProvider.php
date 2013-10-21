@@ -7,11 +7,12 @@
 namespace Zicht\Bundle\PageBundle\Url;
 
 use \Symfony\Component\Routing\RouterInterface;
-use Zicht\Bundle\PageBundle\Model\PageInterface;
-use \Zicht\Util\Str;
-use \Zicht\Bundle\UrlBundle\Url\SuggestableProvider;
+
+use \Zicht\Bundle\PageBundle\Model\PageInterface;
 use \Zicht\Bundle\PageBundle\Manager\PageManager;
+use \Zicht\Bundle\UrlBundle\Url\SuggestableProvider;
 use \Zicht\Bundle\UrlBundle\Url\AbstractRoutingProvider;
+use \Zicht\Util\Str;
 
 /**
  * Provides urls for page objects.
@@ -88,6 +89,12 @@ class PageUrlProvider extends AbstractRoutingProvider implements SuggestableProv
     }
 
 
+    /**
+     * Returns the label of the page to use in url suggestions
+     *
+     * @param \Zicht\Bundle\PageBundle\Model\PageInterface $page
+     * @return string
+     */
     public function getLabel(PageInterface $page)
     {
         return sprintf(
