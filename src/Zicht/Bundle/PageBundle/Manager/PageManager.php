@@ -12,7 +12,7 @@ use \Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use \Zicht\Bundle\PageBundle\Event;
 use \Zicht\Bundle\PageBundle\Model\PageInterface;
 use \Zicht\Util\Str;
-use Zicht\Bundle\PageBundle\Entity\ViewablePageRepository;
+use \Zicht\Bundle\PageBundle\Entity\ViewablePageRepository;
 
 /**
  * Main service for page management
@@ -161,10 +161,9 @@ class PageManager
         $class = $types[$type];
         $repos = $this->em->getRepository($class);
 
-        if($repos instanceof ViewablePageRepository) {
+        if ($repos instanceof ViewablePageRepository) {
             $ret = $repos->findForView($id);
-        }
-        else {
+        } else {
             $ret = $repos->find($id);
         }
 
