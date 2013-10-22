@@ -28,6 +28,7 @@ class ZichtPageExtensionTest extends \PHPUnit_Framework_TestCase
                 'contentItem' => array('Baz', 'Bat')
             )
         );
+        $container->setParameter('twig.form.resources', array());
         $ext->load(array($config), $container);
 
         $classMap = array(
@@ -44,5 +45,7 @@ class ZichtPageExtensionTest extends \PHPUnit_Framework_TestCase
             $this->assertTrue($container->hasDefinition($key));
             $this->assertTrue($container->getDefinition($key)->getClass() == $className);
         }
+
+        $this->assertEquals(array('ZichtPageBundle::form_theme.html.twig'), $container->getParameter('twig.form.resources'));
     }
 }

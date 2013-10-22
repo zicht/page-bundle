@@ -15,6 +15,14 @@ class P1 extends \Zicht\Bundle\PageBundle\Entity\Page
         $this->title = $title;
     }
 
+    /**
+     * A page must always have an id
+     *
+     * @return mixed
+     */
+    public function getId()
+    {
+    }
 
     /**
      * A page must always have a title.

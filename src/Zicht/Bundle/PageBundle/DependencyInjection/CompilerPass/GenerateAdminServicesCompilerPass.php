@@ -51,6 +51,8 @@ class GenerateAdminServicesCompilerPass implements CompilerPassInterface
             }
 
             foreach (array('page', 'contentItem') as $type) {
+                $serviceDefs[$type] = array();
+
                 $def = $container->getDefinition($baseIds[$type]);
 
                 foreach ($types[$type] as $entityClassName) {

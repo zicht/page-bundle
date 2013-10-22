@@ -14,6 +14,17 @@ namespace My\PageBundle\Entity {
         {
             return '';
         }
+
+        /**
+         * A page must always have an id
+         *
+         * @return mixed
+         */
+        public function getId()
+        {
+            // TODO: Implement getId() method.
+        }
+
     }
 }
 
