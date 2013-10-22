@@ -27,6 +27,14 @@ interface PageInterface extends ContentItemContainer
 
 
     /**
+     * A page must always have an id
+     *
+     * @return mixed
+     */
+    public function getId();
+
+
+    /**
      * A page must be able to display it's own type as a human readable string.
      *
      * @return string

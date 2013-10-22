@@ -8,7 +8,7 @@ namespace ZichtTest\Bundle\PageBundle\Controller;
 
 class AbstractControllerTest extends \PHPUnit_Framework_TestCase
 {
-    function testFoo()
+    function testGetPagemanagerReturnsPageManagerService()
     {
         $foo = rand(1, 100);
 
