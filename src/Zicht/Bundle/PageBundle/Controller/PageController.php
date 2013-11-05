@@ -72,12 +72,11 @@ class PageController extends AbstractController
                 $page->getController(),
                 (array)$page->getControllerParameters()
                 + array(
-                    'parameters' => $this->getRequest()->query->all()
+                    'parameters' => $this->getRequest()->query->all(),
+                    '_locale'       => $this->getRequest()->attributes->get('_locale'),
+                    '_internal_url' => $this->getRequest()->attributes->get('_internal_url'),
                 ),
                 $this->getRequest()->query->all()
-                + array(
-                    '_locale' => $this->getRequest()->attributes->get('_locale')
-                )
             );
         }
 
