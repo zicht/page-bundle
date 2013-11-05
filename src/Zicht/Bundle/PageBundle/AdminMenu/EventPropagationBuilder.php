@@ -45,14 +45,15 @@ class EventPropagationBuilder implements PropagationInterface
             ($admin = $this->sonata->getAdminByClass(get_class($page)))
             || ($admin = $this->sonata->getAdminByClass(get_parent_class($page)))
         ) {
+            $title = $e->getPage()->getTitle();
             /** @var \Zicht\Bundle\PageBundle\Event\PageViewEvent $e */
             $e->getDispatcher()->dispatch(
                 AdminEvents::MENU_EVENT,
                 new MenuEvent(
                     $admin->generateObjectUrl('edit', $e->getPage()),
                     sprintf(
-                        'Edit "%.20s"',
-                        $e->getPage()->getTitle()
+                        'Beheer pagina "%s"',
+                        strlen($title) > 20 ? substr($title, 0, 20) . '...' : $title
                     )
                 )
             );
