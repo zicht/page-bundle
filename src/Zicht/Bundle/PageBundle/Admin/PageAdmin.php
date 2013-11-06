@@ -14,10 +14,12 @@ use \Sonata\AdminBundle\Form\FormMapper;
 use \Sonata\AdminBundle\Datagrid\DatagridMapper;
 use \Sonata\AdminBundle\Datagrid\ListMapper;
 
+use Zicht\Bundle\MenuBundle\Entity\MenuItem;
 use \Zicht\Bundle\PageBundle\Manager\PageManager;
 use \Zicht\Bundle\PageBundle\Model\PageInterface;
 
 use \Zicht\Bundle\MenuBundle\Manager\MenuManager;
+use Zicht\Bundle\UrlBundle\Aliasing\ProviderDecorator;
 
 /**
  * Admin for the messages catalogue
@@ -50,13 +52,17 @@ class PageAdmin extends Admin
     /**
      * @var MenuManager
      */
-    protected $menuManager;
+    protected $menuManager = null;
 
     /**
      * @var string
      */
     protected $contentItemAdminCode;
 
+    /**
+     * @var ProviderDecorator | null
+     */
+    private $urlProvider = null;
 
     /**
      * Constructor, overridden to be able to set the (required) content item admin code.
@@ -95,6 +101,11 @@ class PageAdmin extends Admin
     public function setMenuManager(MenuManager $manager)
     {
         $this->menuManager = $manager;
+    }
+
+    public function setUrlProvider(ProviderDecorator $urlProvider)
+    {
+        $this->urlProvider = $urlProvider;
     }
 
     /**
@@ -222,5 +233,18 @@ class PageAdmin extends Admin
             }
         }
         $this->menuManager->flush();
+    }
+
+    public function preRemove($object)
+    {
+        if (!is_null($this->urlProvider) && !is_null($this->menuManager)) {
+            $url      = $this->urlProvider->url($object);
+            $menuItem = $this->menuManager->getItem($url);
+
+            if ($menuItem instanceof MenuItem) {
+                $this->menuManager->removeItem($menuItem);
+                $this->menuManager->flush();
+            }
+        }
     }
 }
