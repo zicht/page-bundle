@@ -38,7 +38,7 @@ class PageUrlProvider extends AbstractRoutingProvider implements SuggestableProv
     public function supports($object)
     {
         $pageClassName = $this->pageManager->getPageClass();
-        return ($object instanceof $pageClassName);
+        return ($object instanceof $pageClassName && $object->getId());
     }
 
 
