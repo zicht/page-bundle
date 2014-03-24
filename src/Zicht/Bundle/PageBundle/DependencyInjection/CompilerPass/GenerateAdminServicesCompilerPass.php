@@ -9,6 +9,7 @@ namespace Zicht\Bundle\PageBundle\DependencyInjection\CompilerPass;
 use \Symfony\Component\DependencyInjection\ContainerBuilder;
 use \Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use \Symfony\Component\DependencyInjection\Reference;
+use Zicht\Bundle\PageBundle\Model\ContentItemContainer;
 use \Zicht\Util\Str;
 
 /**
@@ -78,15 +79,27 @@ class GenerateAdminServicesCompilerPass implements CompilerPassInterface
                 }
             }
 
-            foreach ($serviceDefs['contentItem'] as $contentItemServiceId) {
-                foreach ($serviceDefs['page'] as $pageServiceId) {
-                    $container->getDefinition($pageServiceId)
-                        ->addMethodCall(
-                        'addChild',
-                        array(
-                            new Reference($contentItemServiceId)
-                        )
-                    );
+            foreach ($serviceDefs['page'] as $pageServiceId) {
+                $pageClassName = $container->getDefinition($pageServiceId)->getArguments(1);
+
+                if ($pageClassName instanceof ContentItemContainer) {
+                    /** @var ContentItemContainer $instance */
+                    $instance = new $pageClassName;
+                    $contentItemClassNames = $instance->getContentItemMatrix()->getTypes();
+
+                    foreach ($serviceDefs['contentItem'] as $contentItemServiceId) {
+                        $contentItemAdminDefinition = $container->getDefinition($pageServiceId);
+
+                        if (in_array($contentItemAdminDefinition->getArgument(1), $contentItemClassNames)) {
+                            $contentItemAdminDefinition
+                                ->addMethodCall(
+                                    'addChild',
+                                    array(
+                                        new Reference($contentItemServiceId)
+                                    )
+                                );
+                        }
+                    }
                 }
             }
         }
