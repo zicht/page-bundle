@@ -52,11 +52,26 @@ class PageControllerTest extends \PHPUnit_Framework_TestCase
         $container->set('templating', $this->templating);
         $container->set('request', $this->request);
         $container->set('http_kernel', $this->kernel);
+        $this->security = $this->getMock('Symfony\Component\Security\Core\SecurityContextInterface');
+        $container->set('security.context', $this->security);
+
         $this->controller->setContainer($container);
+    }
+
+    private function allow()
+    {
+        $this->security->expects($this->once())->method('isGranted')->will($this->returnValue(true));
+    }
+
+    private function deny()
+    {
+        $this->security->expects($this->once())->method('isGranted')->will($this->returnValue(false));
     }
 
     function testViewActionFindsPageForView()
     {
+        $this->allow();
+
         $id = rand(1, 100);
         $page = new Page($id);
         $this->pm->expects($this->once())->method('findForView')->with($id)->will($this->returnValue($page));
@@ -71,10 +86,25 @@ class PageControllerTest extends \PHPUnit_Framework_TestCase
 
     function testViewActionFindsPageForViewAndForwardsIfItIsaControllerPage()
     {
+        $this->allow();
+
         $id = rand(1, 100);
         $page = new CPage($id);
         $this->pm->expects($this->once())->method('findForView')->with($id)->will($this->returnValue($page));
         $this->kernel->expects($this->once())->method('forward');
+        $this->controller->viewAction($id);
+    }
+
+
+    /**
+     * @expectedException Symfony\Component\Security\Core\Exception\AccessDeniedException
+     */
+    function testControllerThrowsAccessDeniedExceptionIfNotAllowed()
+    {
+        $this->deny();
+        $id = rand(1, 100);
+        $page = new CPage($id);
+        $this->pm->expects($this->once())->method('findForView')->with($id)->will($this->returnValue($page));
         $this->controller->viewAction($id);
     }
 }

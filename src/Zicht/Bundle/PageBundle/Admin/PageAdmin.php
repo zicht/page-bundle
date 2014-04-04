@@ -232,7 +232,9 @@ class PageAdmin extends Admin
                 $item->setPage($object);
             }
         }
-        $this->menuManager->flush();
+        if ($this->menuManager) {
+            $this->menuManager->flush();
+        }
     }
 
     public function preRemove($object)
