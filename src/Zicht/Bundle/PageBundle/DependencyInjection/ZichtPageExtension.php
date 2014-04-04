@@ -29,6 +29,10 @@ class ZichtPageExtension extends Extension
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.xml');
 
+        if (true === $config['aliasing']) {
+            $loader->load('aliasing.xml');
+        }
+
         $container
             ->getDefinition('zicht_page.form.type.zicht_content_item_region_type')
             ->replaceArgument(0, $config['contentItemClass'])
