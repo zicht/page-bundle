@@ -184,7 +184,8 @@ class PageAdmin extends Admin
                 ->with('Menu', array('collapsible' => true, 'collapsed' => true))
                     ->add(
                         'menu_item',
-                        'zicht_menu_item'
+                        'zicht_menu_item',
+                        array('translation_domain' => $this->getTranslationDomain())
                     )
                 ->end();
         }

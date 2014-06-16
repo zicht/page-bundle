@@ -61,9 +61,9 @@ class ContentItemRegionType extends AbstractType
             foreach ($matrix->getRegions() as $c) {
                 $choices[$c] = $c;
             }
-            $builder->add('region', 'choice', array('choices' => $choices));
+            $builder->add('region', 'choice', array('choices' => $choices, 'translation_domain' => 'admin'));
         } else {
-            $builder->add('region', 'choice', array('choices' => $options['default_regions']));
+            $builder->add('region', 'choice', array('choices' => $options['default_regions'], 'translation_domain' => 'admin'));
         }
     }
 
