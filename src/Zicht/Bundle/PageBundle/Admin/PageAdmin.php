@@ -14,12 +14,12 @@ use \Sonata\AdminBundle\Form\FormMapper;
 use \Sonata\AdminBundle\Datagrid\DatagridMapper;
 use \Sonata\AdminBundle\Datagrid\ListMapper;
 
-use Zicht\Bundle\MenuBundle\Entity\MenuItem;
+use \Zicht\Bundle\MenuBundle\Entity\MenuItem;
 use \Zicht\Bundle\PageBundle\Manager\PageManager;
 use \Zicht\Bundle\PageBundle\Model\PageInterface;
 
 use \Zicht\Bundle\MenuBundle\Manager\MenuManager;
-use Zicht\Bundle\UrlBundle\Aliasing\ProviderDecorator;
+use \Zicht\Bundle\UrlBundle\Aliasing\ProviderDecorator;
 
 /**
  * Admin for the messages catalogue
@@ -103,6 +103,13 @@ class PageAdmin extends Admin
         $this->menuManager = $manager;
     }
 
+
+    /**
+     * Sets the url provider
+     *
+     * @param ProviderDecorator $urlProvider
+     * @return void
+     */
     public function setUrlProvider(ProviderDecorator $urlProvider)
     {
         $this->urlProvider = $urlProvider;
@@ -167,20 +174,24 @@ class PageAdmin extends Admin
         ;
 
         if ($this->getSubject()->getId()) {
-            $formMapper
-                ->with('Content')
-                    ->add(
-                        'contentItems',
-                        'sonata_type_collection',
-                        array(),
-                        array(
-                            'edit'   => 'inline',
-                            'inline' => 'table',
-                            'sortable' => 'weight',
-                            'admin_code' => $this->code . '|' . $this->contentItemAdminCode
+            if ($this->getSubject()->getContentItemMatrix() && $this->getSubject()->getContentItemMatrix()->getTypes()) {
+                $formMapper
+                    ->with('Content')
+                        ->add(
+                            'contentItems',
+                            'sonata_type_collection',
+                            array(),
+                            array(
+                                'edit'   => 'inline',
+                                'inline' => 'table',
+                                'sortable' => 'weight',
+                                'admin_code' => $this->code . '|' . $this->contentItemAdminCode
+                            )
                         )
-                    )
-                ->end()
+                    ->end()
+                ;
+            }
+            $formMapper
                 ->with('Menu', array('collapsible' => true, 'collapsed' => true))
                     ->add(
                         'menu_item',
