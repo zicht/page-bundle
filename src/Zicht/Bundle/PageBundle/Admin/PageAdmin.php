@@ -167,25 +167,26 @@ class PageAdmin extends Admin
         ;
 
         if ($this->getSubject()->getId()) {
-            $formMapper
-                ->with('Content')
-                    ->add(
-                        'contentItems',
-                        'sonata_type_collection',
-                        array(),
-                        array(
-                            'edit'   => 'inline',
-                            'inline' => 'table',
-                            'sortable' => 'weight',
-                            'admin_code' => $this->code . '|' . $this->contentItemAdminCode
+            if ($this->getSubject()->getContentItemMatrix() && $this->getSubject()->getContentItemMatrix()->getTypes()) {
+                $formMapper
+                    ->with('Content')
+                        ->add(
+                            'contentItems',
+                            'sonata_type_collection',
+                            array(),
+                            array(
+                                'edit'   => 'inline',
+                                'inline' => 'table',
+                                'sortable' => 'weight',
+                                'admin_code' => $this->code . '|' . $this->contentItemAdminCode
+                            )
                         )
-                    )
-                ->end()
+                    ->end()
+                ;
+            }
+            $formMapper
                 ->with('Menu', array('collapsible' => true, 'collapsed' => true))
-                    ->add(
-                        'menu_item',
-                        'zicht_menu_item'
-                    )
+                    ->add('menu_item', 'zicht_menu_item')
                 ->end();
         }
     }
