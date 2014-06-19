@@ -95,7 +95,11 @@ final class ContentItemMatrix
      */
     public function type($type)
     {
-        $this->matrix[$this->currentRegion][]= $this->namespacePrefix . $type;
+        $className = $this->namespacePrefix . $type;
+        if (!class_exists($className)) {
+            throw new \InvalidArgumentException("Class {$className} is non-existent or could not be loaded");
+        }
+        $this->matrix[$this->currentRegion][]= $className;
         return $this;
     }
 
