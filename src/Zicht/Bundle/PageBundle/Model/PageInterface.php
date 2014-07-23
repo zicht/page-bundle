@@ -40,4 +40,10 @@ interface PageInterface extends ContentItemContainer
      * @return string
      */
     public function getDisplayType();
+
+
+    /**
+     * @return bool
+     */
+    public function isPublic();
 }

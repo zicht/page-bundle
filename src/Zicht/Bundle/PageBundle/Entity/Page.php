@@ -60,4 +60,16 @@ abstract class Page implements PageInterface
     {
         return get_class($this);
     }
+
+
+    /**
+     * By default, pages are never public (sane default). If you need your own logic,
+     * implement it here, the PageVoter will respect this.
+     *
+     * @return bool
+     */
+    public function isPublic()
+    {
+        return false;
+    }
 }
