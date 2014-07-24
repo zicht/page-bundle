@@ -42,5 +42,11 @@
             <argument/>
             <argument/>
         </service>
+
+        <service id="zicht_page.security.authorization.voter.page_voter"
+                 class="Zicht\Bundle\PageBundle\Security\Voter\PageVoter"
+                 public="false">
+            <tag name="security.voter" />
+        </service>
     </services>
 </container>
