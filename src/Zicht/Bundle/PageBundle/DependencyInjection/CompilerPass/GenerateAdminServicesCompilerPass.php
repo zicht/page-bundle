@@ -80,24 +80,27 @@ class GenerateAdminServicesCompilerPass implements CompilerPassInterface
             }
 
             foreach ($serviceDefs['page'] as $pageServiceId) {
-                $pageClassName = $container->getDefinition($pageServiceId)->getArguments(1);
+                $pageDef = $container->getDefinition($pageServiceId);
+                $pageClassName = $pageDef->getArgument(1);
 
-                if ($pageClassName instanceof ContentItemContainer) {
+                if (is_a($pageClassName, 'Zicht\Bundle\PageBundle\Model\ContentItemContainer', true)) {
+
                     /** @var ContentItemContainer $instance */
                     $instance = new $pageClassName;
-                    $contentItemClassNames = $instance->getContentItemMatrix()->getTypes();
 
-                    foreach ($serviceDefs['contentItem'] as $contentItemServiceId) {
-                        $contentItemAdminDefinition = $container->getDefinition($pageServiceId);
+                    if ($matrix = $instance->getContentItemMatrix()) {
+                        $contentItemClassNames = $matrix->getTypes();
 
-                        if (in_array($contentItemAdminDefinition->getArgument(1), $contentItemClassNames)) {
-                            $contentItemAdminDefinition
-                                ->addMethodCall(
-                                    'addChild',
-                                    array(
-                                        new Reference($contentItemServiceId)
-                                    )
-                                );
+                        foreach ($serviceDefs['contentItem'] as $contentItemServiceId) {
+                            $contentItemDefinition = $container->getDefinition($contentItemServiceId);
+
+                            if (in_array($contentItemDefinition->getArgument(1), $contentItemClassNames)) {
+                                $pageDef
+                                    ->addMethodCall(
+                                        'addChild',
+                                        array(new Reference($contentItemServiceId))
+                                    );
+                            }
                         }
                     }
                 }
