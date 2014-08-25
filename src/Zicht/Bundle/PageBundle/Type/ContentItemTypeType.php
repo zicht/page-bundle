@@ -133,7 +133,10 @@ class ContentItemTypeType extends AbstractType
             if ($typeAdmin = $this->sonata->getAdminByClass(get_class($subject))) {
                 $childAdmin = $this->sonata->getAdminByAdminCode($parentAdmin->getCode() . '|' . $typeAdmin->getCode());
                 $childAdmin->setRequest($genericAdmin->getRequest());
-                $view->vars['edit_url'] = $childAdmin->generateObjectUrl('edit', $subject);
+
+                if ($subject && $subject->getId() && $subject->getPage() && $subject->getPage()->getId()) {
+                    $view->vars['edit_url'] = $childAdmin->generateObjectUrl('edit', $subject);
+                }
             }
         }
     }
