@@ -19,6 +19,24 @@ class ContentItemDetailCRUDController extends CRUDController
     /**
      * @{inheritDoc}
      */
+    public function showAction($id = null)
+    {
+        $id = $this->get('request')->get($this->admin->getIdParameter());
+        $obj = $this->admin->getObject($id);
+
+        $page = $obj->getPage();
+        if ($page && $this->container->has('zicht_url.provider') && $this->get('zicht_url.provider')->supports($page)) {
+            return $this->redirect($this->get('zicht_url.provider')->url($page));
+        }
+
+        return parent::showAction($id);
+    }
+
+
+
+    /**
+     * @{inheritDoc}
+     */
     public function listAction()
     {
         if (($parent = $this->admin->getParent()) && ($container = $parent->getSubject())) {
