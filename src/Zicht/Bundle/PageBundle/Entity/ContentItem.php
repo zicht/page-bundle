@@ -20,7 +20,13 @@ abstract class ContentItem implements ContentItemInterface
      */
     public function getShortType()
     {
-        return Str::dash(lcfirst(Str::classname(Str::rstrip($this->getType(), 'ContentItem'))));
+        $shortType = Str::dash(lcfirst(Str::classname(Str::rstrip($this->getType(), 'ContentItem'))));
+
+        if ($template = $this->getTemplateName()) {
+            $shortType .= '-' . $template;
+        }
+
+        return $shortType;
     }
 
     /**
@@ -78,5 +84,15 @@ abstract class ContentItem implements ContentItemInterface
     public function setConvertToType($type)
     {
         $this->convertToType = $type;
+    }
+
+    /**
+     * If needed, you can add a custom template name to the content item
+     *
+     * @return null|string
+     */
+    public function getTemplateName()
+    {
+        return null;
     }
 }
