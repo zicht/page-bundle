@@ -10,6 +10,7 @@ use \Symfony\Component\Routing\RouterInterface;
 
 use \Zicht\Bundle\PageBundle\Model\PageInterface;
 use \Zicht\Bundle\PageBundle\Manager\PageManager;
+use \Zicht\Bundle\UrlBundle\Url\ListableProvider;
 use \Zicht\Bundle\UrlBundle\Url\SuggestableProvider;
 use \Zicht\Bundle\UrlBundle\Url\AbstractRoutingProvider;
 use \Zicht\Util\Str;
@@ -17,7 +18,7 @@ use \Zicht\Util\Str;
 /**
  * Provides urls for page objects.
  */
-class PageUrlProvider extends AbstractRoutingProvider implements SuggestableProvider
+class PageUrlProvider extends AbstractRoutingProvider implements SuggestableProvider, ListableProvider
 {
     /**
      * Constructs the provider
@@ -88,6 +89,25 @@ class PageUrlProvider extends AbstractRoutingProvider implements SuggestableProv
         return $suggestions;
     }
 
+    /**
+     * @{inheritDoc}
+     */
+    public function all()
+    {
+        $ret = array();
+        $pages = $this->pageManager->getBaseRepository()->createQueryBuilder('p')
+            ->orderBy('p.title')
+            ->getQuery()
+            ->execute()
+        ;
+        foreach ($pages as $page) {
+            $ret[] = array(
+                'value' => $this->url($page),
+                'title' => $this->getLabel($page)
+            );
+        }
+        return $ret;
+    }
 
     /**
      * Returns the label of the page to use in url suggestions
