@@ -16,6 +16,7 @@ use \Symfony\Component\Form\FormInterface;
 use \Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use \Symfony\Component\OptionsResolver\Options;
 
+use Symfony\Component\Routing\Exception\InvalidParameterException;
 use \Zicht\Bundle\PageBundle\Entity\ContentItem;
 use \Zicht\Bundle\PageBundle\Model\ContentItemContainer;
 use \Zicht\Util\Str;
@@ -135,7 +136,11 @@ class ContentItemTypeType extends AbstractType
                 $childAdmin->setRequest($genericAdmin->getRequest());
 
                 if ($subject && $subject->getId() && $subject->getPage() && $subject->getPage()->getId()) {
-                    $view->vars['edit_url'] = $childAdmin->generateObjectUrl('edit', $subject);
+                    try {
+                        $view->vars['edit_url'] = $childAdmin->generateObjectUrl('edit', $subject);
+                    } catch (InvalidParameterException $e) {
+                        //edit url not needed when generating other admins (this is done in the POST of the sonata_collection_type)
+                    }
                 }
             }
         }
