@@ -1,7 +1,11 @@
 {% block zicht_content_item_type_widget %}
     {% if type %}
         <input type="hidden" name="{{ name }}" value="{{ value }}">
-        {{ type|humanize }}{% if edit_url %} <a class="edit_link" href="{{ edit_url }}"><i class="icon-wrench"></i></a>{% endif %}
+        {% if edit_url %}
+            <a class="edit_link" href="{{ edit_url }}"> {{ type|humanize }} <a class="edit_link" href="{{ edit_url }}"><i class="icon-wrench"></i></a>
+        {% else %}
+            {{ type|humanize }}
+        {% endif %}
     {% else %}
         {{ form_widget(form.convertToType) }}
     {% endif %}
