@@ -7,6 +7,7 @@ namespace Zicht\Bundle\PageBundle\Type;
 
 use \Sonata\AdminBundle\Admin\Pool;
 
+use Sonata\DoctrineORMAdminBundle\Admin\FieldDescription;
 use \Symfony\Component\Form;
 use \Symfony\Component\Form\AbstractType;
 use \Symfony\Component\Form\FormBuilderInterface;
@@ -17,6 +18,8 @@ use \Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use \Symfony\Component\OptionsResolver\Options;
 
 use Symfony\Component\Routing\Exception\InvalidParameterException;
+use Symfony\Component\Routing\Exception\MissingMandatoryParametersException;
+use Zicht\Bundle\PageBundle\Admin\ContentItemAdmin;
 use \Zicht\Bundle\PageBundle\Entity\ContentItem;
 use \Zicht\Bundle\PageBundle\Model\ContentItemContainer;
 use \Zicht\Util\Str;
@@ -51,7 +54,7 @@ class ContentItemTypeType extends AbstractType
                 array(
                     'virtual' => true,
                     'data_class' => $this->contentItemClass,
-                    'container' => '',
+                    'container' => ''
                 )
             )
         ;
@@ -93,25 +96,6 @@ class ContentItemTypeType extends AbstractType
                 )
             )
         ;
-
-        // Add a listener that creates the correct ContentItem instance if the type is not yet
-        // defined (i.e., on "add")
-        $builder->getParent()->addEventListener(
-            Form\FormEvents::BIND,
-            function(Form\FormEvent $e) {
-                $data = $e->getData();
-                if (null === $data) {
-                    return;
-                }
-                $type = $data->getConvertToType();
-                if (!$data->getId() && $type !== get_class($data)) {
-                    $item = new $type;
-                    ContentItem::convert($data, $item);
-                    $e->setData($item);
-                }
-            },
-            64
-        );
     }
 
 
@@ -139,7 +123,9 @@ class ContentItemTypeType extends AbstractType
                     try {
                         $view->vars['edit_url'] = $childAdmin->generateObjectUrl('edit', $subject);
                     } catch (InvalidParameterException $e) {
-                        //edit url not needed when generating other admins (this is done in the POST of the sonata_collection_type)
+                        //2.2 edit url not needed when generating other admins (this is done in the POST of the sonata_collection_type)
+                    } catch (MissingMandatoryParametersException $e) {
+                        //>= 2.3
                     }
                 }
             }
