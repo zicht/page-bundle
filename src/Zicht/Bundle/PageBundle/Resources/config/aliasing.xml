@@ -5,6 +5,7 @@
     <parameters>
         <parameter key="zicht_page.page_aliasing_strategy.class">Zicht\Bundle\UrlBundle\Aliasing\DefaultAliasingStrategy</parameter>
         <parameter key="zicht_page.create_alias_subscriber.class">Zicht\Bundle\UrlBundle\Aliasing\Doctrine\CreateAliasSubscriber</parameter>
+        <parameter key="zicht_page.create_alias_subscriber.enabled">true</parameter>
         <parameter key="zicht_page.remove_alias_subscriber.class">Zicht\Bundle\UrlBundle\Aliasing\Doctrine\RemoveAliasSubscriber</parameter>
     </parameters>
 
@@ -21,6 +22,7 @@
             <argument type="service" id="service_container" />
             <argument>zicht_page.page_aliaser</argument>
             <argument>Zicht\Bundle\PageBundle\Entity\Page</argument>
+            <argument>%zicht_page.create_alias_subscriber.enabled%</argument>
 
             <tag name="doctrine.event_subscriber" />
         </service>
