@@ -231,7 +231,15 @@ class PageAdmin extends Admin
                         'zicht_menu_item',
                         array('translation_domain' => $this->getTranslationDomain())
                     )
-                ->end();
+                ->end()
+                //add the subscriber (needed for Symfony >= 2.3)
+                ->getFormBuilder()->addEventSubscriber(
+                    new \Zicht\Bundle\MenuBundle\Form\Subscriber\MenuItemPersistenceSubscriber(
+                        $this->menuManager,
+                        $this->urlProvider,
+                        'menu_item'
+                    )
+                );
         }
     }
 
