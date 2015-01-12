@@ -172,27 +172,29 @@ class PageAdmin extends Admin
     public function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-            ->with('General')
-                ->add('title', null, array('required' => true))
-            ->end()
+            ->tab('General')
+                    ->add('title', null, array('required' => true))
+                ->end()
+            ->end() //needed to do twice, since a tab is a group surrounding a 'with'
         ;
         
         if ($this->getSubject()->getId()) {
             if ($this->getSubject()->getContentItemMatrix() && $this->getSubject()->getContentItemMatrix()->getTypes()) {
                 $formMapper
-                    ->with('Content')
-                        ->add(
-                            'contentItems',
-                            'sonata_type_collection',
-                            array(),
-                            array(
-                                'edit'   => 'inline',
-                                'inline' => 'table',
-                                'sortable' => 'weight',
-                                'admin_code' => $this->code . '|' . $this->contentItemAdminCode
+                    ->tab('Content')
+                            ->add(
+                                'contentItems',
+                                'sonata_type_collection',
+                                array(),
+                                array(
+                                    'edit'   => 'inline',
+                                    'inline' => 'table',
+                                    'sortable' => 'weight',
+                                    'admin_code' => $this->code . '|' . $this->contentItemAdminCode
+                                )
                             )
-                        )
-                    ->end()
+                        ->end()
+                    ->end() //needed to do twice, since a tab is a group surrounding a 'with'
                 ;
 
                 $formMapper->getFormBuilder()->addEventListener(
@@ -225,13 +227,14 @@ class PageAdmin extends Admin
                 );
             }
             $formMapper
-                ->with('Menu', array('collapsible' => true, 'collapsed' => true))
-                    ->add(
-                        'menu_item',
-                        'zicht_menu_item',
-                        array('translation_domain' => $this->getTranslationDomain())
-                    )
-                ->end()
+                ->tab('Menu')
+                        ->add(
+                            'menu_item',
+                            'zicht_menu_item',
+                            array('translation_domain' => $this->getTranslationDomain())
+                        )
+                    ->end()
+                ->end() //needed to do twice, since a tab is a group surrounding a 'with'
                 //add the subscriber (needed for Symfony >= 2.3)
                 ->getFormBuilder()->addEventSubscriber(
                     new \Zicht\Bundle\MenuBundle\Form\Subscriber\MenuItemPersistenceSubscriber(
