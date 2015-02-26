@@ -17,28 +17,4 @@ interface ContentItemContainer
      * @return ContentItemMatrix
      */
     public function getContentItemMatrix();
-
-    /**
-     * Returns a list of ContentItems
-     *
-     * @param null $region
-     * @return mixed
-     */
-    public function getContentItems($region = null);
-
-    /**
-     * Adds a ContentItem
-     *
-     * @param ContentItemInterface $contentItem
-     * @return mixed
-     */
-    public function addContentItem(ContentItemInterface $contentItem);
-
-    /**
-     * Remove a ContentItem
-     *
-     * @param ContentItemInterface $contentItem
-     * @return mixed
-     */
-    public function removeContentItem(ContentItemInterface $contentItem);
 }

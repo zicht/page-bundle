@@ -14,11 +14,7 @@ use \Sonata\AdminBundle\Form\FormMapper;
 use \Sonata\AdminBundle\Datagrid\DatagridMapper;
 use \Sonata\AdminBundle\Datagrid\ListMapper;
 
-use Symfony\Component\Form\FormEvent;
-use Symfony\Component\Form\FormEvents;
 use \Zicht\Bundle\MenuBundle\Entity\MenuItem;
-use Zicht\Bundle\PageBundle\Entity\ContentItem;
-use Zicht\Bundle\PageBundle\Entity\Page;
 use \Zicht\Bundle\PageBundle\Manager\PageManager;
 use \Zicht\Bundle\PageBundle\Model\PageInterface;
 
@@ -176,7 +172,7 @@ class PageAdmin extends Admin
                 ->add('title', null, array('required' => true))
             ->end()
         ;
-        
+
         if ($this->getSubject()->getId()) {
             if ($this->getSubject()->getContentItemMatrix() && $this->getSubject()->getContentItemMatrix()->getTypes()) {
                 $formMapper
@@ -194,35 +190,6 @@ class PageAdmin extends Admin
                         )
                     ->end()
                 ;
-
-                $formMapper->getFormBuilder()->addEventListener(
-                    FormEvents::SUBMIT,
-                    function(FormEvent $e) {
-                        /** @var PageInterface $pageData */
-                        $pageData = $e->getData();
-
-                        $contentItems = $pageData->getContentItems();
-
-                        foreach ($contentItems as $data) {
-
-                            if (null === $data) {
-                                continue;
-                            }
-                            $type = $data->getConvertToType();
-
-                            if (!$data->getId() && $type !== get_class($data)) {
-                                $item = new $type;
-
-                                ContentItem::convert($data, $item);
-
-                                $pageData->removeContentItem($data);
-                                $pageData->addContentItem($item);
-                            }
-                        }
-                        $e->setData($pageData);
-                    },
-                    64
-                );
             }
             $formMapper
                 ->with('Menu', array('collapsible' => true, 'collapsed' => true))
