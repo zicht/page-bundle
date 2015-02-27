@@ -79,6 +79,8 @@ class GenerateAdminServicesCompilerPass implements CompilerPassInterface
                     $container->setDefinition($id, $adminService);
 
                     $serviceDefs[$type][]= $id;
+                } else {
+                    throw new \Exception(sprintf('The PageBundle was unable to create a service definition for %s because the associated class %s was not found', $entityClassName, $adminClassName));
                 }
             }
         }
