@@ -51,5 +51,11 @@
                  public="false">
             <tag name="security.voter" />
         </service>
+
+        <service id="zicht_page.security.authorization.voter.scheduled_content_voter"
+                 class="Zicht\Bundle\PageBundle\Security\Voter\ScheduledContentVoter"
+                 public="false">
+            <tag name="security.voter" />
+        </service>
     </services>
 </container>
