@@ -160,4 +160,17 @@ final class ContentItemMatrix
         }
         return $ret;
     }
+
+    public function getMatrix()
+    {
+        return $this->matrix;
+    }
+
+    /**
+     * @return string
+     */
+    public function getNamespacePrefix()
+    {
+        return $this->namespacePrefix;
+    }
 }
