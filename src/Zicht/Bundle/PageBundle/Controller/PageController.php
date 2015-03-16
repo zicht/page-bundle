@@ -7,7 +7,7 @@
 namespace Zicht\Bundle\PageBundle\Controller;
 
 use \Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use \Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use \Zicht\Bundle\PageBundle\Model\PageInterface;
 use \Symfony\Component\HttpFoundation\RedirectResponse;
 
@@ -16,6 +16,7 @@ use \Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use \Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use \Zicht\Bundle\PageBundle\Entity\ControllerPageInterface;
 use \Symfony\Component\HttpFoundation\Request;
+use \Zicht\Util\Str;
 
 /**
  * Controller for public page actions
@@ -68,7 +69,10 @@ class PageController extends AbstractController
 
         $page = $pageManager->findForView($id);
 
-        if (!$this->getSecurityContext()->isGranted('VIEW', $page)) {
+        $securityContext = $this->getSecurityContext();
+        $isGranted = $securityContext->isGranted('VIEW') || $securityContext->isGranted(Str::rolenize(Str::classname($page->getType())));
+
+        if (!$isGranted) {
             throw new AccessDeniedException("Page {$id} is not accessible to the current user");
         }
 
