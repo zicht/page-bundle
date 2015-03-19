@@ -8,6 +8,7 @@ namespace Zicht\Bundle\PageBundle\Url;
 
 use \Symfony\Component\Routing\RouterInterface;
 
+use \Symfony\Component\Security\Core\SecurityContextInterface;
 use \Zicht\Bundle\PageBundle\Model\PageInterface;
 use \Zicht\Bundle\PageBundle\Manager\PageManager;
 use \Zicht\Bundle\UrlBundle\Url\ListableProvider;
@@ -92,7 +93,7 @@ class PageUrlProvider extends AbstractRoutingProvider implements SuggestableProv
     /**
      * @{inheritDoc}
      */
-    public function all()
+    public function all(SecurityContextInterface $security)
     {
         $ret = array();
         $pages = $this->pageManager->getBaseRepository()->createQueryBuilder('p')
@@ -101,10 +102,12 @@ class PageUrlProvider extends AbstractRoutingProvider implements SuggestableProv
             ->execute()
         ;
         foreach ($pages as $page) {
-            $ret[] = array(
-                'value' => $this->url($page),
-                'title' => $this->getLabel($page)
-            );
+            if ($security->isGranted(array('VIEW'), $page)) {
+                $ret[] = array(
+                    'value' => $this->url($page),
+                    'title' => $this->getLabel($page)
+                );
+            }
         }
         return $ret;
     }

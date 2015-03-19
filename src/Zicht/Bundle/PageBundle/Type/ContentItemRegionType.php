@@ -5,6 +5,9 @@
  */
 namespace Zicht\Bundle\PageBundle\Type;
 
+use Symfony\Bundle\FrameworkBundle\Translation\Translator;
+use \Symfony\Component\Form\FormInterface;
+use \Symfony\Component\Form\FormView;
 use \Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use \Symfony\Component\Form\FormBuilderInterface;
 use \Symfony\Component\Form\AbstractType;
@@ -17,15 +20,21 @@ use \Zicht\Bundle\PageBundle\Model\ContentItemContainer;
 class ContentItemRegionType extends AbstractType
 {
     /**
+     * @var
+     */
+    private $translator;
+
+    /**
      * Constructor.
      *
      * @param string $contentItemClassName
      * @param array $defaultRegions
      */
-    public function __construct($contentItemClassName, array $defaultRegions = array())
+    public function __construct($contentItemClassName, array $defaultRegions = array(), Translator $translator)
     {
         $this->contentItemClassName = $contentItemClassName;
         $this->defaultRegions = $defaultRegions;
+        $this->translator = $translator;
     }
 
 
@@ -65,6 +74,24 @@ class ContentItemRegionType extends AbstractType
         } else {
             $builder->add('region', 'choice', array('choices' => $options['default_regions'], 'translation_domain' => 'admin'));
         }
+    }
+
+    /**
+     * @{inheritDoc}
+     */
+    public function finishView(FormView $view, FormInterface $form, array $options)
+    {
+        $matrix = array();
+        $fullmatrix = $options['container']->getContentItemMatrix()->getMatrix();
+        $prefix = $options['container']->getContentItemMatrix()->getNamespacePrefix();
+
+        foreach ($fullmatrix as $region => $classes) {
+            foreach ($classes as $class) {
+                $matrix[$region][$class] = $this->translator->trans(str_replace($prefix, '', $class), array(), 'admin', 'nl');
+            }
+        }
+
+        $view->vars['matrix'] = json_encode($matrix);
     }
 
 

@@ -45,6 +45,8 @@ class Configuration implements ConfigurationInterface
                     ->end()
                 ->end()
                 ->arrayNode('defaultRegions')->prototype('scalar')->isRequired()->end()->end()
+                // localePrefixes used in LanguageAwareAliasingStrategy
+                ->arrayNode('localePrefixes')->prototype('scalar')->end()->end()
             ->end()
         ;
 

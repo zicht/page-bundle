@@ -41,10 +41,10 @@ class PageVoter implements VoterInterface
     /**
      * @{inheritDoc}
      */
-    public function vote(TokenInterface $token, $page, array $attributes)
+    public function vote(TokenInterface $token, $object, array $attributes)
     {
         // check if class of this object is supported by this voter
-        if (!$this->supportsClass(get_class($page))) {
+        if (!$this->supportsClass(get_class($object))) {
             return VoterInterface::ACCESS_ABSTAIN;
         }
 
@@ -53,7 +53,7 @@ class PageVoter implements VoterInterface
                 continue;
             }
 
-            if ($this->isPublic($page)) {
+            if ($this->isPublic($object)) {
                 return VoterInterface::ACCESS_GRANTED;
             }
         }

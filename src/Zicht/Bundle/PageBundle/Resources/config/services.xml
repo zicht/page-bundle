@@ -2,8 +2,11 @@
 <container xmlns="http://symfony.com/schema/dic/services" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
+    <parameters>
+        <parameter key="zicht_page.page_url_provider.class">Zicht\Bundle\PageBundle\Url\PageUrlProvider</parameter>
+    </parameters>
     <services>
-        <service id="zicht_page.page_url_provider" class="Zicht\Bundle\PageBundle\Url\PageUrlProvider">
+        <service id="zicht_page.page_url_provider" class="%zicht_page.page_url_provider.class%">
             <argument type="service" id="router"/>
             <argument type="service" id="zicht_page.page_manager"/>
             <tag name="zicht_url.url_provider"/>
@@ -23,6 +26,7 @@
         <service id="zicht_page.form.type.zicht_content_item_region_type" class="Zicht\Bundle\PageBundle\Type\ContentItemRegionType">
             <argument/>
             <argument/>
+            <argument type="service" id="translator" />
             <tag name="form.type" alias="zicht_content_item_region"/>
         </service>
 
@@ -45,6 +49,12 @@
 
         <service id="zicht_page.security.authorization.voter.page_voter"
                  class="Zicht\Bundle\PageBundle\Security\Voter\PageVoter"
+                 public="false">
+            <tag name="security.voter" />
+        </service>
+
+        <service id="zicht_page.security.authorization.voter.scheduled_content_voter"
+                 class="Zicht\Bundle\PageBundle\Security\Voter\ScheduledContentVoter"
                  public="false">
             <tag name="security.voter" />
         </service>
