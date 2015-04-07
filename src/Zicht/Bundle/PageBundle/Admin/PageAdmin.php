@@ -20,6 +20,7 @@ use \Zicht\Bundle\PageBundle\Model\PageInterface;
 
 use \Zicht\Bundle\MenuBundle\Manager\MenuManager;
 use \Zicht\Bundle\UrlBundle\Aliasing\ProviderDecorator;
+use Zicht\Bundle\UrlBundle\Url\Provider;
 
 /**
  * Admin for the messages catalogue
@@ -107,10 +108,10 @@ class PageAdmin extends Admin
     /**
      * Sets the url provider
      *
-     * @param ProviderDecorator $urlProvider
+     * @param Provider $urlProvider
      * @return void
      */
-    public function setUrlProvider(ProviderDecorator $urlProvider)
+    public function setUrlProvider(Provider $urlProvider)
     {
         $this->urlProvider = $urlProvider;
     }
