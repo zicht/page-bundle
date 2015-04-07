@@ -10,13 +10,9 @@ use \Symfony\Component\HttpFoundation\Response;
 use \Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use \Zicht\Bundle\PageBundle\Model\PageInterface;
 use \Symfony\Component\HttpFoundation\RedirectResponse;
-
 use \Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use \Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use \Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use \Zicht\Bundle\PageBundle\Entity\ControllerPageInterface;
 use \Symfony\Component\HttpFoundation\Request;
-use \Zicht\Util\Str;
 
 /**
  * Controller for public page actions
@@ -66,13 +62,10 @@ class PageController extends AbstractController
     {
         /** @var $pageManager \Zicht\Bundle\PageBundle\Manager\PageManager */
         $pageManager = $this->getPageManager();
-
         $page = $pageManager->findForView($id);
-
         $securityContext = $this->getSecurityContext();
-        $isGranted = $securityContext->isGranted('VIEW') || $securityContext->isGranted(Str::rolenize(Str::classname($page->getType())));
 
-        if (!$isGranted) {
+        if (!$securityContext->isGranted('VIEW', $page)) {
             throw new AccessDeniedException("Page {$id} is not accessible to the current user");
         }
 
