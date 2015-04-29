@@ -6,9 +6,6 @@
 
 namespace Zicht\Bundle\PageBundle\Type;
 
-use \Symfony\Component\Form\AbstractType;
-use \Symfony\Component\Form\FormBuilderInterface;
-use \Symfony\Component\Form\FormView;
 use \Doctrine\Bundle\DoctrineBundle\Registry;
 use \Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use \Symfony\Component\OptionsResolver\OptionsResolverInterface;
@@ -48,7 +45,8 @@ class DiscriminatorMapType extends ChoiceType
         $choiceCallback = function(Options $options) use ($em) {
             $ret = array();
             foreach ($em->getClassMetadata($options['entity'])->discriminatorMap as $className) {
-                $ret[$className] = Str::humanize(Str::classname($className));
+                $placeholder = 'content_item.type.' . strtolower(str_replace(' ', '_', Str::humanize(Str::classname($className))));
+                $ret[$className] = $placeholder;
             }
             if (is_callable($options['choice_filter'])) {
                 $ret = call_user_func($options['choice_filter'], $ret);
