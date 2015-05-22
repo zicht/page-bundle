@@ -93,7 +93,7 @@ class PageController extends AbstractController
      * @param array $vars
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    protected function renderPage(PageInterface $page, $vars = array())
+    public function renderPage(PageInterface $page, $vars = array())
     {
         return $this->render(
             $this->getPageManager()->getTemplate($page),

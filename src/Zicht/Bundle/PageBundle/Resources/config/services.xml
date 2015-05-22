@@ -58,5 +58,10 @@
                  public="false">
             <tag name="security.voter" />
         </service>
+
+        <service id="zicht_page.validator.content_item_matrix_validator" class="Zicht\Bundle\PageBundle\Validator\Constraints\ContentItemMatrixValidator">
+            <tag name="validator.constraint_validator" alias="zicht_page.validator.content_item_matrix_validator" />
+            <argument type="service" id="translator"/>
+        </service>
     </services>
 </container>

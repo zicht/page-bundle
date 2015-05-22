@@ -7,5 +7,6 @@ contentItems: Item
 weight: Weight
 content_item_region: Region
 content_item_type: Type
+content_item_region.empty_value: "Select region"
 left: Left
 right: Right
