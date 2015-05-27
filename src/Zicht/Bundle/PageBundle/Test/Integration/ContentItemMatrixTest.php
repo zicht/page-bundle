@@ -1,48 +1,20 @@
 <?php
-
-namespace Zicht\Bundle\PageBundle\Test\Integration;
-
-use \Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Event\GetResponseEvent;
-use Symfony\Component\HttpKernel\HttpKernelInterface;
-use Symfony\Component\HttpKernel\KernelEvents;
-use \Zicht\Bundle\PageBundle\Controller\PageController;
-use \Zicht\Bundle\PageBundle\Model\ContentItemMatrix;
-
 /**
  * @author Gerard van Helden <gerard@zicht.nl>
  * @copyright Zicht Online <http://zicht.nl>
  */
 
+namespace Zicht\Bundle\PageBundle\Test\Integration;
 
-class ContentItemMatrixTest extends \PHPUnit_Framework_TestCase
+use \Zicht\Bundle\PageBundle\Controller\PageController;
+use \Zicht\Bundle\PageBundle\Model\ContentItemMatrix;
+
+class ContentItemMatrixTest extends AbstractPageTest
 {
-    /**
-     * @var \AppKernel
-     */
-    public $kernel;
-
-    public function setUp()
-    {
-        $this->kernel = new \AppKernel();
-        $this->kernel->boot();
-
-        // we need to synthesize the request, because it could be used by the controller or it's templates.
-        $request = new Request();
-
-        $this->kernel->getContainer()->get('event_dispatcher')->dispatch(
-            KernelEvents::REQUEST,
-            new GetResponseEvent($this->kernel, $request, HttpKernelInterface::MASTER_REQUEST)
-        );
-        $this->kernel->getContainer()->enterScope('request');
-        $this->kernel->getContainer()->set('request', $request, 'request');
-    }
-
-
     /**
      * @dataProvider contentItemMatrix
      */
-    public function testMatrix($pageTypeName, $pageClassName, $region = null, $contentItemClassName = null)
+    public function testRenderWillRetrieveCorrectRegions($pageTypeName, $pageClassName, $region = null, $contentItemClassName = null)
     {
         if (null === $contentItemClassName || null === $region) {
             $this->markTestSkipped("{$pageClassName} has no content item matrix");
@@ -77,8 +49,7 @@ class ContentItemMatrixTest extends \PHPUnit_Framework_TestCase
         }));
 
         /** @var \Zicht\Bundle\PageBundle\Entity\ContentItem $item */
-        $pageController = new PageController();
-        $pageController->setContainer($this->kernel->getContainer());
+        $pageController = $this->createPageController();
         $pageController->renderPage($mockPage)->getContent();
 
         $called = array();
@@ -91,11 +62,7 @@ class ContentItemMatrixTest extends \PHPUnit_Framework_TestCase
 
     public function contentItemMatrix()
     {
-        $kernel = new \AppKernel();
-        $kernel->boot();
-
-        $pageManager = $kernel->getContainer()->get('zicht_page.page_manager');
-
+        $pageManager = $this->createPageManager();
         $mappings = $pageManager->getMappings();
 
         $ret = array();
