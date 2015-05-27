@@ -7,5 +7,6 @@ contentItems: Onderdeel
 weight: Gewicht
 content_item_region: Regio
 content_item_type: Soort
+content_item_region.empty_value: "Selecteer regio"
 left: Links
 right: Rechts

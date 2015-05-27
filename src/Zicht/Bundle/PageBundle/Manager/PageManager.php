@@ -56,7 +56,18 @@ class PageManager
     public function getTemplate($page)
     {
         // determine page bundle name.
-        $className = get_class($page);
+        $bundle = $this->getBundleName(get_class($page));
+        return sprintf('%s:Page:%s.html.twig', $bundle, $page->getTemplateName());
+    }
+
+
+    /**
+     * @param string $className
+     * @return string
+     * @throws \RuntimeException
+     */
+    protected function getBundleName($className)
+    {
         $parts = explode('\\', $className);
         $vendor = array_shift($parts);
         $bundleName = null;
@@ -67,10 +78,14 @@ class PageManager
             $bundleName = $part;
         }
         if (null === $bundleName) {
+            if ($parentClass = get_parent_class($className)) {
+                return $this->getBundleName($parentClass);
+            }
+
             throw new \RuntimeException("Could not determine bundle name for " . $className);
         }
         $bundle = $vendor . $bundleName;
-        return sprintf('%s:Page:%s.html.twig', $bundle, $page->getTemplateName());
+        return $bundle;
     }
 
 
@@ -109,6 +124,15 @@ class PageManager
 
 
     /**
+     * @return array
+     */
+    public function getMappings()
+    {
+        return $this->mappings;
+    }
+
+
+    /**
      * Sets the available content item types.
      *
      * @param array $contentItemTypes
@@ -132,6 +156,7 @@ class PageManager
 
         if (isset($this->mappings[$parentClassName])) {
             $c->discriminatorMap = array();
+            $c->discriminatorMap[strtolower(Str::classname($parentClassName))] = $parentClassName;
             foreach ($this->mappings[$parentClassName] as $className) {
                 $name = Str::infix(Str::classname(Str::rstrip($className, Str::classname($parentClassName))), '-');
                 $c->discriminatorMap[$name] = $className;

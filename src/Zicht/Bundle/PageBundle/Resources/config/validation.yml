@@ -1,0 +1,3 @@
+Zicht\Bundle\PageBundle\Entity\Page:
+    constraints:
+        - Zicht\Bundle\PageBundle\Validator\Constraints\ContentItemMatrix: ~

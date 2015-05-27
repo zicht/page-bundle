@@ -5,13 +5,14 @@
  */
 namespace Zicht\Bundle\PageBundle\Type;
 
-use Symfony\Bundle\FrameworkBundle\Translation\Translator;
+use \Symfony\Bundle\FrameworkBundle\Translation\Translator;
 use \Symfony\Component\Form\FormInterface;
 use \Symfony\Component\Form\FormView;
 use \Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use \Symfony\Component\Form\FormBuilderInterface;
 use \Symfony\Component\Form\AbstractType;
 use \Zicht\Bundle\PageBundle\Model\ContentItemContainer;
+use \Zicht\Util\Str;
 
 
 /**
@@ -70,7 +71,15 @@ class ContentItemRegionType extends AbstractType
             foreach ($matrix->getRegions() as $c) {
                 $choices[$c] = $c;
             }
-            $builder->add('region', 'choice', array('choices' => $choices, 'translation_domain' => 'admin'));
+            $builder->add(
+                'region',
+                'choice',
+                array(
+                    'choices' => $choices,
+                    'translation_domain' => 'admin',
+                    'empty_value' => $this->translator->trans('content_item_region.empty_value', array(), 'admin')
+                )
+            );
         } else {
             $builder->add('region', 'choice', array('choices' => $options['default_regions'], 'translation_domain' => 'admin'));
         }
@@ -83,17 +92,18 @@ class ContentItemRegionType extends AbstractType
     {
         $matrix = array();
         $fullmatrix = $options['container']->getContentItemMatrix()->getMatrix();
-        $prefix = $options['container']->getContentItemMatrix()->getNamespacePrefix();
 
-        foreach ($fullmatrix as $region => $classes) {
-            foreach ($classes as $class) {
-                $matrix[$region][$class] = $this->translator->trans(str_replace($prefix, '', $class), array(), 'admin', 'nl');
+        foreach ($fullmatrix as $region => $classNames) {
+            foreach ($classNames as $className) {
+                $placeholder = 'content_item.type.' . strtolower(str_replace(' ', '_', Str::humanize(Str::classname($className))));
+                $matrix[$region][$className] = $this->translator->trans($placeholder, array(), 'admin', 'nl');
             }
         }
 
+        // todo: the matrix says something over both the DiscriminatorMapType and the ContentItemRegionType,
+        // hence it should be moved to the ContentItemTypeType
         $view->vars['matrix'] = json_encode($matrix);
     }
-
 
     /**
      * Returns the name of this type.
