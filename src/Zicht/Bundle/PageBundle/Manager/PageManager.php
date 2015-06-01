@@ -20,7 +20,6 @@ use \Zicht\Bundle\PageBundle\Entity\ViewablePageRepository;
 class PageManager
 {
     protected $mappings = array();
-    protected $pageTypes = array();
     protected $loadedPage = null;
 
     /**
@@ -105,6 +104,14 @@ class PageManager
     public function setPageTypes($pageTypes)
     {
         $this->mappings[$this->pageClassName] = $pageTypes;
+    }
+
+    /**
+     * @return array
+     */
+    public function getPageTypes()
+    {
+        return $this->mappings[$this->pageClassName];
     }
 
 
