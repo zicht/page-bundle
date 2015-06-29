@@ -29,6 +29,7 @@ class DiscriminatorMapType extends ChoiceType
      */
     public function __construct(Registry $registry)
     {
+        parent::__construct();
         $this->doctrine = $registry;
     }
 

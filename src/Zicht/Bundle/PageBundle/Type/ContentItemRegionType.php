@@ -5,12 +5,12 @@
  */
 namespace Zicht\Bundle\PageBundle\Type;
 
-use \Symfony\Bundle\FrameworkBundle\Translation\Translator;
 use \Symfony\Component\Form\FormInterface;
 use \Symfony\Component\Form\FormView;
 use \Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use \Symfony\Component\Form\FormBuilderInterface;
 use \Symfony\Component\Form\AbstractType;
+use \Symfony\Component\Translation\TranslatorInterface;
 use \Zicht\Bundle\PageBundle\Model\ContentItemContainer;
 use \Zicht\Util\Str;
 
@@ -21,7 +21,17 @@ use \Zicht\Util\Str;
 class ContentItemRegionType extends AbstractType
 {
     /**
-     * @var
+     * @var string $contentItemClassName
+     */
+    protected $contentItemClassName;
+
+    /**
+     * @var array $defaultRegions
+     */
+    protected $defaultRegions;
+
+    /**
+     * @var TranslatorInterface $translator
      */
     private $translator;
 
@@ -31,7 +41,7 @@ class ContentItemRegionType extends AbstractType
      * @param string $contentItemClassName
      * @param array $defaultRegions
      */
-    public function __construct($contentItemClassName, array $defaultRegions = array(), Translator $translator)
+    public function __construct($contentItemClassName, array $defaultRegions = array(), TranslatorInterface $translator)
     {
         $this->contentItemClassName = $contentItemClassName;
         $this->defaultRegions = $defaultRegions;
