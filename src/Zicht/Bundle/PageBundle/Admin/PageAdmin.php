@@ -173,12 +173,12 @@ class PageAdmin extends Admin
     public function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-            ->tab('General')
+            ->tab('admin.tab.general')
                     ->add('title', null, array('required' => true))
                 ->end()
             ->end() //needed to do twice, since a tab is a group surrounding a 'with'
         ;
-        
+
         if (($subject = $this->getSubject()) && $subject->getId()) {
 
             if ($subject->getContentItemMatrix() && $subject->getContentItemMatrix()->getTypes()) {
@@ -194,7 +194,7 @@ class PageAdmin extends Admin
                 }
 
                 $formMapper
-                    ->tab('Content')
+                    ->tab('admin.tab.content')
                             ->add(
                                 $contentItemsProperty,
                                 'sonata_type_collection',
@@ -240,7 +240,7 @@ class PageAdmin extends Admin
                 );
             }
             $formMapper
-                ->tab('Menu')
+                ->tab('admin.tab.menu')
                         ->add(
                             'menu_item',
                             'zicht_menu_item',
