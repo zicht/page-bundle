@@ -247,15 +247,19 @@ class PageAdmin extends Admin
                             array('translation_domain' => $this->getTranslationDomain())
                         )
                     ->end()
-                ->end() //needed to do twice, since a tab is a group surrounding a 'with'
-                //add the subscriber (needed for Symfony >= 2.3)
-                ->getFormBuilder()->addEventSubscriber(
-                    new \Zicht\Bundle\MenuBundle\Form\Subscriber\MenuItemPersistenceSubscriber(
-                        $this->menuManager,
-                        $this->urlProvider,
-                        'menu_item'
-                    )
-                );
+                ->end()
+            ;
+
+//            $builder =
+//
+//                //add the subscriber (needed for Symfony >= 2.3)
+//                ->getFormBuilder()->addEventSubscriber(
+//                    new \Zicht\Bundle\MenuBundle\Form\Subscriber\MenuItemPersistenceSubscriber(
+//                        $this->menuManager,
+//                        $this->urlProvider,
+//                        'menu_item'
+//                    )
+//                );
         }
     }
 
