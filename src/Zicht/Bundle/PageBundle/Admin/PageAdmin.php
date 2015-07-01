@@ -179,21 +179,14 @@ class PageAdmin extends Admin
         if (($subject = $this->getSubject()) && $subject->getId()) {
 
             if ($subject->getContentItemMatrix() && $subject->getContentItemMatrix()->getTypes()) {
-                switch (true) {
-                    case property_exists($subject, 'content_items'):
-                        $contentItemsProperty = 'content_items';
-                        break;
-                    case property_exists($subject, 'contentItems'):
-                        $contentItemsProperty = 'contentItems';
-                        break;
-                    default:
-                        throw new \RuntimeException(sprintf('The zicht/page-bundle assumes that there is a property "contentItems" or "content_items" for the entity %s.  Note that this property must be either public of protected.', get_class($subject)));
+                if (!property_exists($subject, 'contentItems')) {
+                    throw new \RuntimeException(sprintf('The zicht/page-bundle assumes that there is a property "contentItems" for the entity %s.  Note that this property must be either public of protected.', get_class($subject)));
                 }
 
                 $formMapper
                     ->tab('admin.tab.content')
                         ->add(
-                            $contentItemsProperty,
+                            'contentItems',
                             'sonata_type_collection',
                             array(),
                             array(
