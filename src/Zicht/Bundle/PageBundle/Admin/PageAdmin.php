@@ -6,25 +6,23 @@
 
 namespace Zicht\Bundle\PageBundle\Admin;
 
-use \Symfony\Component\ClassLoader\ClassMapGenerator;
-
 use \Sonata\AdminBundle\Show\ShowMapper;
 use \Sonata\AdminBundle\Admin\Admin;
 use \Sonata\AdminBundle\Form\FormMapper;
 use \Sonata\AdminBundle\Datagrid\DatagridMapper;
 use \Sonata\AdminBundle\Datagrid\ListMapper;
 
-use Symfony\Component\Form\FormEvent;
-use Symfony\Component\Form\FormEvents;
+use \Symfony\Component\Form\FormEvent;
+use \Symfony\Component\Form\FormEvents;
+
 use \Zicht\Bundle\MenuBundle\Entity\MenuItem;
-use Zicht\Bundle\PageBundle\Entity\ContentItem;
-use Zicht\Bundle\PageBundle\Entity\Page;
+use Zicht\Bundle\MenuBundle\Form\Subscriber\MenuItemPersistenceSubscriber;
+use \Zicht\Bundle\PageBundle\Entity\ContentItem;
 use \Zicht\Bundle\PageBundle\Manager\PageManager;
 use \Zicht\Bundle\PageBundle\Model\PageInterface;
-
 use \Zicht\Bundle\MenuBundle\Manager\MenuManager;
 use \Zicht\Bundle\UrlBundle\Aliasing\ProviderDecorator;
-use Zicht\Bundle\UrlBundle\Url\Provider;
+use \Zicht\Bundle\UrlBundle\Url\Provider;
 
 /**
  * Admin for the messages catalogue
@@ -174,9 +172,8 @@ class PageAdmin extends Admin
     {
         $formMapper
             ->tab('admin.tab.general')
-                    ->add('title', null, array('required' => true))
-                ->end()
-            ->end() //needed to do twice, since a tab is a group surrounding a 'with'
+                ->add('title', null, array('required' => true))
+            ->end()->end() //needed to do twice, since a tab is a group surrounding a 'with'
         ;
 
         if (($subject = $this->getSubject()) && $subject->getId()) {
@@ -195,19 +192,18 @@ class PageAdmin extends Admin
 
                 $formMapper
                     ->tab('admin.tab.content')
-                            ->add(
-                                $contentItemsProperty,
-                                'sonata_type_collection',
-                                array(),
-                                array(
-                                    'edit'   => 'inline',
-                                    'inline' => 'table',
-                                    'sortable' => 'weight',
-                                    'admin_code' => $this->code . '|' . $this->contentItemAdminCode
-                                )
+                        ->add(
+                            $contentItemsProperty,
+                            'sonata_type_collection',
+                            array(),
+                            array(
+                                'edit'   => 'inline',
+                                'inline' => 'table',
+                                'sortable' => 'weight',
+                                'admin_code' => $this->code . '|' . $this->contentItemAdminCode
                             )
-                        ->end()
-                    ->end() //needed to do twice, since a tab is a group surrounding a 'with'
+                        )
+                    ->end()->end() //needed to do twice, since a tab is a group surrounding a 'with'
                 ;
 
                 $formMapper->getFormBuilder()->addEventListener(
@@ -250,16 +246,15 @@ class PageAdmin extends Admin
                 ->end()
             ;
 
-//            $builder =
-//
-//                //add the subscriber (needed for Symfony >= 2.3)
-//                ->getFormBuilder()->addEventSubscriber(
-//                    new \Zicht\Bundle\MenuBundle\Form\Subscriber\MenuItemPersistenceSubscriber(
-//                        $this->menuManager,
-//                        $this->urlProvider,
-//                        'menu_item'
-//                    )
-//                );
+            $formMapper
+                ->getFormBuilder()
+                ->addEventSubscriber(
+                    new MenuItemPersistenceSubscriber(
+                        $this->menuManager,
+                        $this->urlProvider,
+                        'menu_item'
+                    )
+                );
         }
     }
 
