@@ -58,7 +58,7 @@ class ContentItemRegionType extends AbstractType
 
         $resolver->setDefaults(
             array(
-                'virtual'    => true,
+                'inherit_data'    => true,
                 'data_class' => $this->contentItemClassName,
                 'container'  => '',
                 'default_regions' => $this->defaultRegions

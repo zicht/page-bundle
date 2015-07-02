@@ -25,7 +25,7 @@ class ContentItemTypeTypeTest extends \PHPUnit_Framework_TestCase
         $type->setDefaultOptions($resolver);
         $options = $resolver->resolve(array());
 
-        $this->assertTrue($options['virtual']);
+        $this->assertTrue($options['inherit_data']);
         $this->assertEquals('foo', $options['data_class']);
     }
 }

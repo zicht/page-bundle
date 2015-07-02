@@ -49,7 +49,7 @@ class ContentItemTypeType extends AbstractType
         $resolver
             ->setDefaults(
                 array(
-                    'virtual' => true,
+                    'inherit_data' => true,
                     'data_class' => $this->contentItemClass,
                     'container' => ''
                 )

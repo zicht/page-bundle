@@ -28,7 +28,7 @@ class ContentItemRegionTypeTest extends \PHPUnit_Framework_TestCase
         $optionsResolver = new \Symfony\Component\OptionsResolver\OptionsResolver();
         $type->setDefaultOptions($optionsResolver);
         $options = $optionsResolver->resolve(array());
-        $this->assertEquals(true, $options['virtual']);
+        $this->assertEquals(true, $options['inherit_data']);
         $this->assertEquals('foo', $options['data_class']);
         $this->assertEquals(array('a' => 'a', 'b' => 'b'), $options['default_regions']);
 
