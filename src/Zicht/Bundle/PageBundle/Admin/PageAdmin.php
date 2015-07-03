@@ -16,7 +16,7 @@ use \Symfony\Component\Form\FormEvent;
 use \Symfony\Component\Form\FormEvents;
 
 use \Zicht\Bundle\MenuBundle\Entity\MenuItem;
-use Zicht\Bundle\MenuBundle\Form\Subscriber\MenuItemPersistenceSubscriber;
+use \Zicht\Bundle\MenuBundle\Form\Subscriber\MenuItemPersistenceSubscriber;
 use \Zicht\Bundle\PageBundle\Entity\ContentItem;
 use \Zicht\Bundle\PageBundle\Manager\PageManager;
 use \Zicht\Bundle\PageBundle\Model\PageInterface;
@@ -309,5 +309,23 @@ class PageAdmin extends Admin
                 $this->menuManager->flush();
             }
         }
+    }
+
+    /**
+     * Allows to reorder Tabs
+     *
+     * Need the formMapper since the used methods to set the tabs
+     * are protected in the original Sonata implementation
+     *
+     * @param FormMapper $formMapper
+     * @param array $tabOrder
+     *
+     * @return void
+     */
+    public function reorderTabs(FormMapper $formMapper, array $tabOrder)
+    {
+        $tabsOriginal = $formMapper->getAdmin()->getFormTabs();
+        $tabs = array_merge(array_flip($tabOrder), $tabsOriginal);
+        $formMapper->getAdmin()->setFormTabs($tabs);
     }
 }
