@@ -95,4 +95,9 @@ abstract class ContentItem implements ContentItemInterface
     {
         return null;
     }
+
+    public function getInternalName()
+    {
+        return (string)$this;
+    }
 }

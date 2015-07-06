@@ -31,6 +31,7 @@ class ContentItemAdmin extends Admin
 
             $form
                 ->add('weight')
+                ->add('internalName', 'text', array('disabled' => true, 'read_only' => true, 'required' => false))
                 ->add('content_item_region', 'zicht_content_item_region', array('container' => $page))
                 ->add('content_item_type', 'zicht_content_item_type', array('container' => $page))
             ;
