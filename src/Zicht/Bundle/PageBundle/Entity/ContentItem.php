@@ -18,12 +18,12 @@ abstract class ContentItem implements ContentItemInterface
      *
      * @return string
      */
-    public function getShortType()
+    public function getShortType($infix = '-')
     {
-        $shortType = Str::dash(lcfirst(Str::classname(Str::rstrip($this->getType(), 'ContentItem'))));
+        $shortType = Str::infix(lcfirst(Str::classname(Str::rstrip($this->getType(), 'ContentItem'))), $infix);
 
         if ($template = $this->getTemplateName()) {
-            $shortType .= '-' . $template;
+            $shortType .= $infix . $template;
         }
 
         return $shortType;
