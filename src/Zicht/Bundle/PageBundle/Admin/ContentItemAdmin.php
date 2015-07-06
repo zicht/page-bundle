@@ -21,9 +21,7 @@ class ContentItemAdmin extends Admin
     protected function configureFormFields(FormMapper $form)
     {
         if (!$this->isChild()) {
-            $form
-                ->add('page')
-                ->add('title')
+            $form->add('page')
             ;
         } else {
             $page = $this->getParentFieldDescription()->getAdmin()->getSubject();
@@ -33,7 +31,6 @@ class ContentItemAdmin extends Admin
 
             $form
                 ->add('weight')
-                ->add('title')
                 ->add('content_item_region', 'zicht_content_item_region', array('container' => $page))
                 ->add('content_item_type', 'zicht_content_item_type', array('container' => $page))
             ;
@@ -46,9 +43,7 @@ class ContentItemAdmin extends Admin
      */
     protected function configureDatagridFilters(DatagridMapper $filter)
     {
-        $filter
-            ->add('title')
-            ->add('page');
+        $filter->add('page');
     }
 
 
@@ -58,7 +53,6 @@ class ContentItemAdmin extends Admin
     public function configureListFields(ListMapper $listMapper)
     {
         return $listMapper
-            ->addIdentifier('title')
             ->addIdentifier('page')
             ->add(
                 '_action',
