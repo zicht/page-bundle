@@ -6,23 +6,22 @@
 
 namespace Zicht\Bundle\PageBundle\Admin;
 
-use \Sonata\AdminBundle\Show\ShowMapper;
-use \Sonata\AdminBundle\Admin\Admin;
-use \Sonata\AdminBundle\Form\FormMapper;
-use \Sonata\AdminBundle\Datagrid\DatagridMapper;
-use \Sonata\AdminBundle\Datagrid\ListMapper;
-
-use \Symfony\Component\Form\FormEvent;
-use \Symfony\Component\Form\FormEvents;
-
-use \Zicht\Bundle\MenuBundle\Entity\MenuItem;
-use \Zicht\Bundle\MenuBundle\Form\Subscriber\MenuItemPersistenceSubscriber;
-use \Zicht\Bundle\PageBundle\Entity\ContentItem;
-use \Zicht\Bundle\PageBundle\Manager\PageManager;
-use \Zicht\Bundle\PageBundle\Model\PageInterface;
-use \Zicht\Bundle\MenuBundle\Manager\MenuManager;
-use \Zicht\Bundle\UrlBundle\Aliasing\ProviderDecorator;
-use \Zicht\Bundle\UrlBundle\Url\Provider;
+use Sonata\AdminBundle\Show\ShowMapper;
+use Sonata\AdminBundle\Admin\Admin;
+use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\AdminBundle\Datagrid\DatagridMapper;
+use Sonata\AdminBundle\Datagrid\ListMapper;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
+use Zicht\Bundle\MenuBundle\Entity\MenuItem;
+use Zicht\Bundle\MenuBundle\Form\Subscriber\MenuItemPersistenceSubscriber;
+use Zicht\Bundle\PageBundle\Entity\ContentItem;
+use Zicht\Bundle\PageBundle\Manager\PageManager;
+use Zicht\Bundle\PageBundle\Model\PageInterface;
+use Zicht\Bundle\MenuBundle\Manager\MenuManager;
+use Zicht\Bundle\UrlBundle\Aliasing\ProviderDecorator;
+use Zicht\Bundle\UrlBundle\Url\Provider;
+use Zicht\Util\Str;
 
 /**
  * Admin for the messages catalogue
@@ -327,5 +326,13 @@ class PageAdmin extends Admin
         $tabsOriginal = $formMapper->getAdmin()->getFormTabs();
         $tabs = array_merge(array_flip($tabOrder), $tabsOriginal);
         $formMapper->getAdmin()->setFormTabs($tabs);
+    }
+
+    /**
+     * @{inheritDoc}
+     */
+    public function getLabel()
+    {
+        return sprintf('admin.label.%s', Str::infix(lcfirst(Str::classname(get_class($this))), '_'));
     }
 }
