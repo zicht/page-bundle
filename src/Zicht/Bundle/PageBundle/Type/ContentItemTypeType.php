@@ -123,6 +123,7 @@ class ContentItemTypeType extends AbstractType
                         //2.2 edit url not needed when generating other admins (this is done in the POST of the sonata_collection_type)
                     } catch (MissingMandatoryParametersException $e) {
                         //>= 2.3
+                    } catch (\Exception $e) {
                     }
                 }
             }
