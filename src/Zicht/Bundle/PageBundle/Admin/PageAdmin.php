@@ -390,7 +390,6 @@ class PageAdmin extends Admin
         foreach ($tabs as $tabKey => $tab) {
             foreach ($tab['groups'] as $tabGroup) {
                 if (!array_key_exists($tabGroup, $groups)) {
-                    echo $tabGroup . ' bestaat niet in groups';
                     unset($tabs[$tabKey]);
                 }
             }
