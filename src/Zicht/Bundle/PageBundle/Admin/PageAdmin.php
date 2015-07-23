@@ -177,7 +177,7 @@ class PageAdmin extends Admin
         ;
 
         if (($subject = $this->getSubject()) && $subject->getId()) {
-
+            dump($subject);
             if ($subject->getContentItemMatrix() && $subject->getContentItemMatrix()->getTypes()) {
                 if (!property_exists($subject, 'contentItems')) {
                     throw new \RuntimeException(sprintf('The zicht/page-bundle assumes that there is a property "contentItems" for the entity %s.  Note that this property must be either public of protected.', get_class($subject)));
@@ -325,6 +325,15 @@ class PageAdmin extends Admin
     public function reorderTabs(FormMapper $formMapper, array $tabOrder)
     {
         $tabsOriginal = $formMapper->getAdmin()->getFormTabs();
+
+        //filter out tabs that doesn't exist (yet)
+        $tabOrder = array_filter(
+            $tabOrder,
+            function ($key) use ($tabsOriginal) {
+                return array_key_exists($key, $tabsOriginal);
+            }
+        );
+
         $tabs = array_merge(array_flip($tabOrder), $tabsOriginal);
         $formMapper->getAdmin()->setFormTabs($tabs);
     }
@@ -360,23 +369,21 @@ class PageAdmin extends Admin
     {
         $tabs = $this->getFormTabs();
 
-        if (!array_key_exists($tabName, $tabs)) {
-            throw new RuntimeException(sprintf('Tab with name \'%s\' could not be found.', $tabName));
-        }
+        if (array_key_exists($tabName, $tabs)) {
+            $groups = $this->getFormGroups();
 
-        $groups = $this->getFormGroups();
-
-        foreach ($tabs[$tabName]['groups'] as $group) {
-            if (isset($groups[$group])) {
-                foreach ($groups[$group]['fields'] as $field) {
-                    $formMapper->remove($field);
+            foreach ($tabs[$tabName]['groups'] as $group) {
+                if (isset($groups[$group])) {
+                    foreach ($groups[$group]['fields'] as $field) {
+                        $formMapper->remove($field);
+                    }
                 }
+                unset($groups[$group]);
             }
-            unset($groups[$group]);
-        }
 
-        $this->setFormGroups($groups);
-        $this->removeEmptyGroups();
+            $this->setFormGroups($groups);
+            $this->removeEmptyGroups();
+        }
     }
 
     /**
