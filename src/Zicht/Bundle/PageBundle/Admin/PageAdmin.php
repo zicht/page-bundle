@@ -177,7 +177,6 @@ class PageAdmin extends Admin
         ;
 
         if (($subject = $this->getSubject()) && $subject->getId()) {
-            dump($subject);
             if ($subject->getContentItemMatrix() && $subject->getContentItemMatrix()->getTypes()) {
                 if (!property_exists($subject, 'contentItems')) {
                     throw new \RuntimeException(sprintf('The zicht/page-bundle assumes that there is a property "contentItems" for the entity %s.  Note that this property must be either public of protected.', get_class($subject)));
