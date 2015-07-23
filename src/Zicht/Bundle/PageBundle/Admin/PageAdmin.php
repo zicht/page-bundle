@@ -11,6 +11,7 @@ use Sonata\AdminBundle\Admin\Admin;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
+use Symfony\Component\Form\Exception\RuntimeException;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Zicht\Bundle\MenuBundle\Entity\MenuItem;
@@ -326,6 +327,76 @@ class PageAdmin extends Admin
         $tabsOriginal = $formMapper->getAdmin()->getFormTabs();
         $tabs = array_merge(array_flip($tabOrder), $tabsOriginal);
         $formMapper->getAdmin()->setFormTabs($tabs);
+    }
+
+    /**
+     * Removes field (and also removes the tab when the tab/group is empty)
+     *
+     * @param string|array $fieldNames one fieldname or array of fieldnames
+     * @param FormMapper $formMapper
+     */
+    public function removeFields($fieldNames, FormMapper $formMapper)
+    {
+        if (!is_array($fieldNames)) {
+            $fieldNames = array($fieldNames);
+        }
+
+        foreach ($fieldNames as $fieldName) {
+            $formMapper->remove($fieldName);
+        }
+
+        $this->removeEmptyGroups();
+
+        return $this;
+    }
+
+    /**
+     * Removes tab and all it's fields in it
+     *
+     * @param string $tabName
+     * @param FormMapper $formMapper
+     */
+    public function removeTab($tabName, FormMapper $formMapper)
+    {
+        $tabs = $this->getFormTabs();
+
+        if (!array_key_exists($tabName, $tabs)) {
+            throw new RuntimeException(sprintf('Tab with name \'%s\' could not be found.', $tabName));
+        }
+
+        $groups = $this->getFormGroups();
+
+        foreach ($tabs[$tabName]['groups'] as $group) {
+            if (isset($groups[$group])) {
+                foreach ($groups[$group]['fields'] as $field) {
+                    $formMapper->remove($field);
+                }
+            }
+            unset($groups[$group]);
+        }
+
+        $this->setFormGroups($groups);
+        $this->removeEmptyGroups();
+    }
+
+    /**
+     * Removes the empty tabs from the groups
+     */
+    public function removeEmptyGroups()
+    {
+        $tabs = $this->getFormTabs();
+        $groups = $this->getFormGroups();
+
+        foreach ($tabs as $tabKey => $tab) {
+            foreach ($tab['groups'] as $tabGroup) {
+                if (!array_key_exists($tabGroup, $groups)) {
+                    echo $tabGroup . ' bestaat niet in groups';
+                    unset($tabs[$tabKey]);
+                }
+            }
+        }
+
+        $this->setFormTabs($tabs);
     }
 
     /**
