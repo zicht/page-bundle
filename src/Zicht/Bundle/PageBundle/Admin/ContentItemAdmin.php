@@ -38,7 +38,6 @@ class ContentItemAdmin extends Admin
         }
     }
 
-
     /**
      * @{inheritDoc}
      */

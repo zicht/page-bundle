@@ -4,6 +4,7 @@
 
     <parameters>
         <parameter key="zicht_page.page_url_provider.class">Zicht\Bundle\PageBundle\Url\PageUrlProvider</parameter>
+        <parameter key="zicht_page.admin.event_propagation_builder.class">Zicht\Bundle\PageBundle\AdminMenu\EventPropagationBuilder</parameter>
     </parameters>
     <services>
         <service id="zicht_page.page_url_provider" class="%zicht_page.page_url_provider.class%">
@@ -35,7 +36,7 @@
             <tag name="form.type" alias="zicht_discriminator_map"/>
         </service>
 
-        <service id="zicht_page.admin.event_propagation_builder" class="Zicht\Bundle\PageBundle\AdminMenu\EventPropagationBuilder">
+        <service id="zicht_page.admin.event_propagation_builder" class="%zicht_page.admin.event_propagation_builder.class%">
             <argument type="service" id="sonata.admin.pool"/>
             <tag name="zicht_admin.event_propagation" event="zicht_page.view"/>
         </service>
