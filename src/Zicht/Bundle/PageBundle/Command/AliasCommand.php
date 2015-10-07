@@ -6,6 +6,7 @@
 namespace Zicht\Bundle\PageBundle\Command;
 
 use \Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use \Symfony\Component\Console\Output\OutputInterface;
@@ -49,15 +50,27 @@ class AliasCommand extends ContainerAwareCommand
             $q->andWhere($filter);
         }
 
-        foreach ($q->getQuery()->execute() as $page) {
-            if ($output->getVerbosity() > OutputInterface::VERBOSITY_NORMAL) {
+        if ($output->getVerbosity() == OutputInterface::VERBOSITY_VERBOSE) {
+            $output->writeln("Querying records ...");
+        }
+        $items = $q->getQuery()->execute();
+
+        $progress = null;
+        $progress = new ProgressBar($output, count($items));
+        if ($output->getVerbosity() == OutputInterface::VERBOSITY_VERBOSE) {
+            $progress->display();
+        }
+        foreach ($items as $page) {
+            $progress->advance(1);
+            if ($output->getVerbosity() > OutputInterface::VERBOSITY_VERBOSE) {
                 $output->writeln("Aliasing page \"{$page}\"");
             }
             $result = $aliaser->createAlias($page);
-            if ($output->getVerbosity() > OutputInterface::VERBOSITY_NORMAL) {
+            if ($output->getVerbosity() > OutputInterface::VERBOSITY_VERBOSE) {
                 $output->writeln(" -> " . ($result ? '[created]' : '[already aliased]'));
             }
         }
+        $progress->finish();
         call_user_func($onDone);
     }
 }
