@@ -8,6 +8,7 @@
 namespace Zicht\Bundle\PageBundle\DependencyInjection;
 
 use \Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Definition;
 use \Symfony\Component\DependencyInjection\Reference;
 use \Symfony\Component\Config\FileLocator;
 use \Symfony\Component\HttpKernel\DependencyInjection\Extension;
@@ -29,8 +30,20 @@ class ZichtPageExtension extends Extension
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.xml');
 
-        if (true === $config['aliasing']) {
+        if (true === $config['aliasing']['enabled']) {
             $loader->load('aliasing.xml');
+
+            if (!empty($config['aliasing']['prefixLanguages'])) {
+                $def = new Definition(
+                    'Zicht\Bundle\PageBundle\Aliasing\Strategy\LanguageAwareAliasingStrategy', [
+                        new Reference($config['aliasing']['service']),
+                        $config['aliasing']['prefixLanguages']
+                    ]
+                );
+            } else {
+                $def = new Reference($config['aliasing']['service']);
+            }
+            $container->getDefinition('zicht_page.page_aliaser')->replaceArgument(2, $def);
         }
 
         $container

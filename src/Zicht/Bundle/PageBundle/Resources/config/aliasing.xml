@@ -13,7 +13,7 @@
         <service id="zicht_page.page_aliaser" class="Zicht\Bundle\UrlBundle\Aliasing\Aliaser">
             <argument type="service" id="zicht_url.aliasing"/>
             <argument type="service" id="zicht_page.page_url_provider"/>
-            <argument type="service" id="zicht_page.page_aliasing_strategy"/>
+            <argument /><!-- Replaced by dependeny injection (based on service id configured in the bundle config -->
             <argument type="service" id="security.access.decision_manager"/>
         </service>
 

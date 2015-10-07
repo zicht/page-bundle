@@ -6,7 +6,7 @@
 
 namespace Zicht\Bundle\PageBundle\Aliasing\Strategy;
 
-use \Zicht\Bundle\UrlBundle\Aliasing\AliasingStrategy;
+use Zicht\Bundle\UrlBundle\Aliasing\AliasingStrategy;
 
 /**
  * Class LanguageAwareAliasingStrategy
@@ -30,20 +30,21 @@ class LanguageAwareAliasingStrategy implements AliasingStrategy
      */
     protected $strategyWrapper;
 
-    public function __construct(AliasingStrategy $strategyWrapper)
+    public function __construct(AliasingStrategy $strategyWrapper, $localesToPrefix)
     {
         $this->strategyWrapper = $strategyWrapper;
+        $this->localesToPrefix = $localesToPrefix;
     }
 
     public function generatePublicAlias($subject, $currentAlias='') {
         $alias = $this->strategyWrapper->generatePublicAlias($subject, $currentAlias);
+
 
         if ($alias && method_exists($subject, 'getLanguage')) {
             if (in_array($subject->getLanguage(), $this->localesToPrefix)) {
                 $alias = sprintf('%s%s%s', $this->basePath, $subject->getLanguage(), $alias);
             }
         }
-
         return $alias;
     }
 

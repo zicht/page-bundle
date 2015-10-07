@@ -24,7 +24,13 @@ class Configuration implements ConfigurationInterface
 
         $rootNode
             ->children()
-                ->booleanNode('aliasing')->defaultValue(true)->end()
+                ->arrayNode('aliasing')
+                    ->canBeEnabled()
+                    ->children()
+                        ->scalarNode('service')->defaultValue('zicht_page.page_aliasing_strategy')->end()
+                        ->arrayNode('prefixLanguages')->prototype('scalar')->end()->end()
+                    ->end()
+                ->end()
                 ->arrayNode('types')
                     ->isRequired()
                     ->children()
@@ -45,8 +51,6 @@ class Configuration implements ConfigurationInterface
                     ->end()
                 ->end()
                 ->arrayNode('defaultRegions')->prototype('scalar')->isRequired()->end()->end()
-                // localePrefixes used in LanguageAwareAliasingStrategy
-                ->arrayNode('localePrefixes')->prototype('scalar')->end()->end()
             ->end()
         ;
 
