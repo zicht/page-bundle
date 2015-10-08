@@ -14,6 +14,7 @@ use Sonata\AdminBundle\Datagrid\ListMapper;
 use Symfony\Component\Form\Exception\RuntimeException;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
+use Zicht\Bundle\AdminBundle\Util\AdminUtil;
 use Zicht\Bundle\MenuBundle\Entity\MenuItem;
 use Zicht\Bundle\MenuBundle\Form\Subscriber\MenuItemPersistenceSubscriber;
 use Zicht\Bundle\PageBundle\Entity\ContentItem;
@@ -151,19 +152,30 @@ class PageAdmin extends Admin
         ;
     }
 
-
     /**
      * @{inheritDoc}
      */
     public function generateObjectUrl($name, $object, array $parameters = array(), $absolute = false)
     {
-        $admin = $this->configurationPool->getAdminByClass(get_class($object));
-        if ($admin && get_class($admin) !== get_class($this)) {
+        $admin = null;
+        foreach ($this->configurationPool->getAdminClasses() as $class => $admins) {
+            if ($object instanceof $class) {
+                foreach ($admins as $code) {
+                    // find the last admin that matches:
+                    $admin = $this->configurationPool->getAdminByAdminCode($code);
+
+                    if (get_class($admin) === get_class($this)) {
+                        // don't use this admin
+                        $admin = null;
+                    }
+                }
+            }
+        }
+        if ($admin) {
             return $admin->generateObjectUrl($name, $object, $parameters, $absolute);
         }
         return parent::generateObjectUrl($name, $object, $parameters, $absolute);
     }
-
 
     /**
      * @{inheritDoc}
@@ -311,30 +323,11 @@ class PageAdmin extends Admin
     }
 
     /**
-     * Allows to reorder Tabs
-     *
-     * Need the formMapper since the used methods to set the tabs
-     * are protected in the original Sonata implementation
-     *
-     * @param FormMapper $formMapper
-     * @param array $tabOrder
-     *
-     * @return void
+     * @deprecated See Zicht\Bundle\AdminBundle\Util\AdminUtil::reorderTabs
      */
     public function reorderTabs(FormMapper $formMapper, array $tabOrder)
     {
-        $tabsOriginal = $formMapper->getAdmin()->getFormTabs();
-
-        //filter out tabs that doesn't exist (yet)
-        $tabOrder = array_filter(
-            $tabOrder,
-            function ($key) use ($tabsOriginal) {
-                return array_key_exists($key, $tabsOriginal);
-            }
-        );
-
-        $tabs = array_merge(array_flip($tabOrder), $tabsOriginal);
-        $formMapper->getAdmin()->setFormTabs($tabs);
+        AdminUtil::reorderTabs($formMapper, $tabOrder);
     }
 
     /**
