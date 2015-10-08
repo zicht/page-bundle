@@ -11,6 +11,8 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use \Symfony\Component\Console\Output\OutputInterface;
 use \Symfony\Component\Console\Input\InputInterface;
+use Zicht\Bundle\UrlBundle\Aliasing\Aliaser;
+use Zicht\Bundle\UrlBundle\Aliasing\Aliasing;
 
 /**
  * Generates URL aliases for all pages.
@@ -27,6 +29,7 @@ class AliasCommand extends ContainerAwareCommand
             ->setName('zicht:page:alias')
             ->addArgument('entity', InputArgument::OPTIONAL, 'Only do a specific entity')
             ->addOption('where', 'w', InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'Add a WHERE query')
+            ->addOption('move', '', InputOption::VALUE_NONE, 'Force regeneration (use MOVE strategy for new aliases)')
         ;
     }
 
@@ -36,6 +39,12 @@ class AliasCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $aliaser = $this->getContainer()->get('zicht_page.page_aliaser');
+
+        if ($input->getOption('move')) {
+            $aliaser->setConflictingInternalUrlStrategy(Aliasing::STRATEGY_MOVE_PREVIOUS_TO_NEW);
+        } else {
+            $aliaser->setConflictingInternalUrlStrategy(Aliasing::STRATEGY_IGNORE);
+        }
 
         $onDone = $aliaser->setIsBatch(true);
 
