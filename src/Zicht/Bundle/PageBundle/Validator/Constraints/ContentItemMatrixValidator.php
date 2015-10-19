@@ -21,21 +21,23 @@ class ContentItemMatrixValidator extends ConstraintValidator
     {
         $matrix = $value->getContentItemMatrix();
 
-        foreach ($value->getContentItems() as $i => $contentItem) {
-            $type = get_class($contentItem);
+        if (null !== $matrix) {
+            foreach ($value->getContentItems() as $i => $contentItem) {
+                $type = get_class($contentItem);
 
-            if (!in_array($contentItem->getRegion(), $matrix->getRegions($type))) {
-                $this->context->addViolationAt(
-                    'contentItems[' . $i . ']',
-                    $this->translator->trans(
-                        "content_item.invalid.region.type.combination",
-                        array(
-                            '@region' => $contentItem->getRegion(),
-                            '@type' => $type
-                        ),
-                        'validators'
-                    )
-                );
+                if (!in_array($contentItem->getRegion(), $matrix->getRegions($type))) {
+                    $this->context->addViolationAt(
+                        'contentItems[' . $i . ']',
+                        $this->translator->trans(
+                            "content_item.invalid.region.type.combination",
+                            array(
+                                '@region' => $contentItem->getRegion(),
+                                '@type' => $type
+                            ),
+                            'validators'
+                        )
+                    );
+                }
             }
         }
     }
