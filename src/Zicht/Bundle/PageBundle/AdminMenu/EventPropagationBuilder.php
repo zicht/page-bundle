@@ -5,13 +5,13 @@
  */
 namespace Zicht\Bundle\PageBundle\AdminMenu;
 
-use Sro\Service\ContextManager\ProviderInterface;
 use Symfony\Component\EventDispatcher\Event;
 use Sonata\AdminBundle\Admin\Pool;
 use Zicht\Bundle\AdminBundle\Event\AdminEvents;
 use Zicht\Bundle\AdminBundle\Event\MenuEvent;
 use Zicht\Bundle\AdminBundle\Event\PropagationInterface;
 use Zicht\Bundle\PageBundle\Event\PageViewEvent;
+use Zicht\Bundle\UrlBundle\Url\Provider;
 
 /**
  * Propagates a PageView event as an AdminMenu event.
@@ -23,7 +23,7 @@ class EventPropagationBuilder implements PropagationInterface
      *
      * @param \Sonata\AdminBundle\Admin\Pool $sonata
      */
-    public function __construct(Pool $sonata, ProviderInterface $pageUrlProvider)
+    public function __construct(Pool $sonata, Provider $pageUrlProvider = null)
     {
         $this->sonata = $sonata;
         $this->pageUrlProvider = $pageUrlProvider;
@@ -60,24 +60,26 @@ class EventPropagationBuilder implements PropagationInterface
                 )
             );
 
-            $zzPage = clone $e->getPage();
-            $zzPage->setLanguage('zz');
+            if (null !== $this->pageUrlProvider) {
+                $zzPage = clone $e->getPage();
+                $zzPage->setLanguage('zz');
 
-            $e->getDispatcher()->dispatch(
-                AdminEvents::MENU_EVENT,
-                new MenuEvent(
-                    $this->pageUrlProvider->url($zzPage),
-                    'Vertalingen'
-                )
-            );
+                $e->getDispatcher()->dispatch(
+                    AdminEvents::MENU_EVENT,
+                    new MenuEvent(
+                        $this->pageUrlProvider->url($zzPage),
+                        'Vertalingen'
+                    )
+                );
 
-            $e->getDispatcher()->dispatch(
-                AdminEvents::MENU_EVENT,
-                new MenuEvent(
-                    $this->pageUrlProvider->url($e->getPage()),
-                    'Pagina herladen'
-                )
-            );
+                $e->getDispatcher()->dispatch(
+                    AdminEvents::MENU_EVENT,
+                    new MenuEvent(
+                        $this->pageUrlProvider->url($e->getPage()),
+                        'Pagina herladen'
+                    )
+                );
+            }
         }
     }
 }
