@@ -25,11 +25,14 @@ class ScheduledContentVoter extends AdminAwareVoterAbstract
      * @param \DateTime $scheduledTill
      * @return int
      */
-    public static function decide($scheduledFrom, $scheduledTill)
+    public static function decide(ScheduledContentInterface $object)
     {
+        $scheduledFrom = $object->isScheduledFrom();
+        $scheduledTill = $object->isScheduledTill();
+
         $vote = VoterInterface::ACCESS_ABSTAIN;
 
-        if (null !== $scheduledFrom && null !== $scheduledTill) {
+        if (null !== $scheduledFrom || null !== $scheduledTill) {
             $currentDateTime = new \DateTime();
             if (null !== $scheduledFrom && null !== $scheduledTill) {
                 // Check between datetime objects
@@ -87,7 +90,7 @@ class ScheduledContentVoter extends AdminAwareVoterAbstract
                     continue;
                 }
 
-                $vote = self::decide($object->isScheduledFrom(), $object->isScheduledTill());
+                $vote = self::decide($object);
             }
         }
 
