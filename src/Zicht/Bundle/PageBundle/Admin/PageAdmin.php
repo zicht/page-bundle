@@ -20,7 +20,7 @@ use \Zicht\Bundle\PageBundle\Model\PageInterface;
 
 use \Zicht\Bundle\MenuBundle\Manager\MenuManager;
 use \Zicht\Bundle\UrlBundle\Aliasing\ProviderDecorator;
-use Zicht\Bundle\UrlBundle\Url\Provider;
+use \Zicht\Bundle\UrlBundle\Url\Provider;
 
 /**
  * Admin for the messages catalogue
