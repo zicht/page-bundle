@@ -50,11 +50,17 @@ class PageUrlProvider extends AbstractRoutingProvider implements SuggestableProv
     public function routing($page, array $options = array())
     {
         if (is_callable(array($page, 'getLanguage')) && $page->getLanguage()) {
+            if (array_key_exists('_locale', $options)) {
+                $locale = $options['_locale'];
+            } else {
+                $locale = $page->getLanguage();
+            }
+
             return array(
                 'zicht_page_page_view',
                 array(
                     'id' => $page->getId(),
-                    '_locale' => $page->getLanguage()
+                    '_locale' => $locale,
                 )
             );
         } else {
