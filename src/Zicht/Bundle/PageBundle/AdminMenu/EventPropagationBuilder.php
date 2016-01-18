@@ -59,27 +59,6 @@ class EventPropagationBuilder implements PropagationInterface
                     )
                 )
             );
-
-            if (null !== $this->pageUrlProvider) {
-                $zzPage = clone $e->getPage();
-                $zzPage->setLanguage('zz');
-
-                $e->getDispatcher()->dispatch(
-                    AdminEvents::MENU_EVENT,
-                    new MenuEvent(
-                        $this->pageUrlProvider->url($zzPage),
-                        'Vertalingen'
-                    )
-                );
-
-                $e->getDispatcher()->dispatch(
-                    AdminEvents::MENU_EVENT,
-                    new MenuEvent(
-                        $this->pageUrlProvider->url($e->getPage()),
-                        'Pagina herladen'
-                    )
-                );
-            }
         }
     }
 }
