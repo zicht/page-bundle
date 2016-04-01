@@ -42,8 +42,11 @@ class EventPropagationBuilder implements PropagationInterface
 
         $page = $e->getPage();
         if (
-            ($admin = $this->sonata->getAdminByClass(get_class($page)))
-            || ($admin = $this->sonata->getAdminByClass(get_parent_class($page)))
+            $page->getId()
+            && (
+                ($admin = $this->sonata->getAdminByClass(get_class($page)))
+                || ($admin = $this->sonata->getAdminByClass(get_parent_class($page)))
+            )
         ) {
             $title = $e->getPage()->getTitle();
             /** @var \Zicht\Bundle\PageBundle\Event\PageViewEvent $e */

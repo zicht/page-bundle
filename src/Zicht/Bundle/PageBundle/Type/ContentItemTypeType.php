@@ -109,14 +109,14 @@ class ContentItemTypeType extends AbstractType
         $view->vars['type'] = null;
         $view->vars['edit_url'] = null;
 
-        if ($subject->getId()) {
-            $view->vars['type']= Str::humanize(Str::classname($subject->getConvertToType()));
 
+        try {
             if ($typeAdmin = $this->sonata->getAdminByClass(get_class($subject))) {
+                $view->vars['type']= Str::humanize(Str::classname($subject->getConvertToType()));
                 $childAdmin = $this->sonata->getAdminByAdminCode($parentAdmin->getCode() . '|' . $typeAdmin->getCode());
                 $childAdmin->setRequest($genericAdmin->getRequest());
 
-                if ($subject && $subject->getId() && $subject->getPage() && $subject->getPage()->getId()) {
+                if ($subject && $subject->getPage() && $subject->getPage()->getId()) {
                     try {
                         $view->vars['edit_url'] = $childAdmin->generateObjectUrl('edit', $subject);
                     } catch (InvalidParameterException $e) {
@@ -127,6 +127,7 @@ class ContentItemTypeType extends AbstractType
                     }
                 }
             }
+        } catch (\RuntimeException $e) {
         }
     }
 

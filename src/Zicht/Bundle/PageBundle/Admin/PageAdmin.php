@@ -199,7 +199,9 @@ class PageAdmin extends Admin
                         ->add(
                             'contentItems',
                             'sonata_type_collection',
-                            array(),
+                            array(
+                                'btn_add' => 'content_item.add'
+                            ),
                             array(
                                 'edit'   => 'inline',
                                 'inline' => 'table',
@@ -241,11 +243,7 @@ class PageAdmin extends Admin
             }
             $formMapper
                 ->tab('admin.tab.menu')
-                        ->add(
-                            'menu_item',
-                            'zicht_menu_item',
-                            array('translation_domain' => $this->getTranslationDomain())
-                        )
+                        ->add('menu_item', 'zicht_menu_item', array('translation_domain' => $this->getTranslationDomain()))
                     ->end()
                 ->end()
             ;
@@ -404,4 +402,6 @@ class PageAdmin extends Admin
     {
         return sprintf('admin.label.%s', Str::infix(lcfirst(Str::classname(get_class($this))), '_'));
     }
+
+
 }
