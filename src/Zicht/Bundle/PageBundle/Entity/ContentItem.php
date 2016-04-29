@@ -100,4 +100,15 @@ abstract class ContentItem implements ContentItemInterface
     {
         return (string)$this;
     }
+
+    /**
+     * get region of content item, for BC just
+     * setting as empty place holder.
+     *
+     * @return string
+     */
+    public function getRegion()
+    {
+
+    }
 }

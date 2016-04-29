@@ -5,12 +5,13 @@
  */
 namespace Zicht\Bundle\PageBundle\AdminMenu;
 
-use \Symfony\Component\EventDispatcher\Event;
-use \Sonata\AdminBundle\Admin\Pool;
-use \Zicht\Bundle\AdminBundle\Event\AdminEvents;
-use \Zicht\Bundle\AdminBundle\Event\MenuEvent;
-use \Zicht\Bundle\AdminBundle\Event\PropagationInterface;
-use \Zicht\Bundle\PageBundle\Event\PageViewEvent;
+use Symfony\Component\EventDispatcher\Event;
+use Sonata\AdminBundle\Admin\Pool;
+use Zicht\Bundle\AdminBundle\Event\AdminEvents;
+use Zicht\Bundle\AdminBundle\Event\MenuEvent;
+use Zicht\Bundle\AdminBundle\Event\PropagationInterface;
+use Zicht\Bundle\PageBundle\Event\PageViewEvent;
+use Zicht\Bundle\UrlBundle\Url\Provider;
 
 /**
  * Propagates a PageView event as an AdminMenu event.
@@ -22,9 +23,10 @@ class EventPropagationBuilder implements PropagationInterface
      *
      * @param \Sonata\AdminBundle\Admin\Pool $sonata
      */
-    public function __construct(Pool $sonata)
+    public function __construct(Pool $sonata, Provider $pageUrlProvider = null)
     {
         $this->sonata = $sonata;
+        $this->pageUrlProvider = $pageUrlProvider;
     }
 
 

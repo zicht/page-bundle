@@ -86,6 +86,42 @@ final class ContentItemMatrix
         return $this;
     }
 
+    /**
+     * Remove a region
+     *
+     * @param string $region
+     * @return $this
+     */
+    public function removeRegion($region)
+    {
+        if (array_key_exists($region, $this->matrix)) {
+            unset($this->matrix[$region]);
+        }
+        return $this;
+    }
+
+    /**
+     * Remove a type from a region
+     *
+     * @param string $type
+     * @param string $region
+     *
+     * @return $this
+     */
+    public function removeTypeFromRegion($type, $region)
+    {
+        if (array_key_exists($region, $this->matrix)) {
+            array_walk($this->matrix[$region], function ($value, $idx, $matrix) use ($type, $region) {
+                $class = explode('\\', $value);
+                $className = array_pop($class);
+                if ($className === $type) {
+                    unset($matrix[$region][$idx]);
+                }
+            }, $this->matrix);
+        }
+        return $this;
+    }
+
 
     /**
      * Adds the type to the currently selected region.
