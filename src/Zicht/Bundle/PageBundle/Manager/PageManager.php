@@ -6,6 +6,7 @@
 
 namespace Zicht\Bundle\PageBundle\Manager;
 
+use Doctrine\Common\Util\ClassUtils;
 use \Doctrine\ORM\Mapping\ClassMetadata;
 use \Doctrine\Bundle\DoctrineBundle\Registry;
 use \Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -55,7 +56,7 @@ class PageManager
     public function getTemplate($page)
     {
         // determine page bundle name.
-        $bundle = $this->getBundleName(get_class($page));
+        $bundle = $this->getBundleName(ClassUtils::getRealClass(get_class($page)));
         return sprintf('%s:Page:%s.html.twig', $bundle, $page->getTemplateName());
     }
 
