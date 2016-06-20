@@ -8,5 +8,6 @@ weight: Gewicht
 content_item_region: Regio
 content_item_type: Soort
 content_item_region.empty_value: "Selecteer regio"
+content_item.add: "Nieuw item toevoegen"
 left: Links
 right: Rechts

@@ -8,5 +8,6 @@ weight: Weight
 content_item_region: Region
 content_item_type: Type
 content_item_region.empty_value: "Select region"
+content_item.add: "Add new item"
 left: Left
 right: Right
