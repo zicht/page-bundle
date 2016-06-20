@@ -10,12 +10,13 @@
     ],
     "require": {
         "php": ">=5.3",
-        "zicht/util": ">=1.5"
+        "zicht/util": ">=1.5",
+        "phpunit/phpunit": "4.*@stable"
     },
     "require-dev": {
         "symfony/symfony": "*",
         "doctrine/orm": ">=2.2.3,<2.4-dev",
-        "doctrine/doctrine-bundle": "1.0.*",
+        "doctrine/doctrine-bundle": "1.*",
         "zicht/admin-bundle": "*",
         "zicht/url-bundle": ">=1.6",
         "sonata-project/admin-bundle": "*",

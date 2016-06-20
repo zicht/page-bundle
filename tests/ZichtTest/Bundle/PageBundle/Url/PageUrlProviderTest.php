@@ -4,7 +4,8 @@
  * @copyright Zicht Online <http://zicht.nl>
  */
 namespace ZichtTest\Bundle\PageBundle\Url {
-class PageUrlProviderTest extends \PHPUnit_Framework_TestCase
+
+    class PageUrlProviderTest extends \PHPUnit_Framework_TestCase
 {
     public function testConstruct()
     {
@@ -98,6 +99,9 @@ class PageUrlProviderTest extends \PHPUnit_Framework_TestCase
 }
 
 namespace Foo\Bar {
+
+    use Zicht\Bundle\PageBundle\Model\ContentItemInterface;
+
     class Baz {}
     class Page implements \Zicht\Bundle\PageBundle\Model\PageInterface {
         public function getId() {}
@@ -105,6 +109,10 @@ namespace Foo\Bar {
         public function getContentItemMatrix() {}
         public function getTemplateName() {}
         public function getDisplayType() {}
+        public function getContentItems($region = null) {}
+        public function addContentItem(ContentItemInterface $contentItem) {}
+        public function removeContentItem(ContentItemInterface $contentItem) {}
+        public function isPublic() {}
     }
     class SubPage extends Page {}
 }

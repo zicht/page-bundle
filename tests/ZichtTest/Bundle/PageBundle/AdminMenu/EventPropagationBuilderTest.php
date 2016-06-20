@@ -6,8 +6,10 @@
 namespace ZichtTest\Bundle\PageBundle\AdminMenu;
  
 use Zicht\Bundle\PageBundle\AdminMenu\EventPropagationBuilder;
+use Zicht\Bundle\PageBundle\Model\ContentItemInterface;
+use ZichtTest\Bundle\PageBundle\Assets\PageAdapter;
 
-class P1 extends \Zicht\Bundle\PageBundle\Entity\Page
+class P1 extends PageAdapter
 {
     public function __construct($title)
     {
@@ -22,6 +24,7 @@ class P1 extends \Zicht\Bundle\PageBundle\Entity\Page
      */
     public function getId()
     {
+        return rand(1, 100);
     }
 
     /**
@@ -52,9 +55,14 @@ class EventPropagationBuilderTest extends \PHPUnit_Framework_TestCase
     function testFiringPageViewEventWillCheckClassHierarchyForAdminClass()
     {
         $classes = array();
-        $this->pool->expects($this->any())->method('getAdminByClass')->will($this->returnCallback(function($c) use(&$classes){
-            $classes[] = $c;
-        }));
+        $this->pool
+            ->expects($this->any())
+            ->method('getAdminByClass')
+            ->will(
+                $this->returnCallback(function($c) use(&$classes){
+                    $classes[] = $c;
+                })
+            );
         $event = new \Zicht\Bundle\PageBundle\Event\PageViewEvent(new P1('bar'));
         $this->propagator->buildAndForwardEvent($event);
 
@@ -62,7 +70,7 @@ class EventPropagationBuilderTest extends \PHPUnit_Framework_TestCase
             $classes,
             array(
                 'ZichtTest\Bundle\PageBundle\AdminMenu\P1',
-                'Zicht\Bundle\PageBundle\Entity\Page'
+                'ZichtTest\Bundle\PageBundle\Assets\PageAdapter'
             )
         );
     }

@@ -6,9 +6,11 @@
 
 namespace ZichtTest\Bundle\PageBundle\Controller;
 
-use Zicht\Bundle\PageBundle\Entity\Page as BasePage;
+use Symfony\Component\HttpFoundation\RequestStack;
+use Zicht\Bundle\PageBundle\Controller\PageController;
+use ZichtTest\Bundle\PageBundle\Assets\PageAdapter;
 
-class Page extends BasePage {
+class Page extends PageAdapter {
     public function __construct($id)
     {
         $this->id = $id;
@@ -26,7 +28,8 @@ class Page extends BasePage {
     }
 }
 
-class CPage extends Page implements \Zicht\Bundle\PageBundle\Entity\ControllerPageInterface {
+class CPage extends Page implements \Zicht\Bundle\PageBundle\Entity\ControllerPageInterface
+{
     public function getController()
     {
         return 'Foo:Bar';
@@ -40,9 +43,13 @@ class CPage extends Page implements \Zicht\Bundle\PageBundle\Entity\ControllerPa
 
 class PageControllerTest extends \PHPUnit_Framework_TestCase
 {
+    /** @var PageController */
+    private $controller;
+
+
     public function setUp()
     {
-        $this->controller = new \Zicht\Bundle\PageBundle\Controller\PageController();
+        $this->controller = new PageController();
         $this->pm = $this->getMockBuilder('Zicht\Bundle\PageBundle\Manager\PageManager')->disableOriginalConstructor()->getMock();
         $this->templating =  $this->getMockBuilder('Symfony\Bundle\FrameworkBundle\Templating\EngineInterface')->getMock();
         $this->request = new \Symfony\Component\HttpFoundation\Request;
@@ -51,6 +58,9 @@ class PageControllerTest extends \PHPUnit_Framework_TestCase
         $container->set('zicht_page.page_manager', $this->pm);
         $container->set('templating', $this->templating);
         $container->set('request', $this->request);
+        $container->set('request_stack', $rs = new RequestStack());
+        $rs->push($this->request);
+
         $container->set('http_kernel', $this->kernel);
         $this->security = $this->getMock('Symfony\Component\Security\Core\SecurityContextInterface');
         $container->set('security.context', $this->security);
@@ -91,7 +101,7 @@ class PageControllerTest extends \PHPUnit_Framework_TestCase
         $id = rand(1, 100);
         $page = new CPage($id);
         $this->pm->expects($this->once())->method('findForView')->with($id)->will($this->returnValue($page));
-        $this->kernel->expects($this->once())->method('forward');
+        $this->kernel->expects($this->once())->method('handle');
         $this->controller->viewAction($id);
     }
 

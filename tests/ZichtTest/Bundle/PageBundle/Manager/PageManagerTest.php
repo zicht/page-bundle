@@ -9,7 +9,10 @@ namespace {
 }
 
 namespace My\PageBundle\Entity {
-    class FooBarPage extends \Zicht\Bundle\PageBundle\Entity\Page {
+
+    use ZichtTest\Bundle\PageBundle\Assets\PageAdapter;
+
+    class FooBarPage extends PageAdapter {
         public function getTitle()
         {
             return '';
@@ -29,6 +32,8 @@ namespace My\PageBundle\Entity {
 }
 
 namespace ZichtTest\Bundle\PageBundle\Manager {
+
+    use Zicht\Util\Str;
 
     class PageManagerTest extends \PHPUnit_Framework_TestCase
     {
@@ -85,14 +90,17 @@ namespace ZichtTest\Bundle\PageBundle\Manager {
         {
             $types = array(
                 'some' => 'SomePage',
-                'some-other' => 'SomeOtherPage'
+                'some-other' => 'SomeOtherPage',
             );
             $this->pageManager->setPageTypes(array_values($types));
 
             $c = new \Doctrine\ORM\Mapping\ClassMetadata($this->pageClassName);
             $this->pageManager->decorateClassMetaData($c);
 
-            $this->assertEquals($types, $c->discriminatorMap);
+            $discriminatorMap = $types;
+            $discriminatorMap['page'] = $this->pageClassName;
+
+            $this->assertEquals($discriminatorMap, $c->discriminatorMap);
             $this->assertEquals(array_values($types), array_values($c->subClasses));
         }
 
@@ -107,7 +115,10 @@ namespace ZichtTest\Bundle\PageBundle\Manager {
             $c = new \Doctrine\ORM\Mapping\ClassMetadata($this->contentItemClassName);
             $this->pageManager->decorateClassMetaData($c);
 
-            $this->assertEquals($types, $c->discriminatorMap);
+            $discriminatorMap = $types;
+            $discriminatorMap['contentitem'] = $this->contentItemClassName;
+
+            $this->assertEquals($discriminatorMap, $c->discriminatorMap);
             $this->assertEquals(array_values($types), array_values($c->subClasses));
         }
 
