@@ -60,7 +60,8 @@ class DiscriminatorMapType extends ChoiceType
             ->setDefaults(
                 array(
                     'choices' => $choiceCallback,
-                    'choice_filter' => ''
+                    'choice_filter' => '',
+                    'translation_domain' => 'admin',
                 )
             )
         ;

@@ -61,7 +61,8 @@ class ContentItemRegionType extends AbstractType
                 'inherit_data'    => true,
                 'data_class' => $this->contentItemClassName,
                 'container'  => '',
-                'default_regions' => $this->defaultRegions
+                'default_regions' => $this->defaultRegions,
+                'translation_domain' => 'admin',
             )
         );
     }

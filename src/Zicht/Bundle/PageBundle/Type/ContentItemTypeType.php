@@ -51,7 +51,8 @@ class ContentItemTypeType extends AbstractType
                 array(
                     'inherit_data' => true,
                     'data_class' => $this->contentItemClass,
-                    'container' => ''
+                    'container' => '',
+                    'translation_domain' => 'admin',
                 )
             )
         ;
