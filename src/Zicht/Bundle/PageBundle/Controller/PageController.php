@@ -58,7 +58,7 @@ class PageController extends AbstractController
      *
      * @Route("page/{id}")
      */
-    public function viewAction($id)
+    public function viewAction(Request $request, $id)
     {
         /** @var $pageManager \Zicht\Bundle\PageBundle\Manager\PageManager */
         $pageManager = $this->getPageManager();
@@ -74,11 +74,11 @@ class PageController extends AbstractController
                 $page->getController(),
                 (array)$page->getControllerParameters()
                 + array(
-                    'parameters' => $this->getRequest()->query->all(),
-                    '_locale'       => $this->getRequest()->attributes->get('_locale'),
-                    '_internal_url' => $this->getRequest()->attributes->get('_internal_url'),
+                    'parameters' => $request->query->all(),
+                    '_locale'       => $request->attributes->get('_locale'),
+                    '_internal_url' => $request->attributes->get('_internal_url'),
                 ),
-                $this->getRequest()->query->all()
+                $request->query->all()
             );
         }
 
@@ -106,10 +106,10 @@ class PageController extends AbstractController
 
 
     /**
-     * @return \Symfony\Component\Security\Core\SecurityContext
+     * @return \Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface
      */
     public function getSecurityContext()
     {
-        return $this->get('security.context');
+        return $this->get('security.authorization_checker');
     }
 }
