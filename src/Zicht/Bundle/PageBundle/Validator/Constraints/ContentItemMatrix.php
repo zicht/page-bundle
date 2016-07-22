@@ -5,7 +5,7 @@
  */
 namespace Zicht\Bundle\PageBundle\Validator\Constraints;
 
-use \Symfony\Component\Validator\Constraint;
+use Symfony\Component\Validator\Constraint;
 
 class ContentItemMatrix extends Constraint
 {
@@ -13,8 +13,7 @@ class ContentItemMatrix extends Constraint
     {
         return self::CLASS_CONSTRAINT;
     }
-
-
+    
     public function validatedBy()
     {
         return 'zicht_page.validator.content_item_matrix_validator';

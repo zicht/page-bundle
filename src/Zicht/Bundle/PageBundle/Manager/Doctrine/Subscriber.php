@@ -6,10 +6,10 @@
 
 namespace Zicht\Bundle\PageBundle\Manager\Doctrine;
 
-use \Doctrine\Common\EventSubscriber;
-use \Doctrine\ORM\Event\LoadClassMetadataEventArgs;
-use \Doctrine\ORM\Events;
-use \Symfony\Component\DependencyInjection\ContainerInterface;
+use Doctrine\Common\EventSubscriber;
+use Doctrine\ORM\Event\LoadClassMetadataEventArgs;
+use Doctrine\ORM\Events;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Subscriber for loading the class metadata for content items and pages. Delegates to

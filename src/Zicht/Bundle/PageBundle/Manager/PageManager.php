@@ -7,13 +7,12 @@
 namespace Zicht\Bundle\PageBundle\Manager;
 
 use Doctrine\Common\Util\ClassUtils;
-use \Doctrine\ORM\Mapping\ClassMetadata;
-use \Doctrine\Bundle\DoctrineBundle\Registry;
-use \Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use \Zicht\Bundle\PageBundle\Event;
-use \Zicht\Bundle\PageBundle\Model\PageInterface;
-use \Zicht\Util\Str;
-use \Zicht\Bundle\PageBundle\Entity\ViewablePageRepository;
+use Doctrine\ORM\Mapping\ClassMetadata;
+use Doctrine\Bundle\DoctrineBundle\Registry;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Zicht\Bundle\PageBundle\Event;
+use Zicht\Util\Str;
+use Zicht\Bundle\PageBundle\Entity\ViewablePageRepository;
 
 /**
  * Main service for page management

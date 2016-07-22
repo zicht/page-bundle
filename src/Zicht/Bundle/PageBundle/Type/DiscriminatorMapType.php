@@ -6,11 +6,11 @@
 
 namespace Zicht\Bundle\PageBundle\Type;
 
-use \Doctrine\Bundle\DoctrineBundle\Registry;
-use \Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use \Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use \Symfony\Component\OptionsResolver\Options;
-use \Zicht\Util\Str;
+use Doctrine\Bundle\DoctrineBundle\Registry;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\Options;
+use Zicht\Util\Str;
 
 /**
  * Provides a dropdown to select a type specified by doctrine's discriminator map.

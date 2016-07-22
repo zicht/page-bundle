@@ -6,15 +6,13 @@
 
 namespace Zicht\Bundle\PageBundle\Url;
 
-use \Symfony\Component\Routing\RouterInterface;
-
-use \Symfony\Component\Security\Core\SecurityContextInterface;
-use \Zicht\Bundle\PageBundle\Model\PageInterface;
-use \Zicht\Bundle\PageBundle\Manager\PageManager;
-use \Zicht\Bundle\UrlBundle\Url\ListableProvider;
-use \Zicht\Bundle\UrlBundle\Url\SuggestableProvider;
-use \Zicht\Bundle\UrlBundle\Url\AbstractRoutingProvider;
-use \Zicht\Util\Str;
+use Symfony\Component\Routing\RouterInterface;
+use Symfony\Component\Security\Core\SecurityContextInterface;
+use Zicht\Bundle\PageBundle\Model\PageInterface;
+use Zicht\Bundle\PageBundle\Manager\PageManager;
+use Zicht\Bundle\UrlBundle\Url\ListableProvider;
+use Zicht\Bundle\UrlBundle\Url\SuggestableProvider;
+use Zicht\Bundle\UrlBundle\Url\AbstractRoutingProvider;
 
 /**
  * Provides urls for page objects.

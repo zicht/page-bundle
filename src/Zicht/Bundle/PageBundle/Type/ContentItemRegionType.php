@@ -5,15 +5,14 @@
  */
 namespace Zicht\Bundle\PageBundle\Type;
 
-use \Symfony\Component\Form\FormInterface;
-use \Symfony\Component\Form\FormView;
-use \Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use \Symfony\Component\Form\FormBuilderInterface;
-use \Symfony\Component\Form\AbstractType;
-use \Symfony\Component\Translation\TranslatorInterface;
-use \Zicht\Bundle\PageBundle\Model\ContentItemContainer;
-use \Zicht\Util\Str;
-
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Form\FormView;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Translation\TranslatorInterface;
+use Zicht\Bundle\PageBundle\Model\ContentItemContainer;
+use Zicht\Util\Str;
 
 /**
  * Provides a type for selecting the region of the content item.

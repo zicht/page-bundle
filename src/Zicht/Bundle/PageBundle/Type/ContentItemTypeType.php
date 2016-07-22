@@ -5,22 +5,17 @@
  */
 namespace Zicht\Bundle\PageBundle\Type;
 
-use \Sonata\AdminBundle\Admin\Pool;
-
-use Sonata\DoctrineORMAdminBundle\Admin\FieldDescription;
-use \Symfony\Component\Form;
-use \Symfony\Component\Form\AbstractType;
-use \Symfony\Component\Form\FormBuilderInterface;
-use \Symfony\Component\Form\FormView;
-use \Symfony\Component\Form\FormInterface;
-use \Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use \Symfony\Component\Routing\Exception\InvalidParameterException;
+use Sonata\AdminBundle\Admin\Pool;
+use Symfony\Component\Form;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormView;
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\Routing\Exception\InvalidParameterException;
 use Symfony\Component\Routing\Exception\MissingMandatoryParametersException;
-use Zicht\Bundle\PageBundle\Admin\ContentItemAdmin;
-use \Zicht\Bundle\PageBundle\Entity\ContentItem;
-use \Zicht\Bundle\PageBundle\Model\ContentItemContainer;
-use \Zicht\Util\Str;
-
+use Zicht\Bundle\PageBundle\Model\ContentItemContainer;
+use Zicht\Util\Str;
 
 /**
  * Provides a "type" dropdown for creating content items, and a "edit link" for editing content items

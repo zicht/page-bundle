@@ -6,8 +6,8 @@
 
 namespace Zicht\Bundle\PageBundle\DependencyInjection;
 
-use \Symfony\Component\Config\Definition\Builder\TreeBuilder;
-use \Symfony\Component\Config\Definition\ConfigurationInterface;
+use Symfony\Component\Config\Definition\Builder\TreeBuilder;
+use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 /**
  * Page bundle configuration

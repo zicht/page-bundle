@@ -5,10 +5,9 @@
  */
 namespace Zicht\Bundle\PageBundle;
 
-use \Symfony\Component\DependencyInjection\ContainerBuilder;
-use \Symfony\Component\DependencyInjection\Compiler\PassConfig;
-use \Symfony\Component\HttpKernel\Bundle\Bundle;
-use \Sonata\AdminBundle\DependencyInjection\Compiler\AddDependencyCallsCompilerPass;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\HttpKernel\Bundle\Bundle;
+use Sonata\AdminBundle\DependencyInjection\Compiler\AddDependencyCallsCompilerPass;
 
 /**
  * Bundle providing "page" -> "content-item" structure
