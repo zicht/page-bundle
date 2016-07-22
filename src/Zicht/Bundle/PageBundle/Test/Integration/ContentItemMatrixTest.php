@@ -6,8 +6,8 @@
 
 namespace Zicht\Bundle\PageBundle\Test\Integration;
 
-use \Zicht\Bundle\PageBundle\Controller\PageController;
-use \Zicht\Bundle\PageBundle\Model\ContentItemMatrix;
+use Zicht\Bundle\PageBundle\Controller\PageController;
+use Zicht\Bundle\PageBundle\Model\ContentItemMatrix;
 
 class ContentItemMatrixTest extends AbstractPageTest
 {

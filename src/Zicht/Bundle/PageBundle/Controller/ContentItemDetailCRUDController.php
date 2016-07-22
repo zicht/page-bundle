@@ -6,7 +6,7 @@
 
 namespace Zicht\Bundle\PageBundle\Controller;
 
-use \Sonata\AdminBundle\Controller\CRUDController;
+use Sonata\AdminBundle\Controller\CRUDController;
 
 /**
  * Controller used for the ContentItem detail CRUD.

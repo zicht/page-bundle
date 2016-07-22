@@ -5,8 +5,9 @@
  */
 namespace ZichtTest\Bundle\PageBundle\AdminMenu;
  
+use Symfony\Component\EventDispatcher\EventDispatcher;
 use Zicht\Bundle\PageBundle\AdminMenu\EventPropagationBuilder;
-use Zicht\Bundle\PageBundle\Model\ContentItemInterface;
+use Zicht\Bundle\PageBundle\Event\PageViewEvent;
 use ZichtTest\Bundle\PageBundle\Assets\PageAdapter;
 
 class P1 extends PageAdapter
@@ -63,8 +64,11 @@ class EventPropagationBuilderTest extends \PHPUnit_Framework_TestCase
                     $classes[] = $c;
                 })
             );
-        $event = new \Zicht\Bundle\PageBundle\Event\PageViewEvent(new P1('bar'));
-        $this->propagator->buildAndForwardEvent($event);
+
+        $dispatcher = $this->getMock(EventDispatcher::class);
+
+        $event = new PageViewEvent(new P1('bar'));
+        $this->propagator->buildAndForwardEvent($event, 'event', $dispatcher);
 
         $this->assertEquals(
             $classes,
@@ -80,9 +84,9 @@ class EventPropagationBuilderTest extends \PHPUnit_Framework_TestCase
         $dispatcher = $this->getMock('Symfony\Component\EventDispatcher\EventDispatcher');
         $this->pool->expects($this->any())->method('getAdminByClass')->will($this->returnValue(null));
         $event = new \Symfony\Component\EventDispatcher\Event();
-        $event->setDispatcher($dispatcher);
+
         $dispatcher->expects($this->never())->method('dispatch');
-        $this->propagator->buildAndForwardEvent($event);
+        $this->propagator->buildAndForwardEvent($event, 'some event', $dispatcher);
     }
 
 
@@ -90,10 +94,10 @@ class EventPropagationBuilderTest extends \PHPUnit_Framework_TestCase
     {
         $dispatcher = $this->getMock('Symfony\Component\EventDispatcher\EventDispatcher');
         $this->pool->expects($this->any())->method('getAdminByClass')->will($this->returnValue(null));
-        $event = new \Zicht\Bundle\PageBundle\Event\PageViewEvent(new P1("bar"));
-        $event->setDispatcher($dispatcher);
+        $event = new PageViewEvent(new P1("bar"));
+
         $dispatcher->expects($this->never())->method('dispatch');
-        $this->propagator->buildAndForwardEvent($event);
+        $this->propagator->buildAndForwardEvent($event, 'some event', $dispatcher);
     }
 
     function testFiringPageViewEventWillFirEventIfAdminIsAvailable()
@@ -102,11 +106,11 @@ class EventPropagationBuilderTest extends \PHPUnit_Framework_TestCase
         $admin = $this->getMockBuilder('Sonata\AdminBundle\Admin\Admin')->disableOriginalConstructor()->getMock();
         $this->pool->expects($this->once())->method('getAdminByClass')->with('ZichtTest\Bundle\PageBundle\AdminMenu\P1')->will($this->returnValue($admin));
         $page = new P1('bar');
-        $event = new \Zicht\Bundle\PageBundle\Event\PageViewEvent($page);
+        $event = new PageViewEvent($page);
         $url = '/foo';
         $admin->expects($this->once())->method('generateObjectUrl')->with('edit', $page)->will($this->returnVAlue($url));
-        $event->setDispatcher($dispatcher);
+
         $dispatcher->expects($this->once())->method('dispatch');
-        $this->propagator->buildAndForwardEvent($event);
+        $this->propagator->buildAndForwardEvent($event, 'some event', $dispatcher);
     }
 }

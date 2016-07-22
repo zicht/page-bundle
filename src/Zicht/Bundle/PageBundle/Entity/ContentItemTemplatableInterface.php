@@ -5,8 +5,6 @@
  */
 namespace Zicht\Bundle\PageBundle\Entity;
 
-use \Zicht\Util\Str;
-
 /**
  * Base class for ContentItem entities.
  */

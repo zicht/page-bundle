@@ -5,8 +5,8 @@
  */
 namespace Zicht\Bundle\PageBundle\Event;
 
-use \Symfony\Component\EventDispatcher\Event;
-use \Zicht\Bundle\PageBundle\Model\PageInterface;
+use Symfony\Component\EventDispatcher\Event;
+use Zicht\Bundle\PageBundle\Model\PageInterface;
 
 /**
  * Event triggered whenever a page is loaded "for view" (PageManager::loadForView

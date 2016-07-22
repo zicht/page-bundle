@@ -5,11 +5,13 @@
  */
 namespace ZichtTest\Bundle\PageBundle\AdminMenu;
 
+use Zicht\Bundle\PageBundle\Command\AliasCommand;
+
 class AliasCommandTest extends \PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
-        $this->command = new \Zicht\Bundle\PageBundle\Command\AliasCommand();
+        $this->command = new AliasCommand();
         $this->container = $this->getMockBuilder('Symfony\Component\DependencyInjection\Container')->getMock();
         $this->command->setContainer($this->container);
     }

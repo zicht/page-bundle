@@ -6,8 +6,8 @@
 
 namespace Zicht\Bundle\PageBundle\Security\Voter;
 
-use \Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
-use \Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 
 /**
  * Checks on 'vote' whether or not the current user is and admin

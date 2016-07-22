@@ -6,9 +6,9 @@
 
 namespace Zicht\Bundle\PageBundle\Security\Voter;
 
-use \Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
-use \Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
-use \Zicht\Bundle\PageBundle\Model\ScheduledContentInterface;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
+use Zicht\Bundle\PageBundle\Model\ScheduledContentInterface;
 
 /**
  * Check content against the scheduled dates

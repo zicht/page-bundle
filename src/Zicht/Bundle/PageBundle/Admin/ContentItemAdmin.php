@@ -5,15 +5,15 @@
  */
 namespace Zicht\Bundle\PageBundle\Admin;
 
-use \Sonata\AdminBundle\Form\FormMapper;
-use \Sonata\AdminBundle\Datagrid\ListMapper;
-use \Sonata\AdminBundle\Admin\Admin;
-use \Sonata\AdminBundle\Datagrid\DatagridMapper;
+use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\AdminBundle\Datagrid\ListMapper;
+use Sonata\AdminBundle\Admin\AbstractAdmin;
+use Sonata\AdminBundle\Datagrid\DatagridMapper;
 
 /**
  * Admin for content items.
  */
-class ContentItemAdmin extends Admin
+class ContentItemAdmin extends AbstractAdmin
 {
     /**
      * @{inheritDoc}

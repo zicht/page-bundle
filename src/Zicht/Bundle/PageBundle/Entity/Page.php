@@ -5,9 +5,9 @@
  */
 namespace Zicht\Bundle\PageBundle\Entity;
 
-use \Zicht\Util\Str;
-use \Zicht\Bundle\PageBundle\Model\PageInterface;
-use \Zicht\Bundle\PageBundle\Model\ContentItemMatrix;
+use Zicht\Util\Str;
+use Zicht\Bundle\PageBundle\Model\PageInterface;
+use Zicht\Bundle\PageBundle\Model\ContentItemMatrix;
 
 /**
  * Base class for pages.

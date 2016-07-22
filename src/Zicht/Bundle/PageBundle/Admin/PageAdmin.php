@@ -7,11 +7,10 @@
 namespace Zicht\Bundle\PageBundle\Admin;
 
 use Sonata\AdminBundle\Show\ShowMapper;
-use Sonata\AdminBundle\Admin\Admin;
+use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
-use Symfony\Component\Form\Exception\RuntimeException;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Zicht\Bundle\AdminBundle\Util\AdminUtil;
@@ -28,7 +27,7 @@ use Zicht\Util\Str;
 /**
  * Admin for the messages catalogue
  */
-class PageAdmin extends Admin
+class PageAdmin extends AbstractAdmin
 {
     /**
      * @var array

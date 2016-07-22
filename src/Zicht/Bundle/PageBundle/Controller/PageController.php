@@ -6,13 +6,13 @@
 
 namespace Zicht\Bundle\PageBundle\Controller;
 
-use \Symfony\Component\HttpFoundation\Response;
-use \Symfony\Component\Security\Core\Exception\AccessDeniedException;
-use \Zicht\Bundle\PageBundle\Model\PageInterface;
-use \Symfony\Component\HttpFoundation\RedirectResponse;
-use \Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use \Zicht\Bundle\PageBundle\Entity\ControllerPageInterface;
-use \Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Zicht\Bundle\PageBundle\Model\PageInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Zicht\Bundle\PageBundle\Entity\ControllerPageInterface;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Controller for public page actions

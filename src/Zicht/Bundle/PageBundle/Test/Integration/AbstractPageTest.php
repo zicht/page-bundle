@@ -6,12 +6,12 @@
 
 namespace Zicht\Bundle\PageBundle\Test\Integration;
 
-use \Symfony\Component\HttpFoundation\Request;
-use \Symfony\Component\HttpKernel\Event\GetResponseEvent;
-use \Symfony\Component\HttpKernel\HttpKernelInterface;
-use \Symfony\Component\HttpKernel\KernelEvents;
-use \Zicht\Bundle\PageBundle\Controller\PageController;
-use \Zicht\Bundle\PageBundle\Manager\PageManager;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Event\GetResponseEvent;
+use Symfony\Component\HttpKernel\HttpKernelInterface;
+use Symfony\Component\HttpKernel\KernelEvents;
+use Zicht\Bundle\PageBundle\Controller\PageController;
+use Zicht\Bundle\PageBundle\Manager\PageManager;
 
 abstract class AbstractPageTest extends \PHPUnit_Framework_TestCase
 {

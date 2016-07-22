@@ -6,11 +6,11 @@
 
 namespace Zicht\Bundle\PageBundle\DependencyInjection\CompilerPass;
 
-use \Symfony\Component\DependencyInjection\ContainerBuilder;
-use \Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
-use \Symfony\Component\DependencyInjection\Reference;
-use \Zicht\Bundle\PageBundle\Model\ContentItemContainer;
-use \Zicht\Util\Str;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
+use Symfony\Component\DependencyInjection\Reference;
+use Zicht\Bundle\PageBundle\Model\ContentItemContainer;
+use Zicht\Util\Str;
 
 /**
  * Generates admin services for all pages and content items, if the admin classes match the entity namespace structure.
