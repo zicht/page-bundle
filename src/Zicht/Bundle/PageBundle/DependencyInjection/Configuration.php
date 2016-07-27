@@ -51,8 +51,7 @@ class Configuration implements ConfigurationInterface
                     ->end()
                 ->end()
                 ->arrayNode('defaultRegions')->prototype('scalar')->isRequired()->end()->end()
-            ->end()
-        ;
+            ->end();
 
         return $treeBuilder;
     }

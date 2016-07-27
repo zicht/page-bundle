@@ -21,8 +21,7 @@ class ListCommand extends ContainerAwareCommand
     protected function configure()
     {
         $this->setName('zicht:page:list')
-            ->addOption('base-url', '', InputOption::VALUE_REQUIRED, 'Prepend a base url to the url\'s', null)
-        ;
+            ->addOption('base-url', '', InputOption::VALUE_REQUIRED, 'Prepend a base url to the url\'s', null);
     }
 
     /**

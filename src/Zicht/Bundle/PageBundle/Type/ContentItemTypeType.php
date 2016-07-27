@@ -6,7 +6,6 @@
 namespace Zicht\Bundle\PageBundle\Type;
 
 use Sonata\AdminBundle\Admin\Pool;
-use Symfony\Component\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormView;
@@ -41,15 +40,13 @@ class ContentItemTypeType extends AbstractType
      */
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        $resolver
-            ->setDefaults(
-                array(
-                    'inherit_data' => true,
-                    'data_class' => $this->contentItemClass,
-                    'container' => ''
-                )
+        $resolver->setDefaults(
+            array(
+                'inherit_data' => true,
+                'data_class' => $this->contentItemClass,
+                'container' => ''
             )
-        ;
+        );
     }
 
 
@@ -60,7 +57,7 @@ class ContentItemTypeType extends AbstractType
     {
         if ($options['container']) {
             $page = $options['container'];
-            $choiceFilter = function ($choices) use($page) {
+            $choiceFilter = function ($choices) use ($page) {
                 $ret = array();
                 if ($page instanceof ContentItemContainer && null !== $page->getContentItemMatrix()) {
                     $types = $page->getContentItemMatrix()->getTypes();
@@ -86,8 +83,7 @@ class ContentItemTypeType extends AbstractType
                     'entity' => $this->contentItemClass,
                     'choice_filter' => $choiceFilter
                 )
-            )
-        ;
+            );
     }
 
 

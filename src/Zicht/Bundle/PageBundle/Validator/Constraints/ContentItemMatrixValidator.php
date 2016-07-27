@@ -9,14 +9,29 @@ use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 
+/**
+ * Class ContentItemMatrixValidator
+ *
+ * @package Zicht\Bundle\PageBundle\Validator\Constraints
+ */
 class ContentItemMatrixValidator extends ConstraintValidator
 {
-    function __construct(TranslatorInterface $translator)
+    /**
+     * ContentItemMatrixValidator constructor.
+     *
+     * @param TranslatorInterface $translator
+     */
+    public function __construct(TranslatorInterface $translator)
     {
         $this->translator = $translator;
     }
 
-
+    /**
+     * Validate
+     *
+     * @param mixed $value
+     * @param Constraint $constraint
+     */
     public function validate($value, Constraint $constraint)
     {
         $matrix = $value->getContentItemMatrix();

@@ -32,8 +32,6 @@ class ContentItemDetailCRUDController extends CRUDController
         return parent::showAction($id);
     }
 
-
-
     /**
      * @{inheritDoc}
      */

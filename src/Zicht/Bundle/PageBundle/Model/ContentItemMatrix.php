@@ -6,7 +6,6 @@
  
 namespace Zicht\Bundle\PageBundle\Model;
 
-
 /**
  * Helper class to configure the contentitem region / type matrix.
  *
@@ -30,22 +29,32 @@ final class ContentItemMatrix
      *
      * @var string
      */
-    private $currentRegion = 'left';
+    private $currentRegion;
 
     /**
      * Contains the matrix
      *
      * @var array
      */
-    private $matrix = array();
+    private $matrix;
 
     /**
      * Namespace prefix for the types that are registered.
      *
      * @var string
      */
-    private $namespacePrefix = '';
+    private $namespacePrefix;
 
+
+    /**
+     * Stubbed constructor.
+     */
+    public function __construct()
+    {
+        $this->currentRegion = 'left';
+        $this->matrix = array();
+        $this->namespacePrefix = '';
+    }
     /**
      * Provides fluent interface for building the matrix.
      *
@@ -58,17 +67,9 @@ final class ContentItemMatrix
         if (null !== $namespacePrefix) {
             $ret->ns($namespacePrefix);
         }
+
         return $ret;
     }
-
-
-    /**
-     * Stubbed constructor.
-     */
-    public function __construct()
-    {
-    }
-
 
     /**
      * Select a region to configure.
@@ -111,14 +112,19 @@ final class ContentItemMatrix
     public function removeTypeFromRegion($type, $region)
     {
         if (array_key_exists($region, $this->matrix)) {
-            array_walk($this->matrix[$region], function ($value, $idx, $matrix) use ($type, $region) {
-                $class = explode('\\', $value);
-                $className = array_pop($class);
-                if ($className === $type) {
-                    unset($matrix[$region][$idx]);
-                }
-            }, $this->matrix);
+            array_walk(
+                $this->matrix[$region],
+                function ($value, $idx, $matrix) use ($type, $region) {
+                    $class = explode('\\', $value);
+                    $className = array_pop($class);
+                    if ($className === $type) {
+                        unset($matrix[$region][$idx]);
+                    }
+                },
+                $this->matrix
+            );
         }
+
         return $this;
     }
 
@@ -175,7 +181,6 @@ final class ContentItemMatrix
         return $this->matrix[$region];
     }
 
-
     /**
      * Returns the available regions for a specified type.
      * If not specified, all regions are returned.
@@ -197,6 +202,9 @@ final class ContentItemMatrix
         return $ret;
     }
 
+    /**
+     * @return array
+     */
     public function getMatrix()
     {
         return $this->matrix;

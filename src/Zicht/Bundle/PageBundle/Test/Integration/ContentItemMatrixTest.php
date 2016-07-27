@@ -6,12 +6,22 @@
 
 namespace Zicht\Bundle\PageBundle\Test\Integration;
 
-use Zicht\Bundle\PageBundle\Controller\PageController;
 use Zicht\Bundle\PageBundle\Model\ContentItemMatrix;
 
+/**
+ * Class ContentItemMatrixTest
+ *
+ * @package Zicht\Bundle\PageBundle\Test\Integration
+ */
 class ContentItemMatrixTest extends AbstractPageTest
 {
     /**
+     * Testing whether the regions are correct
+     *
+     * @param string $pageTypeName
+     * @param string $pageClassName
+     * @param null $region
+     * @param null $contentItemClassName
      * @dataProvider contentItemMatrix
      */
     public function testRenderWillRetrieveCorrectRegions($pageTypeName, $pageClassName, $region = null, $contentItemClassName = null)
@@ -21,7 +31,7 @@ class ContentItemMatrixTest extends AbstractPageTest
 
         if (null === $contentItemClassName || null === $region) {
             $this->markTestSkipped("{$pageClassName} has no content item matrix");
-        } else if (!class_exists($contentItemClassName)) {
+        } elseif (!class_exists($contentItemClassName)) {
             $this->fail("{$contentItemClassName} does not exist");
         }
 
@@ -40,16 +50,26 @@ class ContentItemMatrixTest extends AbstractPageTest
         $mockPage
             ->expects($this->atLeastOnce())
             ->method('getContentItems')
-            ->will($this->returnCallback(function() use(&$recorded, $pageUnderTest, $region) {
-                $args = func_get_args();
-                $recorded[]= $args;
-                $ret = call_user_func_array(array($pageUnderTest, 'getContentItems'), $args);
-                return $ret;
-            }));
+            ->will(
+                $this->returnCallback(
+                    function () use (&$recorded, $pageUnderTest, $region) {
+                        $args = func_get_args();
+                        $recorded[]= $args;
+                        $ret = call_user_func_array(array($pageUnderTest, 'getContentItems'), $args);
+                        return $ret;
+                    }
+                )
+            );
 
-        $mockPage->expects($this->any())->method('getTemplateName')->will($this->returnCallback(function() use($pageUnderTest) {
-            return $pageUnderTest->getTemplateName();
-        }));
+        $mockPage->expects($this->any())
+            ->method('getTemplateName')
+            ->will(
+                $this->returnCallback(
+                    function () use ($pageUnderTest) {
+                        return $pageUnderTest->getTemplateName();
+                    }
+                )
+            );
 
         /** @var \Zicht\Bundle\PageBundle\Entity\ContentItem $item */
         $pageController = $this->createPageController();
@@ -63,6 +83,11 @@ class ContentItemMatrixTest extends AbstractPageTest
     }
 
 
+    /**
+     * Content item matrix
+     *
+     * @return array
+     */
     public function contentItemMatrix()
     {
         $pageManager = $this->createPageManager();

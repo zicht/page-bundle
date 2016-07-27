@@ -23,13 +23,11 @@ class AliasCommand extends ContainerAwareCommand
      */
     protected function configure()
     {
-        $this
-            ->setDescription("Creates aliases for all pages")
+        $this->setDescription("Creates aliases for all pages")
             ->setName('zicht:page:alias')
             ->addArgument('entity', InputArgument::OPTIONAL, 'Only do a specific entity')
             ->addOption('where', 'w', InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'Add a WHERE query')
-            ->addOption('move', '', InputOption::VALUE_NONE, 'Force regeneration (use MOVE strategy for new aliases)')
-        ;
+            ->addOption('move', '', InputOption::VALUE_NONE, 'Force regeneration (use MOVE strategy for new aliases)');
     }
 
     /**

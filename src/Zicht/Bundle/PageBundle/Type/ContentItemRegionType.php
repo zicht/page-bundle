@@ -27,7 +27,7 @@ class ContentItemRegionType extends AbstractType
     /**
      * @var array $defaultRegions
      */
-    protected $defaultRegions;
+    protected $defaultRegions = array();
 
     /**
      * @var TranslatorInterface $translator
@@ -39,14 +39,14 @@ class ContentItemRegionType extends AbstractType
      *
      * @param string $contentItemClassName
      * @param array $defaultRegions
+     * @param TranslatorInterface $translator
      */
-    public function __construct($contentItemClassName, array $defaultRegions = array(), TranslatorInterface $translator)
+    public function __construct($contentItemClassName, array $defaultRegions, TranslatorInterface $translator)
     {
         $this->contentItemClassName = $contentItemClassName;
         $this->defaultRegions = $defaultRegions;
         $this->translator = $translator;
     }
-
 
     /**
      * @{inheritDoc}
@@ -64,7 +64,6 @@ class ContentItemRegionType extends AbstractType
             )
         );
     }
-
 
     /**
      * @{inheritDoc}

@@ -53,6 +53,7 @@ class PageController extends AbstractController
     /**
      * View a page.
      *
+     * @param Request $request
      * @param string $id
      * @return Response
      *
@@ -85,11 +86,10 @@ class PageController extends AbstractController
         return $this->renderPage($page);
     }
 
-
     /**
      * Render a page with the specified additional template variables.
      *
-     * @param \Zicht\Bundle\PageBundle\Model\PageInterface $page
+     * @param PageInterface $page
      * @param array $vars
      * @return \Symfony\Component\HttpFoundation\Response
      */
@@ -103,7 +103,6 @@ class PageController extends AbstractController
             )
         );
     }
-
 
     /**
      * @return \Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface

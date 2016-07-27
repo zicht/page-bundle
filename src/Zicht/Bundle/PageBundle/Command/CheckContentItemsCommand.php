@@ -14,6 +14,11 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Zicht\Bundle\PageBundle\Entity\ContentItem;
 use Zicht\Bundle\PageBundle\Entity\Page;
 
+/**
+ * Class CheckContentItemsCommand
+ *
+ * @package Zicht\Bundle\PageBundle\Command
+ */
 class CheckContentItemsCommand extends ContainerAwareCommand
 {
     /** @var bool  */
@@ -35,7 +40,7 @@ class CheckContentItemsCommand extends ContainerAwareCommand
     }
 
     /**
-     * @inheritdoc
+     * @{inheritDoc}
      */
     protected function initialize(InputInterface $input, OutputInterface $output)
     {
@@ -50,38 +55,61 @@ class CheckContentItemsCommand extends ContainerAwareCommand
     public function execute(InputInterface $input, OutputInterface $output)
     {
         $em = $this->getContainer()->get('doctrine')->getManager();
-//        $force = $input->getOption('force');
 
         foreach ($this->getBasePageMeta() as $meta) {
             $this->logger->info(sprintf('Checking all sub classes of "%s"', $meta->getName()));
+
             foreach ($meta->subClasses as $class) {
                 $entities = $em->getRepository($class)->findAll();
+
                 /** @var Page $entity */
                 foreach ($entities as $entity) {
-                    $this->logger->debug(sprintf('[%04d] [%s] %s', $entity->getId(), $this->getShortName($class, $meta->getName()), $entity->getTitle()));
+                    $debugString = sprintf(
+                        '[%04d] [%s] %s',
+                        $entity->getId(),
+                        $this->getShortName($class, $meta->getName()),
+                        $entity->getTitle()
+                    );
+                    $this->logger->debug($debugString);
                     $matrix = $entity->getContentItemMatrix();
+
                     /** @var ContentItem $contentitem */
                     foreach ($entity->getContentItems() as $contentitem) {
                         $failed = false;
+
                         if (in_array($contentitem->getRegion(), $matrix->getRegions())) {
                             if (!in_array(get_class($contentitem), $matrix->getTypes($contentitem->getRegion()))) {
-                                $this->logger->warning(sprintf('[%04d] [%s] [%s] "%s" not allowed for defined types "%s"',
+
+                                $warningString = sprintf(
+                                    '[%04d] [%s] [%s] "%s" not allowed for defined types "%s"',
                                     $entity->getId(),
                                     $this->getShortName($class, $meta->getName()),
                                     $contentitem->getRegion(),
                                     $this->getShortName(get_class($contentitem), $matrix->getNamespacePrefix()),
-                                    implode('", "', array_map(function($name) use ($matrix) { return $this->getShortName($name, $matrix->getNamespacePrefix()); }, $matrix->getTypes($contentitem->getRegion())))
-                                ));
+                                    implode(
+                                        '", "',
+                                        array_map(
+                                            function ($name) use ($matrix) {
+                                                return $this->getShortName($name, $matrix->getNamespacePrefix());
+                                            },
+                                            $matrix->getTypes($contentitem->getRegion())
+                                        )
+                                    )
+                                );
+
+                                $this->logger->warning($warningString);
                                 $failed = true;
                             }
-
                         } else {
-                            $this->logger->warning(sprintf('[%04d] [%s] Region "%s" not allowed for defined regions "%s"',
-                                $entity->getId(),
-                                $this->getShortName($class, $meta->getName()),
-                                $contentitem->getRegion(),
-                                implode('", "', $matrix->getRegions())
-                            ));
+                            $this->logger->warning(
+                                sprintf(
+                                    '[%04d] [%s] Region "%s" not allowed for defined regions "%s"',
+                                    $entity->getId(),
+                                    $this->getShortName($class, $meta->getName()),
+                                    $contentitem->getRegion(),
+                                    implode('", "', $matrix->getRegions())
+                                )
+                            );
                             $failed = true;
                         }
 
@@ -96,30 +124,35 @@ class CheckContentItemsCommand extends ContainerAwareCommand
     }
 
     /**
-     * @param   string $class
-     * @param   string $baseClass
-     * @return  mixed
+     * @param string $class
+     * @param string $baseClass
+     * @return mixed
      */
     protected function getShortName($class, $baseClass)
     {
         preg_match(sprintf('#%s\\\?(?P<name>[^$]+)#', preg_quote($baseClass, '#')), $class, $m);
+
         return (isset($m['name']) && !$this->isVeryVerbose) ? $m['name'] : $class;
     }
 
     /**
-     * @param   OutputInterface $output
-     * @return  ConsoleLogger
+     * @param OutputInterface $output
+     * @return ConsoleLogger
      */
     protected function getLogger(OutputInterface $output)
     {
-        return new ConsoleLogger($output, [
-            LogLevel::WARNING   => OutputInterface::VERBOSITY_NORMAL,
-            LogLevel::INFO      => OutputInterface::VERBOSITY_NORMAL,
-            LogLevel::DEBUG     => OutputInterface::VERBOSITY_VERBOSE,
-        ],[
-            LogLevel::WARNING   => 'comment',
-            LogLevel::DEBUG     => 'fg=cyan',
-        ]);
+        return new ConsoleLogger(
+            $output,
+            [
+                LogLevel::WARNING   => OutputInterface::VERBOSITY_NORMAL,
+                LogLevel::INFO      => OutputInterface::VERBOSITY_NORMAL,
+                LogLevel::DEBUG     => OutputInterface::VERBOSITY_VERBOSE,
+            ],
+            [
+                LogLevel::WARNING   => 'comment',
+                LogLevel::DEBUG     => 'fg=cyan',
+            ]
+        );
     }
 
     /**
@@ -138,7 +171,7 @@ class CheckContentItemsCommand extends ContainerAwareCommand
 
         /** @var \Doctrine\ORM\Mapping\ClassMetadata $meta */
         foreach ($allMeta as $meta) {
-            if (!empty($meta->subClasses) && is_a($meta->getName(), Page::class, true)) { //} && !in_array($meta->getName(), $done)) {
+            if (!empty($meta->subClasses) && is_a($meta->getName(), Page::class, true)) {
                 foreach ($meta->parentClasses as $parent) {
                     if (in_array($parent, $done)) {
                         continue 2;

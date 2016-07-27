@@ -21,8 +21,7 @@ class ContentItemAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $form)
     {
         if (!$this->isChild()) {
-            $form->add('page')
-            ;
+            $form->add('page');
         } else {
             $page = $this->getParentFieldDescription()->getAdmin()->getSubject();
 
@@ -33,8 +32,7 @@ class ContentItemAdmin extends AbstractAdmin
                 ->add('weight')
                 ->add('internalName', 'text', array('disabled' => true, 'read_only' => true, 'required' => false))
                 ->add('content_item_region', 'zicht_content_item_region', array('container' => $page))
-                ->add('content_item_type', 'zicht_content_item_type', array('container' => $page))
-            ;
+                ->add('content_item_type', 'zicht_content_item_type', array('container' => $page));
         }
     }
 

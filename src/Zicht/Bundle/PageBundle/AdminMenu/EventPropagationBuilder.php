@@ -20,16 +20,26 @@ use Zicht\Bundle\UrlBundle\Url\Provider;
 class EventPropagationBuilder implements PropagationInterface
 {
     /**
+     * @var Pool
+     */
+    protected $sonata;
+
+    /**
+     * @var Provider
+     */
+    protected $pageUrlProvider;
+
+    /**
      * Construct with the specified admin pool
      *
-     * @param \Sonata\AdminBundle\Admin\Pool $sonata
+     * @param Pool $sonata
+     * @param Provider $pageUrlProvider
      */
     public function __construct(Pool $sonata, Provider $pageUrlProvider = null)
     {
         $this->sonata = $sonata;
         $this->pageUrlProvider = $pageUrlProvider;
     }
-
 
     /**
      * Build the relevant event and forward it.
@@ -46,8 +56,7 @@ class EventPropagationBuilder implements PropagationInterface
         }
 
         $page = $e->getPage();
-        if (
-            $page->getId()
+        if ($page->getId()
             && (
                 ($admin = $this->sonata->getAdminByClass(get_class($page)))
                 || ($admin = $this->sonata->getAdminByClass(get_parent_class($page)))

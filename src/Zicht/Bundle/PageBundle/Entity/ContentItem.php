@@ -16,6 +16,7 @@ abstract class ContentItem implements ContentItemInterface
     /**
      * Returns a (dash notated) short type that can be used in databases, css classes, etc.
      *
+     * @param string $infix
      * @return string
      */
     public function getShortType($infix = '-')
@@ -96,6 +97,9 @@ abstract class ContentItem implements ContentItemInterface
         return null;
     }
 
+    /**
+     * @return string
+     */
     public function getInternalName()
     {
         return (string)$this;
@@ -109,6 +113,5 @@ abstract class ContentItem implements ContentItemInterface
      */
     public function getRegion()
     {
-
     }
 }

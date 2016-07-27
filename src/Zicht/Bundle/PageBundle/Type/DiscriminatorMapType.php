@@ -43,7 +43,7 @@ class DiscriminatorMapType extends ChoiceType
         /** @var $em \Doctrine\ORM\EntityManager */
         $em = $this->doctrine->getManager();
 
-        $choiceCallback = function(Options $options) use ($em) {
+        $choiceCallback = function (Options $options) use ($em) {
             $ret = array();
             foreach ($em->getClassMetadata($options['entity'])->discriminatorMap as $className) {
                 $placeholder = 'content_item.type.' . strtolower(str_replace(' ', '_', Str::humanize(Str::classname($className))));
@@ -62,8 +62,7 @@ class DiscriminatorMapType extends ChoiceType
                     'choices' => $choiceCallback,
                     'choice_filter' => ''
                 )
-            )
-        ;
+            );
     }
 
 

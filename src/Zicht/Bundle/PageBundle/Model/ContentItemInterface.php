@@ -16,5 +16,9 @@ interface ContentItemInterface
      * @return mixed
      */
     public function getType();
+
+    /**
+     * @return string
+     */
     public function getInternalName();
 }

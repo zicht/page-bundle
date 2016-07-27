@@ -35,7 +35,8 @@ class ZichtPageExtension extends Extension
 
             if (!empty($config['aliasing']['prefixLanguages'])) {
                 $def = new Definition(
-                    'Zicht\Bundle\PageBundle\Aliasing\Strategy\LanguageAwareAliasingStrategy', [
+                    'Zicht\Bundle\PageBundle\Aliasing\Strategy\LanguageAwareAliasingStrategy',
+                    [
                         new Reference($config['aliasing']['service']),
                         $config['aliasing']['prefixLanguages']
                     ]
@@ -49,8 +50,7 @@ class ZichtPageExtension extends Extension
         $container
             ->getDefinition('zicht_page.form.type.zicht_content_item_region_type')
             ->replaceArgument(0, $config['contentItemClass'])
-            ->replaceArgument(1, $config['defaultRegions'])
-        ;
+            ->replaceArgument(1, $config['defaultRegions']);
 
         $container
             ->getDefinition('zicht_page.form.type.zicht_content_item_type_type')

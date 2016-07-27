@@ -27,7 +27,7 @@ class GenerateAdminServicesCompilerPass implements CompilerPassInterface
             return;
         }
 
-        $naming = function($fqEntityClassName) {
+        $naming = function ($fqEntityClassName) {
             return
                 str_replace(
                     '\\Entity\\',

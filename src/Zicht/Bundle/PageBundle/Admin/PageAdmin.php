@@ -123,9 +123,7 @@ class PageAdmin extends AbstractAdmin
      */
     public function configureShowFields(ShowMapper $showMapper)
     {
-        return $showMapper
-            ->add('title')
-        ;
+        return $showMapper->add('title');
     }
 
     /**
@@ -147,8 +145,7 @@ class PageAdmin extends AbstractAdmin
                         'delete' => array()
                     )
                 )
-            )
-        ;
+            );
     }
 
     /**
@@ -213,7 +210,7 @@ class PageAdmin extends AbstractAdmin
 
                 $formMapper->getFormBuilder()->addEventListener(
                     FormEvents::SUBMIT,
-                    function(FormEvent $e) {
+                    function (FormEvent $e) {
                         /** @var PageInterface $pageData */
                         $pageData = $e->getData();
 
@@ -244,8 +241,7 @@ class PageAdmin extends AbstractAdmin
                 ->tab('admin.tab.menu')
                         ->add('menu_item', 'zicht_menu_item', array('translation_domain' => $this->getTranslationDomain()))
                     ->end()
-                ->end()
-            ;
+                ->end();
 
             $formMapper
                 ->getFormBuilder()
@@ -265,10 +261,8 @@ class PageAdmin extends AbstractAdmin
      */
     protected function configureDatagridFilters(DatagridMapper $filter)
     {
-        $filter
-            ->add('title')
-            ->add('id')
-        ;
+        $filter->add('title')
+            ->add('id');
     }
 
     /**
@@ -306,6 +300,11 @@ class PageAdmin extends AbstractAdmin
         }
     }
 
+    /**
+     * Pre remove function
+     *
+     * @param mixed $object
+     */
     public function preRemove($object)
     {
         if (!is_null($this->urlProvider) && !is_null($this->menuManager)) {
@@ -320,7 +319,13 @@ class PageAdmin extends AbstractAdmin
     }
 
     /**
+     * Reorder tabs
+     *
+     * @param FormMapper $formMapper
+     * @param array $tabOrder
+     *
      * @deprecated See Zicht\Bundle\AdminBundle\Util\AdminUtil::reorderTabs
+     *
      */
     public function reorderTabs(FormMapper $formMapper, array $tabOrder)
     {
@@ -401,6 +406,4 @@ class PageAdmin extends AbstractAdmin
     {
         return sprintf('admin.label.%s', Str::infix(lcfirst(Str::classname(get_class($this))), '_'));
     }
-
-
 }

@@ -18,33 +18,48 @@ class LanguageAwareAliasingStrategy implements AliasingStrategy
     /**
      * @var string
      */
-    public $basePath = '/';
+    public $basePath;
 
     /**
      * @var array
      */
-    protected $localesToPrefix = array();
+    protected $localesToPrefix;
 
     /**
      * @var AliasingStrategy
      */
     protected $strategyWrapper;
 
-    public function __construct(AliasingStrategy $strategyWrapper, $localesToPrefix)
+    /**
+     * LanguageAwareAliasingStrategy constructor.
+     *
+     * @param AliasingStrategy $strategyWrapper
+     * @param array $localesToPrefix
+     */
+    public function __construct(AliasingStrategy $strategyWrapper, $localesToPrefix = array())
     {
+        $this->basePath = '/';
         $this->strategyWrapper = $strategyWrapper;
         $this->localesToPrefix = $localesToPrefix;
     }
 
-    public function generatePublicAlias($subject, $currentAlias='') {
+    /**
+     * Generate public alias
+     *
+     * @param mixed $subject
+     * @param string $currentAlias
+     * @return string
+     */
+    public function generatePublicAlias($subject, $currentAlias = '')
+    {
         $alias = $this->strategyWrapper->generatePublicAlias($subject, $currentAlias);
-
 
         if ($alias && method_exists($subject, 'getLanguage')) {
             if (in_array($subject->getLanguage(), $this->localesToPrefix)) {
                 $alias = sprintf('%s%s%s', $this->basePath, $subject->getLanguage(), $alias);
             }
         }
+
         return $alias;
     }
 
