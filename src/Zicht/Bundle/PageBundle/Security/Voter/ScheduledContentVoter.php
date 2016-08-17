@@ -18,9 +18,42 @@ use Zicht\Bundle\PageBundle\Model\ScheduledContentInterface;
 class ScheduledContentVoter extends AdminAwareVoterAbstract
 {
     /**
+     * Decide based on the current date and time what the vote should be. Static so it's strategy can easily be accessed
+     * by other components as well, without the actual need for the voter instance.
+     *
+     * @param \DateTime $scheduledFrom
+     * @param \DateTime $scheduledTill
+     * @return int
+     */
+    public static function decide(ScheduledContentInterface $object)
+    {
+        $scheduledFrom = $object->isScheduledFrom();
+        $scheduledTill = $object->isScheduledTill();
+
+        $vote = VoterInterface::ACCESS_ABSTAIN;
+
+        if (null !== $scheduledFrom || null !== $scheduledTill) {
+            $currentDateTime = new \DateTime();
+            if (null !== $scheduledFrom && null !== $scheduledTill) {
+                // Check between datetime objects
+                $vote = $scheduledFrom <= $currentDateTime && $scheduledTill >= $currentDateTime ? VoterInterface::ACCESS_GRANTED : VoterInterface::ACCESS_DENIED;
+            } elseif (null !== $scheduledFrom && null === $scheduledTill) {
+                // Check only "from "date
+                $vote = $scheduledFrom <= $currentDateTime ? VoterInterface::ACCESS_GRANTED : VoterInterface::ACCESS_DENIED;
+            } elseif (null == $scheduledFrom && null !== $scheduledTill) {
+                // Check only "till" date
+                $vote = $scheduledTill >= $currentDateTime ? VoterInterface::ACCESS_GRANTED : VoterInterface::ACCESS_DENIED;
+            }
+        }
+
+        return $vote;
+    }
+
+    /**
      * The 'view' attribute
      */
     const VIEW = 'VIEW';
+
 
     /**
      * @{inheritDoc}
@@ -57,24 +90,7 @@ class ScheduledContentVoter extends AdminAwareVoterAbstract
                     continue;
                 }
 
-                $scheduledFrom = $object->isScheduledFrom();
-                $scheduledTill = $object->isScheduledTill();
-
-                if (null === $scheduledFrom && null === $scheduledTill) {
-                    $vote = VoterInterface::ACCESS_ABSTAIN;
-                } else {
-                    $currentDateTime = new \DateTime();
-                    if (null !== $scheduledFrom && null !== $scheduledTill) {
-                        // Check between datetime objects
-                        $vote = $scheduledFrom <= $currentDateTime && $scheduledTill >= $currentDateTime ? VoterInterface::ACCESS_GRANTED : VoterInterface::ACCESS_DENIED;
-                    } elseif (null !== $scheduledFrom && null === $scheduledTill) {
-                        // Check only "from "date
-                        $vote = $scheduledFrom <= $currentDateTime ? VoterInterface::ACCESS_GRANTED : VoterInterface::ACCESS_DENIED;
-                    } elseif (null == $scheduledFrom && null !== $scheduledTill) {
-                        // Check only "till" date
-                        $vote = $scheduledTill >= $currentDateTime ? VoterInterface::ACCESS_GRANTED : VoterInterface::ACCESS_DENIED;
-                    }
-                }
+                $vote = self::decide($object);
             }
         }
 
