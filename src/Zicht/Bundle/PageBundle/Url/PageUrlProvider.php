@@ -7,7 +7,7 @@
 namespace Zicht\Bundle\PageBundle\Url;
 
 use Symfony\Component\Routing\RouterInterface;
-use Symfony\Component\Security\Core\SecurityContextInterface;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Zicht\Bundle\PageBundle\Model\PageInterface;
 use Zicht\Bundle\PageBundle\Manager\PageManager;
 use Zicht\Bundle\UrlBundle\Url\ListableProvider;
@@ -90,7 +90,7 @@ class PageUrlProvider extends AbstractRoutingProvider implements SuggestableProv
     /**
      * @{inheritDoc}
      */
-    public function all(SecurityContextInterface $security)
+    public function all(AuthorizationCheckerInterface $security)
     {
         $ret = array();
         $pages = $this->pageManager->getBaseRepository()->createQueryBuilder('p')
