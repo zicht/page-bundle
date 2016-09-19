@@ -7,7 +7,7 @@
 namespace Zicht\Bundle\PageBundle\Admin;
 
 use Sonata\AdminBundle\Show\ShowMapper;
-use Sonata\AdminBundle\Admin\AbstractAdmin;
+use Sonata\AdminBundle\Admin\Admin;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
@@ -27,7 +27,7 @@ use Zicht\Util\Str;
 /**
  * Admin for the messages catalogue
  */
-class PageAdmin extends AbstractAdmin
+class PageAdmin extends Admin
 {
     /**
      * @var array
