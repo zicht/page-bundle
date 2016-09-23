@@ -34,7 +34,7 @@ class EventPropagationBuilder implements PropagationInterface
      * @param Pool $sonata
      * @param Provider $pageUrlProvider
      */
-    public function __construct(Pool $sonata, Provider $pageUrlProvider = null)
+    public function __construct(Pool $sonata = null, Provider $pageUrlProvider = null)
     {
         $this->sonata = $sonata;
         $this->pageUrlProvider = $pageUrlProvider;

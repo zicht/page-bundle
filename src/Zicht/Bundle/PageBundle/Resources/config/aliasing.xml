@@ -14,7 +14,7 @@
             <argument type="service" id="zicht_url.aliasing"/>
             <argument type="service" id="zicht_page.page_url_provider"/>
             <argument /><!-- Replaced by dependeny injection (based on service id configured in the bundle config -->
-            <argument type="service" id="security.access.decision_manager"/>
+            <argument type="service" id="security.access.decision_manager" on-invalid="null" />
         </service>
 
         <service id="zicht_page.page_aliasing_strategy" class="%zicht_page.page_aliasing_strategy.class%"/>

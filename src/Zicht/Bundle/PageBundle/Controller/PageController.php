@@ -6,6 +6,7 @@
 
 namespace Zicht\Bundle\PageBundle\Controller;
 
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Zicht\Bundle\PageBundle\Model\PageInterface;
@@ -64,9 +65,8 @@ class PageController extends AbstractController
         /** @var $pageManager \Zicht\Bundle\PageBundle\Manager\PageManager */
         $pageManager = $this->getPageManager();
         $page = $pageManager->findForView($id);
-        $securityContext = $this->getSecurityContext();
 
-        if (!$securityContext->isGranted('VIEW', $page)) {
+        if (($securityContext = $this->getSecurityContext()) && !$securityContext->isGranted('VIEW', $page)) {
             throw new AccessDeniedException("Page {$id} is not accessible to the current user");
         }
 
@@ -109,6 +109,6 @@ class PageController extends AbstractController
      */
     public function getSecurityContext()
     {
-        return $this->get('security.authorization_checker');
+        return $this->container->get('security.authorization_checker', ContainerInterface::NULL_ON_INVALID_REFERENCE);
     }
 }

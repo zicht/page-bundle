@@ -28,10 +28,10 @@ class ContentItemTypeType extends AbstractType
      * @param \Sonata\AdminBundle\Admin\Pool $sonata
      * @param string $contentItemClass
      */
-    public function __construct(Pool $sonata, $contentItemClass)
+    public function __construct($contentItemClass, Pool $sonata = null)
     {
-        $this->sonata = $sonata;
         $this->contentItemClass = $contentItemClass;
+        $this->sonata = $sonata;
     }
 
 
@@ -93,33 +93,36 @@ class ContentItemTypeType extends AbstractType
      */
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
-        $genericAdmin = $view->vars['sonata_admin']['admin'];
-        $parentAdmin = $genericAdmin->getParent();
+        if (isset($view->vars['sonata_admin']['admin'])) {
+            $genericAdmin = $view->vars['sonata_admin']['admin'];
 
-        $subject = $form->getParent()->getData();
+            $parentAdmin = $genericAdmin->getParent();
 
-        $view->vars['type'] = null;
-        $view->vars['edit_url'] = null;
+            $subject = $form->getParent()->getData();
+
+            $view->vars['type'] = null;
+            $view->vars['edit_url'] = null;
 
 
-        try {
-            if ($typeAdmin = $this->sonata->getAdminByClass(get_class($subject))) {
-                $view->vars['type']= Str::humanize(Str::classname($subject->getConvertToType()));
-                $childAdmin = $this->sonata->getAdminByAdminCode($parentAdmin->getCode() . '|' . $typeAdmin->getCode());
-                $childAdmin->setRequest($genericAdmin->getRequest());
+            try {
+                if ($typeAdmin = $this->sonata->getAdminByClass(get_class($subject))) {
+                    $view->vars['type']= Str::humanize(Str::classname($subject->getConvertToType()));
+                    $childAdmin = $this->sonata->getAdminByAdminCode($parentAdmin->getCode() . '|' . $typeAdmin->getCode());
+                    $childAdmin->setRequest($genericAdmin->getRequest());
 
-                if ($subject && $subject->getPage() && $subject->getPage()->getId()) {
-                    try {
-                        $view->vars['edit_url'] = $childAdmin->generateObjectUrl('edit', $subject);
-                    } catch (InvalidParameterException $e) {
-                        //2.2 edit url not needed when generating other admins (this is done in the POST of the sonata_collection_type)
-                    } catch (MissingMandatoryParametersException $e) {
-                        //>= 2.3
-                    } catch (\Exception $e) {
+                    if ($subject && $subject->getPage() && $subject->getPage()->getId()) {
+                        try {
+                            $view->vars['edit_url'] = $childAdmin->generateObjectUrl('edit', $subject);
+                        } catch (InvalidParameterException $e) {
+                            //2.2 edit url not needed when generating other admins (this is done in the POST of the sonata_collection_type)
+                        } catch (MissingMandatoryParametersException $e) {
+                            //>= 2.3
+                        } catch (\Exception $e) {
+                        }
                     }
                 }
+            } catch (\RuntimeException $e) {
             }
-        } catch (\RuntimeException $e) {
         }
     }
 

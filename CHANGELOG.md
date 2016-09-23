@@ -1,3 +1,9 @@
+# 2.3.0
+
+- Includes compatibility with an admin-less kernel
+
+
+
 ## Version 2.0.0
 ### Breaking Changes
 - added support for Symfony >= _2.3_
