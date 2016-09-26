@@ -54,7 +54,7 @@ class ZichtPageExtension extends Extension
 
         $container
             ->getDefinition('zicht_page.form.type.zicht_content_item_type_type')
-            ->replaceArgument(1, $config['contentItemClass']);
+            ->replaceArgument(0, $config['contentItemClass']);
 
         $def = $container->getDefinition('zicht_page.page_manager');
         $def->replaceArgument(2, $config['pageClass']);

@@ -19,8 +19,8 @@
         </service>
 
         <service id="zicht_page.form.type.zicht_content_item_type_type" class="Zicht\Bundle\PageBundle\Type\ContentItemTypeType">
-            <argument type="service" id="sonata.admin.pool" on-invalid="null" />
             <argument/>
+            <argument type="service" id="sonata.admin.pool" on-invalid="null" />
             <tag name="form.type" alias="zicht_content_item_type"/>
         </service>
 
