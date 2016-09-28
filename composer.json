@@ -14,6 +14,7 @@
         "zicht/admin-bundle": "^3.3",
         "zicht/url-bundle": "^2.8,>=2.8.5",
         "zicht/menu-bundle": "^2.4",
+        "sonata/doctrine-orm-admin-bundle": "<3",
         "sensio/framework-extra-bundle": "^3.0"
     },
     "require-dev": {
