@@ -1,8 +1,8 @@
 # 2.3.0
-
 - Includes compatibility with an admin-less kernel
 
-
+# 2.4.0
+- Includes a possibility to configure the aliasing conflict strategies
 
 ## Version 2.0.0
 ### Breaking Changes
