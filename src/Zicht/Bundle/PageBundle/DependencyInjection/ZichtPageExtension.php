@@ -48,6 +48,11 @@ class ZichtPageExtension extends Extension
         }
 
         $container
+            ->getDefinition('zicht_page.page_aliaser')
+            ->addMethodCall('setConflictingInternalUrlStrategy', [$config['aliaser']['conflictingInternalUrlStrategy']])
+            ->addMethodCall('setConflictingPublicUrlStrategy', [$config['aliaser']['conflictingPublicUrlStrategy']]);
+
+        $container
             ->getDefinition('zicht_page.form.type.zicht_content_item_region_type')
             ->replaceArgument(0, $config['contentItemClass'])
             ->replaceArgument(1, $config['defaultRegions']);
