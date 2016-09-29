@@ -8,6 +8,7 @@ namespace Zicht\Bundle\PageBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
+use Zicht\Bundle\UrlBundle\Aliasing\Aliasing;
 
 /**
  * Page bundle configuration
@@ -26,25 +27,21 @@ class Configuration implements ConfigurationInterface
             ->children()
                 ->arrayNode('aliasing')
                     ->canBeEnabled()
+                    ->addDefaultsIfNotSet()
                     ->children()
                         ->scalarNode('service')->defaultValue('zicht_page.page_aliasing_strategy')->end()
                         ->arrayNode('prefixLanguages')->prototype('scalar')->end()->end()
-                    ->end()
-                ->end()
-                ->arrayNode('aliaser')
-                    ->addDefaultsIfNotSet()
-                    ->children()
                         ->scalarNode('conflictingInternalUrlStrategy')
-                            ->defaultValue('ignore')
+                            ->defaultValue(Aliasing::STRATEGY_IGNORE)
                             ->validate()
-                            ->ifNotInArray(['ignore', 'redirect-previous-to-new'])
+                            ->ifNotInArray([Aliasing::STRATEGY_IGNORE, Aliasing::STRATEGY_MOVE_PREVIOUS_TO_NEW])
                                 ->thenInvalid('Invalid conflictingInternalUrlStrategy')
                             ->end()
                         ->end()
                         ->scalarNode('conflictingPublicUrlStrategy')
-                            ->defaultValue('suffix')
+                            ->defaultValue(Aliasing::STRATEGY_SUFFIX)
                             ->validate()
-                            ->ifNotInArray(['keep', 'overwrite', 'suffix'])
+                            ->ifNotInArray([Aliasing::STRATEGY_KEEP, Aliasing::STRATEGY_OVERWRITE, Aliasing::STRATEGY_SUFFIX])
                                 ->thenInvalid('Invalid conflictingPublicUrlStrategy')
                             ->end()
                         ->end()

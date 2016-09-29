@@ -44,13 +44,12 @@ class ZichtPageExtension extends Extension
             } else {
                 $def = new Reference($config['aliasing']['service']);
             }
-            $container->getDefinition('zicht_page.page_aliaser')->replaceArgument(2, $def);
+            $container
+                ->getDefinition('zicht_page.page_aliaser')
+                ->replaceArgument(2, $def)
+                ->addMethodCall('setConflictingInternalUrlStrategy', [$config['aliasing']['conflictingInternalUrlStrategy']])
+                ->addMethodCall('setConflictingPublicUrlStrategy', [$config['aliasing']['conflictingPublicUrlStrategy']]);
         }
-
-        $container
-            ->getDefinition('zicht_page.page_aliaser')
-            ->addMethodCall('setConflictingInternalUrlStrategy', [$config['aliaser']['conflictingInternalUrlStrategy']])
-            ->addMethodCall('setConflictingPublicUrlStrategy', [$config['aliaser']['conflictingPublicUrlStrategy']]);
 
         $container
             ->getDefinition('zicht_page.form.type.zicht_content_item_region_type')
