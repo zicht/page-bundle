@@ -8,7 +8,6 @@ namespace Zicht\Bundle\PageBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
-use Zicht\Bundle\UrlBundle\Aliasing\Aliasing;
 
 /**
  * Page bundle configuration
@@ -32,16 +31,16 @@ class Configuration implements ConfigurationInterface
                         ->scalarNode('service')->defaultValue('zicht_page.page_aliasing_strategy')->end()
                         ->arrayNode('prefixLanguages')->prototype('scalar')->end()->end()
                         ->scalarNode('conflictingInternalUrlStrategy')
-                            ->defaultValue(Aliasing::STRATEGY_IGNORE)
+                            ->defaultValue('ignore')
                             ->validate()
-                            ->ifNotInArray([Aliasing::STRATEGY_IGNORE, Aliasing::STRATEGY_MOVE_PREVIOUS_TO_NEW])
+                            ->ifNotInArray(['ignore', 'redirect-previous-to-new'])
                                 ->thenInvalid('Invalid conflictingInternalUrlStrategy')
                             ->end()
                         ->end()
                         ->scalarNode('conflictingPublicUrlStrategy')
-                            ->defaultValue(Aliasing::STRATEGY_SUFFIX)
+                            ->defaultValue('suffix')
                             ->validate()
-                            ->ifNotInArray([Aliasing::STRATEGY_KEEP, Aliasing::STRATEGY_OVERWRITE, Aliasing::STRATEGY_SUFFIX])
+                            ->ifNotInArray(['keep', 'overwrite', 'suffix'])
                                 ->thenInvalid('Invalid conflictingPublicUrlStrategy')
                             ->end()
                         ->end()
