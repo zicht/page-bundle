@@ -11,12 +11,12 @@
     "license": "MIT",
     "require": {
         "php": "^5.6",
-        "zicht/util": "^1.7",
-        "zicht/admin-bundle": "^3.3"
+        "zicht/util": "^1.7"
     },
     "suggest": {
-        "zicht/url-bundle": "^2.8",
-        "zicht/menu-bundle": "^2.4"
+        "zicht/admin-bundle": "Sonata-based backend",
+        "zicht/url-bundle": "Friendly URL's for pages",
+        "zicht/menu-bundle": "Database-based menu implementation"
     },
     "require-dev": {
         "phpunit/phpunit": "^4",
