@@ -12,7 +12,6 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
-use Zicht\Itertools as iter;
 
 /**
  * Class CleanAliasCommand
@@ -48,7 +47,7 @@ class CleanAliasCommand extends ContainerAwareCommand
                     url_alias.id, 
                     url_alias.internal_url, 
                     url_alias.public_url, 
-                    REPLACE(url_alias.internal_url, "/nl/page/", "") AS page_id 
+                    REPLACE(url_alias.internal_url, "/%1$s/page/", "") AS page_id 
                 FROM url_alias 
                 LEFT JOIN page ON page.id = REPLACE(url_alias.internal_url, \'/%1$s/page/\', \'\') 
                 WHERE internal_url LIKE "/%s/page/%%%%"
@@ -89,9 +88,13 @@ class CleanAliasCommand extends ContainerAwareCommand
         }
 
         $stmt->execute();
-        $aliasIds = iter\map('id', $stmt->fetchAll());
 
-        $connection->query(sprintf('DELETE FROM url_alias WHERE id IN (%s)', implode(', ', iterator_to_array($aliasIds))));
+        $aliasIds = [];
+        foreach ($stmt->fetchAll() as $record) {
+            $aliasIds[] = $record['id'];
+        }
+
+        $connection->query(sprintf('DELETE FROM url_alias WHERE id IN (%s)', implode(', ', $aliasIds)));
         $output->writeln(sprintf('Removed %d aliases', count($records)));
 
         return 0;
