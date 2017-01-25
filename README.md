@@ -18,4 +18,6 @@ for more information on how the `zicht/page-bundle` relates to the
 other Zicht Bundles
 
 # Maintainer(s)
-* Gerard van Helden <gerard@zicht.nl>
+* Rik van der Kemp <rik@zicht.nl>
+* Muhammed Akbulut <muhammed@zicht.nl>
+
