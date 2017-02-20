@@ -38,7 +38,7 @@
 
         <service id="zicht_page.admin.event_propagation_builder" class="%zicht_page.admin.event_propagation_builder.class%">
             <argument type="service" id="sonata.admin.pool" on-invalid="null" />
-            <argument type="service" id="zicht_url.provider"/>
+            <argument type="service" id="zicht_url.provider" on-invalid="null" />
             <tag name="zicht_admin.event_propagation" event="zicht_page.view"/>
         </service>
 
