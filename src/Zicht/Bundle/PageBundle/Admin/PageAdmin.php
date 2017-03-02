@@ -155,9 +155,8 @@ class PageAdmin extends Admin
     {
         $formMapper
             ->tab('admin.tab.general')
-            ->add('title', null, array('required' => true))
-            ->end()->end() //needed to do twice, since a tab is a group surrounding a 'with'
-        ;
+                ->add('title', null, array('required' => true))
+            ->end()->end();
 
         if (($subject = $this->getSubject()) && $subject->getId()) {
             if ($subject->getContentItemMatrix() && $subject->getContentItemMatrix()->getTypes()) {
@@ -180,8 +179,7 @@ class PageAdmin extends Admin
                             'admin_code' => $this->code . '|' . $this->contentItemAdminCode
                         )
                     )
-                    ->end()->end() //needed to do twice, since a tab is a group surrounding a 'with'
-                ;
+                    ->end()->end();
 
                 $formMapper->getFormBuilder()->addEventListener(
                     FormEvents::SUBMIT,
