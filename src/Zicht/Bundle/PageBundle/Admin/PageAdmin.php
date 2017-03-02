@@ -149,24 +149,26 @@ class PageAdmin extends Admin
     }
 
     /**
-     * @{inheritDoc}
+     * {@inheritDoc}
      */
     public function generateObjectUrl($name, $object, array $parameters = array(), $absolute = false)
     {
         $admin = null;
-        foreach ($this->configurationPool->getAdminClasses() as $class => $admins) {
-            if ($object instanceof $class) {
-                foreach ($admins as $code) {
-                    // find the last admin that matches:
-                    $admin = $this->configurationPool->getAdminByAdminCode($code);
 
-                    if (get_class($admin) === get_class($this)) {
-                        // don't use this admin
-                        $admin = null;
-                    }
+        $adminClasses = $this->filterAdminClasses($this->getClassParents($object));
+
+        foreach ($adminClasses as $class => $admins) {
+            foreach ($admins as $code) {
+                $admin = $this->configurationPool->getAdminByAdminCode($code);
+                // Prevent circular loop when given admin is the current admin.
+                if (get_class($admin) === PageAdmin::class) {
+                    $admin = null;
+                } else {
+                    break;
                 }
             }
         }
+
         if ($admin) {
             return $admin->generateObjectUrl($name, $object, $parameters, $absolute);
         }
@@ -180,7 +182,7 @@ class PageAdmin extends Admin
     {
         $formMapper
             ->tab('admin.tab.general')
-                ->add('title', null, array('required' => true))
+            ->add('title', null, array('required' => true))
             ->end()->end() //needed to do twice, since a tab is a group surrounding a 'with'
         ;
 
@@ -192,19 +194,19 @@ class PageAdmin extends Admin
 
                 $formMapper
                     ->tab('admin.tab.content')
-                        ->add(
-                            'contentItems',
-                            'sonata_type_collection',
-                            array(
-                                'btn_add' => 'content_item.add'
-                            ),
-                            array(
-                                'edit'   => 'inline',
-                                'inline' => 'table',
-                                'sortable' => 'weight',
-                                'admin_code' => $this->code . '|' . $this->contentItemAdminCode
-                            )
+                    ->add(
+                        'contentItems',
+                        'sonata_type_collection',
+                        array(
+                            'btn_add' => 'content_item.add'
+                        ),
+                        array(
+                            'edit'   => 'inline',
+                            'inline' => 'table',
+                            'sortable' => 'weight',
+                            'admin_code' => $this->code . '|' . $this->contentItemAdminCode
                         )
+                    )
                     ->end()->end() //needed to do twice, since a tab is a group surrounding a 'with'
                 ;
 
@@ -239,8 +241,8 @@ class PageAdmin extends Admin
             }
             $formMapper
                 ->tab('admin.tab.menu')
-                        ->add('menu_item', 'zicht_menu_item', array('translation_domain' => $this->getTranslationDomain()))
-                    ->end()
+                ->add('menu_item', 'zicht_menu_item', array('translation_domain' => $this->getTranslationDomain()))
+                ->end()
                 ->end();
 
             $formMapper
@@ -405,5 +407,58 @@ class PageAdmin extends Admin
     public function getLabel()
     {
         return sprintf('admin.label.%s', Str::infix(lcfirst(Str::classname(get_class($this))), '_'));
+    }
+
+    /**
+     * Return array of parent classes
+     *
+     * @param $object
+     *
+     * @return array
+     */
+    private function getClassParents($object)
+    {
+        $class = new \ReflectionClass($object);
+        $parents = [];
+        while ($parent = $class->getParentClass()) {
+            $parents[] = $parent->getName();
+            $class = $parent;
+        }
+
+        return $parents;
+    }
+
+    /**
+     * Filter admin classes that are not applicable for the given set of parent classes.
+     *
+     * @param array $parentClasses Array with just the class names that belong to an object. Usually the result of getClassParents.
+     * @param bool $sortByParentClasses After filtering the index has changed of the admin classes, use this to resort by given parentClasses.
+     *
+     * @return array
+     */
+    private function filterAdminClasses($parentClasses, $sortByParentClasses = true)
+    {
+        $adminClasses = $this->configurationPool->getAdminClasses();
+        $adminClasses = array_filter(
+            $adminClasses,
+            function ($key) use ($parentClasses) {
+                return in_array($key, $parentClasses, true);
+            },
+            ARRAY_FILTER_USE_KEY
+        );
+
+        if ($sortByParentClasses) {
+            $adminClassesSortedByParentClasses = [];
+
+            foreach ($parentClasses as $idx => $value) {
+                if (array_key_exists($value, $adminClasses)) {
+                    $adminClassesSortedByParentClasses[$value] = $adminClasses[$value];
+                }
+            }
+
+            $adminClasses = $adminClassesSortedByParentClasses;
+        }
+
+        return $adminClasses;
     }
 }
