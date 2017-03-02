@@ -149,30 +149,6 @@ class PageAdmin extends Admin
     }
 
     /**
-     * {@inheritDoc}
-     */
-    public function generateObjectUrl($name, $object, array $parameters = array(), $absolute = false)
-    {
-        $admin = null;
-
-        $adminClasses = $this->filterAdminClasses($this->getClassParents($object));
-
-        foreach ($adminClasses as $class => $admins) {
-            foreach ($admins as $code) {
-                $admin = $this->configurationPool->getAdminByAdminCode($code);
-                if (get_class($admin) !== PageAdmin::class) {
-                    break;
-                }
-            }
-        }
-
-        if ($admin) {
-            return $admin->generateObjectUrl($name, $object, $parameters, $absolute);
-        }
-        return parent::generateObjectUrl($name, $object, $parameters, $absolute);
-    }
-
-    /**
      * @{inheritDoc}
      */
     public function configureFormFields(FormMapper $formMapper)
@@ -404,58 +380,5 @@ class PageAdmin extends Admin
     public function getLabel()
     {
         return sprintf('admin.label.%s', Str::infix(lcfirst(Str::classname(get_class($this))), '_'));
-    }
-
-    /**
-     * Return array of parent classes
-     *
-     * @param $object
-     *
-     * @return array
-     */
-    private function getClassParents($object)
-    {
-        $class = new \ReflectionClass($object);
-        $parents = [];
-        while ($parent = $class->getParentClass()) {
-            $parents[] = $parent->getName();
-            $class = $parent;
-        }
-
-        return $parents;
-    }
-
-    /**
-     * Filter admin classes that are not applicable for the given set of parent classes.
-     *
-     * @param array $parentClasses Array with just the class names that belong to an object. Usually the result of getClassParents.
-     * @param bool $sortByParentClasses After filtering the index has changed of the admin classes, use this to resort by given parentClasses.
-     *
-     * @return array
-     */
-    private function filterAdminClasses($parentClasses, $sortByParentClasses = true)
-    {
-        $adminClasses = $this->configurationPool->getAdminClasses();
-        $adminClasses = array_filter(
-            $adminClasses,
-            function ($key) use ($parentClasses) {
-                return in_array($key, $parentClasses, true);
-            },
-            ARRAY_FILTER_USE_KEY
-        );
-
-        if ($sortByParentClasses) {
-            $adminClassesSortedByParentClasses = [];
-
-            foreach ($parentClasses as $idx => $value) {
-                if (array_key_exists($value, $adminClasses)) {
-                    $adminClassesSortedByParentClasses[$value] = $adminClasses[$value];
-                }
-            }
-
-            $adminClasses = $adminClassesSortedByParentClasses;
-        }
-
-        return $adminClasses;
     }
 }
