@@ -151,38 +151,12 @@ class PageAdmin extends Admin
     /**
      * @{inheritDoc}
      */
-    public function generateObjectUrl($name, $object, array $parameters = array(), $absolute = false)
-    {
-        $admin = null;
-        foreach ($this->configurationPool->getAdminClasses() as $class => $admins) {
-            if ($object instanceof $class) {
-                foreach ($admins as $code) {
-                    // find the last admin that matches:
-                    $admin = $this->configurationPool->getAdminByAdminCode($code);
-
-                    if (get_class($admin) === get_class($this)) {
-                        // don't use this admin
-                        $admin = null;
-                    }
-                }
-            }
-        }
-        if ($admin) {
-            return $admin->generateObjectUrl($name, $object, $parameters, $absolute);
-        }
-        return parent::generateObjectUrl($name, $object, $parameters, $absolute);
-    }
-
-    /**
-     * @{inheritDoc}
-     */
     public function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
             ->tab('admin.tab.general')
                 ->add('title', null, array('required' => true))
-            ->end()->end() //needed to do twice, since a tab is a group surrounding a 'with'
-        ;
+            ->end()->end();
 
         if (($subject = $this->getSubject()) && $subject->getId()) {
             if ($subject->getContentItemMatrix() && $subject->getContentItemMatrix()->getTypes()) {
@@ -192,21 +166,20 @@ class PageAdmin extends Admin
 
                 $formMapper
                     ->tab('admin.tab.content')
-                        ->add(
-                            'contentItems',
-                            'sonata_type_collection',
-                            array(
-                                'btn_add' => 'content_item.add'
-                            ),
-                            array(
-                                'edit'   => 'inline',
-                                'inline' => 'table',
-                                'sortable' => 'weight',
-                                'admin_code' => $this->code . '|' . $this->contentItemAdminCode
-                            )
+                    ->add(
+                        'contentItems',
+                        'sonata_type_collection',
+                        array(
+                            'btn_add' => 'content_item.add'
+                        ),
+                        array(
+                            'edit'   => 'inline',
+                            'inline' => 'table',
+                            'sortable' => 'weight',
+                            'admin_code' => $this->code . '|' . $this->contentItemAdminCode
                         )
-                    ->end()->end() //needed to do twice, since a tab is a group surrounding a 'with'
-                ;
+                    )
+                    ->end()->end();
 
                 $formMapper->getFormBuilder()->addEventListener(
                     FormEvents::SUBMIT,
@@ -239,8 +212,8 @@ class PageAdmin extends Admin
             }
             $formMapper
                 ->tab('admin.tab.menu')
-                        ->add('menu_item', 'zicht_menu_item', array('translation_domain' => $this->getTranslationDomain()))
-                    ->end()
+                ->add('menu_item', 'zicht_menu_item', array('translation_domain' => $this->getTranslationDomain()))
+                ->end()
                 ->end();
 
             $formMapper
