@@ -160,10 +160,7 @@ class PageAdmin extends Admin
         foreach ($adminClasses as $class => $admins) {
             foreach ($admins as $code) {
                 $admin = $this->configurationPool->getAdminByAdminCode($code);
-                // Prevent circular loop when given admin is the current admin.
-                if (get_class($admin) === PageAdmin::class) {
-                    $admin = null;
-                } else {
+                if (get_class($admin) !== PageAdmin::class) {
                     break;
                 }
             }
