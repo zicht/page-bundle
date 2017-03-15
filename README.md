@@ -1,4 +1,7 @@
 # `zicht/page-bundle`
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/zicht/page-bundle/badges/quality-score.png?b=release%2F2.5.x)](https://scrutinizer-ci.com/g/zicht/page-bundle/?branch=release%2F2.5.x)
+[![Code Coverage](https://scrutinizer-ci.com/g/zicht/page-bundle/badges/coverage.png?b=release%2F2.5.x)](https://scrutinizer-ci.com/g/zicht/page-bundle/?branch=release%2F2.5.x)
+[![Build Status](https://scrutinizer-ci.com/g/zicht/page-bundle/badges/build.png?b=release%2F2.5.x)](https://scrutinizer-ci.com/g/zicht/page-bundle/build-status/release/2.5.x)
 
 Provides composable pages through a simple entity model.
 
