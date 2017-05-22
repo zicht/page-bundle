@@ -105,14 +105,14 @@ class ContentItemTypeType extends AbstractType
 
 
             try {
-                if ($subject->getRegion() !== null && $typeAdmin = $this->sonata->getAdminByClass(get_class($subject))) {
+                if ($subject->getId() && $subject->getRegion() !== null && $typeAdmin = $this->sonata->getAdminByClass(get_class($subject))) {
                     $view->vars['type']= Str::humanize(Str::classname($subject->getConvertToType()));
                     $childAdmin = $this->sonata->getAdminByAdminCode($parentAdmin->getCode() . '|' . $typeAdmin->getCode());
                     $childAdmin->setRequest($genericAdmin->getRequest());
 
-                    if ($subject && $subject->getPage() && $subject->getPage()->getId()) {
+                    if ($subject && $subject->getId() && $subject->getPage() && $subject->getPage()->getId()) {
                         try {
-                            $view->vars['edit_url'] = $childAdmin->generateObjectUrl('edit', $subject);
+                            $view->vars['edit_url'] = $childAdmin->generateObjectUrl('edit', $subject, ['childId' => $subject->getId()]);
                         } catch (InvalidParameterException $e) {
                             //2.2 edit url not needed when generating other admins (this is done in the POST of the sonata_collection_type)
                         } catch (MissingMandatoryParametersException $e) {
