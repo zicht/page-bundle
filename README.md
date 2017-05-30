@@ -22,22 +22,22 @@ other Zicht Bundles
 
 ## Voters
 To enable the use of [voters](http://symfony.com/doc/current/security/voters.html) in your configuration you should properly 
-configure `security.yml` or in your config the `security` part
+configure `security.yml` or in the `security` part of your config.
 
-At least you should have these lines
+At least you should have these lines:
 ```
 security:
     access_decision_manager:
             strategy: unanimous
 ```
 
-## PageVoter
+### PageVoter
 The PageVoter requires the page to have `Zicht\Bundle\PageBundle\Model\PageInterface` implemented.
-This Voter looks for the isPublic public function to check wether a page can be displayed to the public or not.
+This Voter looks for the `isPublic` public function to check whether a page can be displayed to the public.
 
-## ScheduledContentVoter
+### ScheduledContentVoter
 The ScheduledContentVoter requires the page to have `Zicht\Bundle\PageBundle\Model\ScheduledContentInterface` implemented.
-With this voter a page could be Scheduled for publication. 
+With this voter a page can be scheduled for publication. 
 
 # Maintainer(s)
 * Muhammed Akbulut <muhammed@zicht.nl>
