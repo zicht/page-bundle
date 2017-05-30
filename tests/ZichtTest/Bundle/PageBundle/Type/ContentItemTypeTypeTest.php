@@ -10,7 +10,7 @@ class ContentItemTypeTypeTest extends \PHPUnit_Framework_TestCase
     public function testConstruct()
     {
         $pool = $this->getMockBuilder('Sonata\AdminBundle\Admin\Pool')->disableOriginalConstructor()->getMock();
-        $ret = new \Zicht\Bundle\PageBundle\Type\ContentItemTypeType($pool, 'foo');
+        $ret = new \Zicht\Bundle\PageBundle\Type\ContentItemTypeType('foo', $pool);
         $this->assertEquals('zicht_content_item_type', $ret->getName());
         return $ret;
     }
