@@ -107,6 +107,7 @@ class EventPropagationBuilderTest extends \PHPUnit_Framework_TestCase
         $this->pool->expects($this->once())->method('getAdminByClass')->with('ZichtTest\Bundle\PageBundle\AdminMenu\P1')->will($this->returnValue($admin));
         $page = new P1('bar');
         $event = new PageViewEvent($page);
+        $event->setDispatcher($dispatcher);
         $url = '/foo';
         $admin->expects($this->once())->method('generateObjectUrl')->with('edit', $page)->will($this->returnVAlue($url));
 

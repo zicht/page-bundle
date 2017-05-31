@@ -104,7 +104,7 @@ namespace Foo\Bar {
 
     class Baz {}
     class Page implements \Zicht\Bundle\PageBundle\Model\PageInterface {
-        public function getId() {}
+        public function getId() {return 1;}
         public function getTitle() {}
         public function getContentItemMatrix() {}
         public function getTemplateName() {}
