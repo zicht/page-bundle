@@ -20,7 +20,25 @@ See the documentation for `zicht/cms` (https://github.com/zicht/cms)
 for more information on how the `zicht/page-bundle` relates to the
 other Zicht Bundles
 
+## Voters
+To enable the use of [voters](http://symfony.com/doc/current/security/voters.html) in your configuration you should properly 
+configure `security.yml` or in the `security` part of your config.
+
+At least you should have these lines:
+```
+security:
+    access_decision_manager:
+            strategy: unanimous
+```
+
+### PageVoter
+The PageVoter requires the page to have `Zicht\Bundle\PageBundle\Model\PageInterface` implemented.
+This Voter looks for the `isPublic` public function to check whether a page can be displayed to the public.
+
+### ScheduledContentVoter
+The ScheduledContentVoter requires the page to have `Zicht\Bundle\PageBundle\Model\ScheduledContentInterface` implemented.
+With this voter a page can be scheduled for publication. 
+
 # Maintainer(s)
-* Rik van der Kemp <rik@zicht.nl>
 * Muhammed Akbulut <muhammed@zicht.nl>
 
