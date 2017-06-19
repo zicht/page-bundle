@@ -40,20 +40,23 @@ class CleanAliasCommand extends ContainerAwareCommand
 
         /** @var Connection $connection */
         $connection = $this->getContainer()->get('doctrine')->getConnection();
-        $stmt = $connection->query(
-            sprintf(
-                'SELECT 
-                    page.id as original_page_id, 
-                    url_alias.id, 
-                    url_alias.internal_url, 
-                    url_alias.public_url, 
-                    REPLACE(url_alias.internal_url, "/%1$s/page/", "") AS page_id 
-                FROM url_alias 
-                LEFT JOIN page ON page.id = REPLACE(url_alias.internal_url, \'/%1$s/page/\', \'\') 
-                WHERE internal_url LIKE "/%s/page/%%%%"
-                AND page.id IS NULL',
-                $locale
-            )
+        $stmt = $connection->prepare(
+            'SELECT 
+                page.id as original_page_id, 
+                url_alias.id, 
+                url_alias.internal_url, 
+                url_alias.public_url, 
+                REPLACE(url_alias.internal_url, :url_pre_id, "") AS page_id 
+            FROM url_alias 
+            LEFT JOIN page ON page.id = REPLACE(url_alias.internal_url, :url_pre_id, \'\') 
+            WHERE internal_url LIKE :url_like
+            AND page.id IS NULL'
+        );
+        $stmt->execute(
+            [
+                ':url_pre_id' => sprintf('/%s/page/', $locale),
+                ':url_like' => sprintf('/%s/page/', sprintf('/%s/page/', $locale) . '%'),
+            ]
         );
 
         $table = new Table($output);
