@@ -21,28 +21,49 @@ class ScheduledContentVoter extends AdminAwareVoterAbstract
      * Decide based on the current date and time what the vote should be. Static so it's strategy can easily be accessed
      * by other components as well, without the actual need for the voter instance.
      *
-     * @param \DateTime $scheduledFrom
-     * @param \DateTime $scheduledTill
+     * @param ScheduledContentInterface $object
+     * @param array $attributes
      * @return int
      */
-    public static function decide(ScheduledContentInterface $object)
+    public static function decide(ScheduledContentInterface $object, array $attributes = [])
     {
-        $scheduledFrom = $object->isScheduledFrom();
-        $scheduledTill = $object->isScheduledTill();
-
+        $from = $object->isScheduledFrom();
+        $till = $object->isScheduledTill();
+        $now = new \DateTimeImmutable();
         $vote = VoterInterface::ACCESS_ABSTAIN;
 
-        if (null !== $scheduledFrom || null !== $scheduledTill) {
-            $currentDateTime = new \DateTime();
-            if (null !== $scheduledFrom && null !== $scheduledTill) {
-                // Check between datetime objects
-                $vote = $scheduledFrom <= $currentDateTime && $scheduledTill >= $currentDateTime ? VoterInterface::ACCESS_GRANTED : VoterInterface::ACCESS_DENIED;
-            } elseif (null !== $scheduledFrom && null === $scheduledTill) {
+        if (!$object->isPublic()) {
+            return $vote;
+        }
+
+        if (null !== $from || null !== $till) {
+
+            if (null !== $from && null !== $till) {
+                switch (true) {
+                    case ($from <= $now && $till >= $now):
+                        $vote = VoterInterface::ACCESS_GRANTED;
+                        break;
+                    case (($from > $now && $till >= $now) && self::hasCmsAttribute($attributes)):
+                        $vote = VoterInterface::ACCESS_GRANTED;
+                        break;
+                    default:
+                        $vote = VoterInterface::ACCESS_DENIED;
+                }
+            } elseif (null !== $from && null === $till) {
                 // Check only "from "date
-                $vote = $scheduledFrom <= $currentDateTime ? VoterInterface::ACCESS_GRANTED : VoterInterface::ACCESS_DENIED;
-            } elseif (null == $scheduledFrom && null !== $scheduledTill) {
+                switch (true) {
+                    case ($from <= $now):
+                        $vote = VoterInterface::ACCESS_GRANTED;
+                        break;
+                    case ($from > $now && self::hasCmsAttribute($attributes)):
+                        $vote = VoterInterface::ACCESS_GRANTED;
+                        break;
+                    default:
+                        $vote = VoterInterface::ACCESS_DENIED;
+                }
+            } elseif (null == $from && null !== $till) {
                 // Check only "till" date
-                $vote = $scheduledTill >= $currentDateTime ? VoterInterface::ACCESS_GRANTED : VoterInterface::ACCESS_DENIED;
+                $vote = $till >= $now ? VoterInterface::ACCESS_GRANTED : VoterInterface::ACCESS_DENIED;
             }
         }
 
@@ -50,17 +71,22 @@ class ScheduledContentVoter extends AdminAwareVoterAbstract
     }
 
     /**
-     * The 'view' attribute
+     * Check if the given attributes contain cms roles/attributes
+     *
+     * @param array $attributes
+     * @return bool
      */
-    const VIEW = 'VIEW';
-
+    protected static function hasCmsAttribute(array $attributes = [])
+    {
+        return (in_array('ACTION_POST_UPDATE', $attributes) || in_array('ACTION_POST_PERSIST', $attributes));
+    }
 
     /**
      * @{inheritDoc}
      */
     public function supportsAttribute($attribute)
     {
-        return in_array($attribute, array(self::VIEW));
+        return in_array($attribute, array('VIEW', 'ACTION_POST_UPDATE', 'ACTION_POST_PERSIST'));
     }
 
     /**
@@ -90,7 +116,7 @@ class ScheduledContentVoter extends AdminAwareVoterAbstract
                     continue;
                 }
 
-                $vote = self::decide($object);
+                $vote = self::decide($object, $attributes);
             }
         }
 

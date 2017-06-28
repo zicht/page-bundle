@@ -14,7 +14,7 @@ namespace Zicht\Bundle\PageBundle\Model;
  *
  * @package Zicht\Bundle\PageBundle\Model
  */
-interface ScheduledContentInterface
+interface ScheduledContentInterface extends PublicInterface
 {
     /**
      * @return \DateTime|null
