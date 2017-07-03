@@ -27,30 +27,21 @@ class ScheduledContentVoter extends AdminAwareVoterAbstract
      */
     public static function decide(ScheduledContentInterface $object, array $attributes = [])
     {
-        $from = $object->isScheduledFrom();
-        $till = $object->isScheduledTill();
+        $valid  = false;
+        $valid |= (null === ($from = $object->isScheduledFrom()));
+        $valid |= (null === ($till = $object->isScheduledTill()));
         $now = new \DateTimeImmutable();
         $vote = VoterInterface::ACCESS_ABSTAIN;
 
-        if (!$object->isPublic()) {
+        if (!$object->isPublic() || false === (bool)$valid) {
             return $vote;
         }
 
-        if (null !== $from || null !== $till) {
-
-            if (null !== $from && null !== $till) {
-                switch (true) {
-                    case ($from <= $now && $till >= $now):
-                        $vote = VoterInterface::ACCESS_GRANTED;
-                        break;
-                    case (($from > $now && $till >= $now) && self::hasCmsAttribute($attributes)):
-                        $vote = VoterInterface::ACCESS_GRANTED;
-                        break;
-                    default:
-                        $vote = VoterInterface::ACCESS_DENIED;
-                }
-            } elseif (null !== $from && null === $till) {
-                // Check only "from "date
+        switch (true) {
+            case is_null($from):
+                $vote = $till >= $now ? VoterInterface::ACCESS_GRANTED : VoterInterface::ACCESS_DENIED;
+                break;
+            case is_null($till):
                 switch (true) {
                     case ($from <= $now):
                         $vote = VoterInterface::ACCESS_GRANTED;
@@ -61,10 +52,18 @@ class ScheduledContentVoter extends AdminAwareVoterAbstract
                     default:
                         $vote = VoterInterface::ACCESS_DENIED;
                 }
-            } elseif (null == $from && null !== $till) {
-                // Check only "till" date
-                $vote = $till >= $now ? VoterInterface::ACCESS_GRANTED : VoterInterface::ACCESS_DENIED;
-            }
+                break;
+            default:
+                switch (true) {
+                    case ($from <= $now && $till >= $now):
+                        $vote = VoterInterface::ACCESS_GRANTED;
+                        break;
+                    case (($from > $now && $till >= $now) && self::hasCmsAttribute($attributes)):
+                        $vote = VoterInterface::ACCESS_GRANTED;
+                        break;
+                    default:
+                        $vote = VoterInterface::ACCESS_DENIED;
+                }
         }
 
         return $vote;
