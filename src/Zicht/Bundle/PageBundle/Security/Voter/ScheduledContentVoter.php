@@ -27,13 +27,12 @@ class ScheduledContentVoter extends AdminAwareVoterAbstract
      */
     public static function decide(ScheduledContentInterface $object, array $attributes = [])
     {
-        $valid  = false;
-        $valid |= (null === ($from = $object->isScheduledFrom()));
-        $valid |= (null === ($till = $object->isScheduledTill()));
         $now = new \DateTimeImmutable();
         $vote = VoterInterface::ACCESS_ABSTAIN;
+        $from = $object->isScheduledFrom();
+        $till = $object->isScheduledTill();
 
-        if (!$object->isPublic() || false === (bool)$valid) {
+        if (!$object->isPublic() || false === self::notEmpty($from, $till))  {
             return $vote;
         }
 
@@ -69,6 +68,17 @@ class ScheduledContentVoter extends AdminAwareVoterAbstract
         return $vote;
     }
 
+     /**
+     * Check if one or more of the given items is not empty
+     *
+     * @param ...$value
+     * @return bool
+     */
+    protected static function notEmpty(...$value)
+    {
+        return (bool)count(array_filter($value)) >= 1;
+    }
+    
     /**
      * Check if the given attributes contain cms roles/attributes
      *
