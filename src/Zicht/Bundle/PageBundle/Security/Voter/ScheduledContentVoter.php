@@ -15,7 +15,7 @@ use Zicht\Bundle\PageBundle\Model\ScheduledContentInterface;
  *
  * @package Zicht\Bundle\PageBundle\Security\Voter
  */
-class ScheduledContentVoter extends AdminAwareVoterAbstract
+class ScheduledContentVoter extends AbstractAdminAwareVoter
 {
     /**
      * Decide based on the current date and time what the vote should be. Static so it's strategy can easily be accessed
@@ -66,36 +66,6 @@ class ScheduledContentVoter extends AdminAwareVoterAbstract
         }
 
         return $vote;
-    }
-
-     /**
-     * Check if one or more of the given items is not empty
-     *
-     * @param ...$value
-     * @return bool
-     */
-    protected static function notEmpty(...$value)
-    {
-        return (bool)count(array_filter($value)) >= 1;
-    }
-    
-    /**
-     * Check if the given attributes contain cms roles/attributes
-     *
-     * @param array $attributes
-     * @return bool
-     */
-    protected static function hasCmsAttribute(array $attributes = [])
-    {
-        return (in_array('ACTION_POST_UPDATE', $attributes) || in_array('ACTION_POST_PERSIST', $attributes));
-    }
-
-    /**
-     * @{inheritDoc}
-     */
-    public function supportsAttribute($attribute)
-    {
-        return in_array($attribute, array('VIEW', 'ACTION_POST_UPDATE', 'ACTION_POST_PERSIST'));
     }
 
     /**
