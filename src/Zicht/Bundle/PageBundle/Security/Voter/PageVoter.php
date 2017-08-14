@@ -12,21 +12,8 @@ use Zicht\Bundle\PageBundle\Model\PageInterface;
 /**
  * Votes for pages to be public for anyone.
  */
-class PageVoter implements VoterInterface
+class PageVoter extends AbstractVoter
 {
-    /**
-     * The 'view' attribute
-     */
-    const VIEW = 'VIEW';
-
-    /**
-     * @{inheritDoc}
-     */
-    public function supportsAttribute($attribute)
-    {
-        return in_array($attribute, array(self::VIEW));
-    }
-
     /**
      * @{inheritDoc}
      */

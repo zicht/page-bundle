@@ -14,7 +14,7 @@ use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
  *
  * @package Zicht\Bundle\PageBundle\Security\Voter
  */
-abstract class AdminAwareVoterAbstract implements VoterInterface
+abstract class AbstractAdminAwareVoter extends AbstractVoter
 {
     /**
      * Returns the vote for the given parameters.
