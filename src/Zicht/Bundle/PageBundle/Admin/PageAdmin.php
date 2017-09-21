@@ -18,6 +18,7 @@ use Zicht\Bundle\MenuBundle\Entity\MenuItem;
 use Zicht\Bundle\MenuBundle\Form\Subscriber\MenuItemPersistenceSubscriber;
 use Zicht\Bundle\PageBundle\Entity\ContentItem;
 use Zicht\Bundle\PageBundle\Manager\PageManager;
+use Zicht\Bundle\PageBundle\Model\ContentItemContainer;
 use Zicht\Bundle\PageBundle\Model\PageInterface;
 use Zicht\Bundle\MenuBundle\Manager\MenuManager;
 use Zicht\Bundle\UrlBundle\Aliasing\ProviderDecorator;
@@ -160,8 +161,8 @@ class PageAdmin extends Admin
 
         if (($subject = $this->getSubject()) && $subject->getId()) {
             if ($subject->getContentItemMatrix() && $subject->getContentItemMatrix()->getTypes()) {
-                if (!property_exists($subject, 'contentItems')) {
-                    throw new \RuntimeException(sprintf('The zicht/page-bundle assumes that there is a property "contentItems" for the entity %s.  Note that this property must be either public of protected.', get_class($subject)));
+                if (!($subject instanceof ContentItemContainer)) {
+                    throw new \RuntimeException(sprintf('The zicht/page-bundle assumes that entity %s implements the ContentItemContainer interface.', get_class($subject)));
                 }
 
                 $formMapper
