@@ -1,3 +1,7 @@
+# 2.6.0 - 2017-10-05
+## Added
+- Added a service `zicht_page.controller.view_validator` to vote on weather a page is viewable or not
+
 # 2.3.0
 - Includes compatibility with an admin-less kernel
 
