@@ -14,6 +14,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Zicht\Bundle\PageBundle\Entity\ControllerPageInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Zicht\Bundle\PageBundle\Model\ViewValidationInterface;
 
 /**
  * Controller for public page actions
@@ -66,8 +67,8 @@ class PageController extends AbstractController
         $pageManager = $this->getPageManager();
         $page = $pageManager->findForView($id);
 
-        if (($securityContext = $this->getSecurityContext()) && !$securityContext->isGranted('VIEW', $page)) {
-            throw new AccessDeniedException("Page {$id} is not accessible to the current user");
+        if (null !== ($validator = $this->getViewActionValidator())) {
+            $validator->validate($page);
         }
 
         if ($page instanceof ControllerPageInterface) {
@@ -87,6 +88,17 @@ class PageController extends AbstractController
     }
 
     /**
+     * @return null|ViewValidationInterface
+     */
+    protected function getViewActionValidator()
+    {
+        if (($validator = $this->get('zicht_page.controller.view_validator')) instanceof ViewValidationInterface) {
+            return $validator;
+        }
+        return null;
+    }
+
+    /**
      * Render a page with the specified additional template variables.
      *
      * @param PageInterface $page
@@ -102,13 +114,5 @@ class PageController extends AbstractController
                 'id' => $page->getId(),
             )
         );
-    }
-
-    /**
-     * @return \Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface
-     */
-    public function getSecurityContext()
-    {
-        return $this->container->get('security.authorization_checker', ContainerInterface::NULL_ON_INVALID_REFERENCE);
     }
 }

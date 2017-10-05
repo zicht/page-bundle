@@ -5,6 +5,15 @@
     <parameters>
         <parameter key="zicht_page.page_url_provider.class">Zicht\Bundle\PageBundle\Url\PageUrlProvider</parameter>
         <parameter key="zicht_page.admin.event_propagation_builder.class">Zicht\Bundle\PageBundle\AdminMenu\EventPropagationBuilder</parameter>
+        <parameter key="zicht_page.page_manager_subscriber.class">Zicht\Bundle\PageBundle\Manager\Doctrine\Subscriber</parameter>
+        <parameter key="zicht_page.form.type.zicht_content_item_type_type.class">Zicht\Bundle\PageBundle\Type\ContentItemTypeType</parameter>
+        <parameter key="zicht_page.form.type.zicht_content_item_region_type.class">Zicht\Bundle\PageBundle\Type\ContentItemRegionType</parameter>
+        <parameter key="main.form.type.zicht_discriminator_map_type.class">Zicht\Bundle\PageBundle\Type\DiscriminatorMapType</parameter>
+        <parameter key="zicht_page.page_manager.class">Zicht\Bundle\PageBundle\Manager\PageManager</parameter>
+        <parameter key="zicht_page.security.authorization.voter.page_voter.class">Zicht\Bundle\PageBundle\Security\Voter\PageVoter</parameter>
+        <parameter key="zicht_page.security.authorization.voter.scheduled_content_voter.class">Zicht\Bundle\PageBundle\Security\Voter\ScheduledContentVoter</parameter>
+        <parameter key="zicht_page.validator.content_item_matrix_validator.class">Zicht\Bundle\PageBundle\Validator\Constraints\ContentItemMatrixValidator</parameter>
+        <parameter key="zicht_page.controller.view_validator.class">Zicht\Bundle\PageBundle\Security\PageViewValidation</parameter>
     </parameters>
     <services>
         <service id="zicht_page.page_url_provider" class="%zicht_page.page_url_provider.class%">
@@ -12,58 +21,48 @@
             <argument type="service" id="zicht_page.page_manager"/>
             <tag name="zicht_url.url_provider"/>
         </service>
-
-        <service id="zicht_page.page_manager_subscriber" class="Zicht\Bundle\PageBundle\Manager\Doctrine\Subscriber">
+        <service id="zicht_page.page_manager_subscriber" class="%zicht_page.page_manager_subscriber.class%">
             <argument type="service" id="service_container"/>
             <tag name="doctrine.event_subscriber"/>
         </service>
-
-        <service id="zicht_page.form.type.zicht_content_item_type_type" class="Zicht\Bundle\PageBundle\Type\ContentItemTypeType">
+        <service id="zicht_page.form.type.zicht_content_item_type_type" class="%zicht_page.form.type.zicht_content_item_type_type.class%">
             <argument/>
             <argument type="service" id="sonata.admin.pool" on-invalid="null" />
             <tag name="form.type" alias="zicht_content_item_type"/>
         </service>
-
-        <service id="zicht_page.form.type.zicht_content_item_region_type" class="Zicht\Bundle\PageBundle\Type\ContentItemRegionType">
+        <service id="zicht_page.form.type.zicht_content_item_region_type" class="%zicht_page.form.type.zicht_content_item_region_type.class%">
             <argument/>
             <argument/>
             <argument type="service" id="translator" />
             <tag name="form.type" alias="zicht_content_item_region"/>
         </service>
-
-        <service id="main.form.type.zicht_discriminator_map_type" class="Zicht\Bundle\PageBundle\Type\DiscriminatorMapType">
+        <service id="main.form.type.zicht_discriminator_map_type" class="%main.form.type.zicht_discriminator_map_type.class%">
             <argument type="service" id="doctrine"/>
             <tag name="form.type" alias="zicht_discriminator_map"/>
         </service>
-
         <service id="zicht_page.admin.event_propagation_builder" class="%zicht_page.admin.event_propagation_builder.class%">
             <argument type="service" id="sonata.admin.pool" on-invalid="null" />
             <argument type="service" id="zicht_url.provider" on-invalid="null" />
             <tag name="zicht_admin.event_propagation" event="zicht_page.view"/>
         </service>
-
-        <service id="zicht_page.page_manager" class="Zicht\Bundle\PageBundle\Manager\PageManager">
+        <service id="zicht_page.page_manager" class="%zicht_page.page_manager.class%">
             <argument type="service" id="doctrine"/>
             <argument type="service" id="event_dispatcher"/>
             <argument/>
             <argument/>
         </service>
-
-        <service id="zicht_page.security.authorization.voter.page_voter"
-                 class="Zicht\Bundle\PageBundle\Security\Voter\PageVoter"
-                 public="false">
+        <service id="zicht_page.security.authorization.voter.page_voter" class="%zicht_page.security.authorization.voter.page_voter.class%" public="false">
             <tag name="security.voter" />
         </service>
-
-        <service id="zicht_page.security.authorization.voter.scheduled_content_voter"
-                 class="Zicht\Bundle\PageBundle\Security\Voter\ScheduledContentVoter"
-                 public="false">
+        <service id="zicht_page.security.authorization.voter.scheduled_content_voter" class="%zicht_page.security.authorization.voter.scheduled_content_voter.class%" public="false">
             <tag name="security.voter" />
         </service>
-
-        <service id="zicht_page.validator.content_item_matrix_validator" class="Zicht\Bundle\PageBundle\Validator\Constraints\ContentItemMatrixValidator">
+        <service id="zicht_page.validator.content_item_matrix_validator" class="%zicht_page.validator.content_item_matrix_validator.class%">
             <tag name="validator.constraint_validator" alias="zicht_page.validator.content_item_matrix_validator" />
             <argument type="service" id="translator"/>
+        </service>
+        <service id="zicht_page.controller.view_validator" class="%zicht_page.controller.view_validator.class%">
+            <argument type="service" id="security.authorization_checker" on-invalid="null"/>
         </service>
     </services>
 </container>
