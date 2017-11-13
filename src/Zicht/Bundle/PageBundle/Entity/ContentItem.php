@@ -31,18 +31,22 @@ abstract class ContentItem implements ContentItemInterface
     }
 
     /**
-     * This is "type cast", PHP style. Copies all properties from the source to the target, if the target has the
-     * specified properties. Of course, this only works for protected properties.
+     * Copies all properties from the source to the target, if the target has the specified properties.
      *
-     * @param self $from
-     * @param self $to
-     * @return mixed
+     * @param ContentItemInterface $from
+     * @param ContentItemInterface $to
+     * @return ContentItemInterface
      */
-    public static function convert($from, $to)
+    public static function convert(ContentItemInterface $from, ContentItemInterface $to)
     {
-        foreach (get_object_vars($from) as $property => $value) {
-            if (property_exists($to, $property)) {
-                $to->{$property} = $value;
+        $reflectionFrom = new \ReflectionClass($from);
+        $reflectionTo = new \ReflectionClass($to);
+
+        foreach ($reflectionFrom->getProperties() as $property) {
+            $property->setAccessible(true);
+            $method = 'set' . ucfirst($property->getName());
+            if ($reflectionTo->hasMethod($method)) {
+                $to->$method($property->getValue($from));
             }
         }
 
