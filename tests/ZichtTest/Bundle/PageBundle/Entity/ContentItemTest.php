@@ -7,7 +7,7 @@ namespace ZichtTest\Bundle\PageBundle\Entity;
 
 abstract class Base extends \Zicht\Bundle\PageBundle\Entity\ContentItem
 {
-    protected $commonProperty = 'foo-common';
+    private $commonProperty = 'foo-common';
 
     public function getCommonProperty()
     {
@@ -17,12 +17,12 @@ abstract class Base extends \Zicht\Bundle\PageBundle\Entity\ContentItem
 
 class MyFooContentItem extends Base
 {
-    protected $fooProperty  = 'foo';
+    private $fooProperty  = 'foo';
 }
 
 class MyBarContentItem extends Base
 {
-    protected $barProperty = 'bar';
+    private $barProperty = 'bar';
 }
 
 class ContentItemTest extends \PHPUnit_Framework_TestCase

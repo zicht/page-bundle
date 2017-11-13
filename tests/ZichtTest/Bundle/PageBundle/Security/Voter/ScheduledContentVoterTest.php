@@ -137,4 +137,12 @@ class MockScheduledObject implements ScheduledContentInterface
     {
         return $this->till;
     }
+
+    /**
+     * @return bool
+     */
+    public function isPublic()
+    {
+        return true;
+    }
 }
