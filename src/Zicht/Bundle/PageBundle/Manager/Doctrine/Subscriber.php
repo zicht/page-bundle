@@ -1,6 +1,5 @@
 <?php
 /**
- * @author Gerard van Helden <gerard@zicht.nl>
  * @copyright Zicht Online <http://zicht.nl>
  */
 
@@ -17,6 +16,11 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  */
 class Subscriber implements EventSubscriber
 {
+    /**
+     * @var ContainerInterface
+     */
+    private $container;
+
     /**
      * Construct the subscriber.
      *

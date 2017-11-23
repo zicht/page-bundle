@@ -1,3 +1,45 @@
+# 3.0.0
+## Breaking Changes
+- Naming admin services of Pages and ContentItems using the fully 
+qualified class name instead of using only the last part. 
+Updating changes the service ids of the Page Admins. In `sonata_admin` config
+ids should be changed accordingly.
+To have easy access to the ids make use of symfony debug in 
+the console `php app/console debug:container` which will give 
+a list of all registered services.
+- Registering content items via the `$page->getContentItemMatrix()` 
+has changed. 
+Old situation 
+```
+    /**
+     * @{inheritDoc}
+     */
+    public function getContentItemMatrix()
+    {
+        return ContentItemMatrix::create('Zicht\Bundle\SomeSiteBundle\Entity\ContentItem')
+            ->region('center')
+                ->type('Card')
+                ->type('Contact');
+    }
+```
+New situation
+```
+    /**
+     * @{inheritDoc}
+     */
+    public function getContentItemMatrix()
+    {
+        return ContentItemMatrix::create()
+            ->region('center')
+                ->type(Zicht\Bundle\SomeSiteBundle\Entity\ContentItem\Card::class')
+                ->type(Zicht\Bundle\SomeSiteBundle\Entity\ContentItem\Contact::class);
+    }
+```
+Noticeable 2 changes here. 
+First `create()` has no namespace params anymore.
+Second `type()` only accepts an existing class name. 
+So the best practice would be to use `::class` for this. 
+
 # 2.6.0 - 2017-10-05
 ## Added
 - Added a service `zicht_page.controller.view_validator` to vote on weather a page is viewable or not

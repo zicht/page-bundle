@@ -54,7 +54,7 @@ class LanguageAwareAliasingStrategy implements AliasingStrategy
     {
         $alias = $this->strategyWrapper->generatePublicAlias($subject, $currentAlias);
 
-        if ($alias && method_exists($subject, 'getLanguage')) {
+        if ($alias !== null && method_exists($subject, 'getLanguage')) {
             if (in_array($subject->getLanguage(), $this->localesToPrefix)) {
                 $alias = sprintf('%s%s%s', $this->basePath, $subject->getLanguage(), $alias);
             }

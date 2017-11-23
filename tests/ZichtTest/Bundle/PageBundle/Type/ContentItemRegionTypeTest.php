@@ -51,7 +51,11 @@ namespace ZichtTest\Bundle\PageBundle\Assets {
             list($options, $type) = $args;
             $builder = $this->getMockBuilder('Symfony\Component\Form\FormBuilder')->disableOriginalConstructor()->getMock();
             $container = $this->getMockBuilder('Zicht\Bundle\PageBundle\Model\ContentItemContainer')->getMock();
-            $matrix = \Zicht\Bundle\PageBundle\Model\ContentItemMatrix::create('ZichtTest\Bundle\PageBundle\Assets')->region('x')->type('foo')->region('y')->type('bar');
+            $matrix = \Zicht\Bundle\PageBundle\Model\ContentItemMatrix::create()
+                ->region('x')
+                    ->type(\ZichtTest\Bundle\PageBundle\Assets\foo::class)
+                ->region('y')
+                    ->type(\ZichtTest\Bundle\PageBundle\Assets\bar::class);
             $container->expects($this->once())->method('getContentItemMatrix')->will($this->returnValue($matrix));
             $options['container']= $container;
             $builder->expects($this->once())->method('add')->with('region', 'choice', array('choices' => array('x' => 'x', 'y' => 'y'), 'translation_domain' => 'admin', 'empty_value' => null));
