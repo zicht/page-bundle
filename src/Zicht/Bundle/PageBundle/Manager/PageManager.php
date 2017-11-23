@@ -1,32 +1,68 @@
 <?php
 /**
- * @author Gerard van Helden <gerard@zicht.nl>
  * @copyright Zicht Online <http://zicht.nl>
  */
 
 namespace Zicht\Bundle\PageBundle\Manager;
 
+use Doctrine\Bundle\DoctrineBundle\Registry;
+use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Common\Persistence\ObjectRepository;
 use Doctrine\Common\Util\ClassUtils;
 use Doctrine\ORM\Mapping\ClassMetadata;
-use Doctrine\Bundle\DoctrineBundle\Registry;
+use Symfony\Component\EventDispatcher\Event as SymfonyEvent;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Zicht\Bundle\PageBundle\Event;
-use Zicht\Util\Str;
 use Zicht\Bundle\PageBundle\Entity\ViewablePageRepository;
+use Zicht\Bundle\PageBundle\Event;
+use Zicht\Bundle\PageBundle\Model\PageInterface;
+use Zicht\Util\Str;
 
 /**
  * Main service for page management
  */
 class PageManager
 {
-    protected $mappings = array();
-    protected $loadedPage = null;
+    /**
+     * @var array
+     */
+    private $mappings = array();
 
     /**
-     * Construct the pagemanager with the specified dependencies.
+     * @var null|PageInterface
+     */
+    private $loadedPage = null;
+
+    /**
+     * @var Registry
+     */
+    private $doctrine;
+
+    /**
+     * @var ObjectManager
+     */
+    private $em;
+
+    /**
+     * @var EventDispatcher
+     */
+    private $eventDispatcher;
+
+    /**
+     * @var string
+     */
+    private $pageClassName;
+
+    /**
+     * @var string
+     */
+    private $contentItemClassName;
+
+    /**
+     * Construct the page manager with the specified dependencies.
      *
-     * @param \Doctrine\Bundle\DoctrineBundle\Registry $doctrine
-     * @param \Symfony\Component\EventDispatcher\EventDispatcher $dispatcher
+     * @param Registry $doctrine
+     * @param EventDispatcher $dispatcher
      * @param string $pageClassName
      * @param string $contentItemClassName
      */
@@ -43,11 +79,10 @@ class PageManager
         $this->mappings[$contentItemClassName] = array();
     }
 
-
     /**
      * Returns the template of the page from the bundle the entity is part of.
      *
-     * @param \Zicht\Bundle\PageBundle\Model\PageInterface $page
+     * @param PageInterface $page
      * @return string
      *
      * @throws \RuntimeException
@@ -58,7 +93,6 @@ class PageManager
         $bundle = $this->getBundleName(ClassUtils::getRealClass(get_class($page)));
         return sprintf('%s:Page:%s.html.twig', $bundle, $page->getTemplateName());
     }
-
 
     /**
      * @param string $className
@@ -77,7 +111,8 @@ class PageManager
             $bundleName = $part;
         }
         if (null === $bundleName) {
-            if ($parentClass = get_parent_class($className)) {
+            $parentClass = get_parent_class($className);
+            if ($parentClass) {
                 return $this->getBundleName($parentClass);
             }
 
@@ -86,7 +121,6 @@ class PageManager
         $bundle = $vendor . $bundleName;
         return $bundle;
     }
-
 
     /**
      * Returns the page class
@@ -98,23 +132,20 @@ class PageManager
         return $this->pageClassName;
     }
 
-
     /**
      * Returns the base repository, i.e. the repository of the page class.
      *
-     * @return \Doctrine\ORM\EntityRepository
+     * @return ObjectRepository
      */
     public function getBaseRepository()
     {
         return $this->em->getRepository($this->pageClassName);
     }
 
-
     /**
      * Sets the available page types
      *
      * @param array $pageTypes
-     * @return void
      */
     public function setPageTypes($pageTypes)
     {
@@ -129,7 +160,6 @@ class PageManager
         return $this->mappings[$this->pageClassName];
     }
 
-
     /**
      * @return array
      */
@@ -138,24 +168,20 @@ class PageManager
         return $this->mappings;
     }
 
-
     /**
      * Sets the available content item types.
      *
      * @param array $contentItemTypes
-     * @return void
      */
     public function setContentItemTypes($contentItemTypes)
     {
         $this->mappings[$this->contentItemClassName] = $contentItemTypes;
     }
 
-
     /**
      * Adds the available page types and content item types to the class metadata's discriminatorMap
      *
-     * @param \Doctrine\ORM\Mapping\ClassMetadata $c
-     * @return void
+     * @param ClassMetadata $c
      */
     public function decorateClassMetaData(ClassMetadata $c)
     {
@@ -173,14 +199,13 @@ class PageManager
         }
     }
 
-
     /**
      * Find a page in the repository and trigger a view event.
      *
      * @param string $id
      * @return mixed
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
+     * @throws NotFoundHttpException
      */
     public function findForView($id)
     {
@@ -206,15 +231,14 @@ class PageManager
         return $ret;
     }
 
-
     /**
      * Finds a page in the specified repository by the specified conditions.
      *
      * @param string $repository
      * @param array $conditions
-     * @return mixed
+     * @return null|object
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
+     * @throws NotFoundHttpException
      */
     public function findPageBy($repository, $conditions)
     {
@@ -224,7 +248,6 @@ class PageManager
         }
         return $ret;
     }
-
 
     /**
      * Returns all pages from the base repository
@@ -239,8 +262,7 @@ class PageManager
     /**
      * Set the loaded page, and trigger a view event
      *
-     * @param \Zicht\Bundle\PageBundle\Model\PageInterface $loadedPage
-     * @return void
+     * @param PageInterface $loadedPage
      */
     public function setLoadedPage($loadedPage)
     {
@@ -252,14 +274,15 @@ class PageManager
      * Returns the currently loaded page, or default to the specified callback for loading it.
      *
      * @param callable $default
-     * @return \Zicht\Bundle\PageBundle\Model\PageInterface
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
+     * @return PageInterface
+     * @throws NotFoundHttpException
      */
     public function getLoadedPage($default = null)
     {
         if (!$this->loadedPage) {
             if (is_callable($default)) {
-                if ($page = call_user_func($default, $this)) {
+                $page = call_user_func($default, $this);
+                if ($page !== null) {
                     $this->setLoadedPage($page);
                 }
             }
@@ -271,13 +294,13 @@ class PageManager
         return $this->loadedPage;
     }
 
-
     /**
      * Dispatch an event
      *
      * @param string $type
-     * @param \Symfony\Component\EventDispatcher\Event $event
-     * @return mixed
+     * @param SymfonyEvent $event
+     *
+     * @return SymfonyEvent
      */
     public function dispatch($type, $event)
     {

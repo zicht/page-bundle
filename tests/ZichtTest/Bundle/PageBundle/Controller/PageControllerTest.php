@@ -49,12 +49,14 @@ class PageControllerTest extends \PHPUnit_Framework_TestCase
     /** @var PageController */
     private $controller;
 
-
     public function setUp()
     {
         $this->controller = new PageController();
         $this->pm = $this->getMockBuilder('Zicht\Bundle\PageBundle\Manager\PageManager')->disableOriginalConstructor()->getMock();
         $this->templating =  $this->getMockBuilder('Symfony\Bundle\FrameworkBundle\Templating\EngineInterface')->getMock();
+        $this->viewValidator =  $this->getMockBuilder('Zicht\Bundle\PageBundle\Security\PageViewValidation')->getMock();
+
+        $this->viewValidator->method('validate')->willReturn(null);
 
         $request = $this->getMock(Request::class);
         $request->method('duplicate')->willReturn($request);
@@ -76,6 +78,7 @@ class PageControllerTest extends \PHPUnit_Framework_TestCase
         $container->set('zicht_page.page_manager', $this->pm);
         $container->set('templating', $this->templating);
         $container->set('request', $this->request);
+        $container->set('zicht_page.controller.view_validator', $this->viewValidator);
 
         $rs = $this->getMock(RequestStack::class);
         $rs->method('getCurrentRequest')->willReturn($request);
@@ -91,12 +94,12 @@ class PageControllerTest extends \PHPUnit_Framework_TestCase
 
     private function allow()
     {
-        $this->security->expects($this->once())->method('isGranted')->will($this->returnValue(true));
+        $this->viewValidator->expects($this->once())->method('validate')->will($this->returnValue(true));
     }
 
     private function deny()
     {
-        $this->security->expects($this->once())->method('isGranted')->will($this->returnValue(false));
+        $this->viewValidator->expects($this->once())->method('validate')->will($this->throwException(new AccessDeniedException()));
     }
 
     function testViewActionFindsPageForView()

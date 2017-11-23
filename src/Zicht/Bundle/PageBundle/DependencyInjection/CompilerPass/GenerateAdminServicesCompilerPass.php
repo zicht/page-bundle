@@ -1,6 +1,5 @@
 <?php
 /**
- * @author Gerard van Helden <gerard@zicht.nl>
  * @copyright Zicht Online <http://zicht.nl>
  */
 
@@ -27,20 +26,11 @@ class GenerateAdminServicesCompilerPass implements CompilerPassInterface
             return;
         }
 
-        $naming = function ($fqEntityClassName) {
-            return
-                str_replace(
-                    '\\Entity\\',
-                    '\\Admin\\',
-                    $fqEntityClassName
-                ) . 'Admin';
-        };
-
         $config = $container->getParameter('zicht_page.config');
 
         $baseIds = $config['admin']['base'];
 
-        $serviceDefs = array();
+        $serviceDefinitions = array();
         $pageManagerDef = $container->getDefinition('zicht_page.page_manager');
         $types = array();
 
@@ -56,60 +46,76 @@ class GenerateAdminServicesCompilerPass implements CompilerPassInterface
         }
 
         foreach (array('page', 'contentItem') as $type) {
-            $serviceDefs[$type] = array();
+            $serviceDefinitions[$type] = array();
 
             $def = $container->getDefinition($baseIds[$type]);
 
             foreach ($types[$type] as $entityClassName) {
-                $adminClassName = $naming($entityClassName);
-                if (class_exists($adminClassName)) {
-                    $adminService = clone $def;
-                    $adminService->setClass($adminClassName);
-
-                    $tags = $adminService->getTags();
-                    $tags['sonata.admin'][0]['show_in_dashboard'] = 0;
-                    $tags['sonata.admin'][0]['label'] = Str::rstrip(Str::classname($entityClassName), 'Page');
-                    $adminService->setTags($tags);
-
-                    $id = $baseIds[$type]. '.' . Str::uscore(Str::classname($entityClassName));
-
-                    $adminService->replaceArgument(0, $id);
-                    $adminService->replaceArgument(1, $entityClassName);
-
-                    $container->setDefinition($id, $adminService);
-
-                    $serviceDefs[$type][]= $id;
-                } else {
-                    throw new \Exception(sprintf('The PageBundle was unable to create a service definition for %s because the associated class %s was not found', $entityClassName, $adminClassName));
+                $adminClassName = $this->renderAdminClassName($entityClassName);
+                if (!class_exists($adminClassName)) {
+                    throw new \Exception(
+                        sprintf(
+                            'The PageBundle was unable to create a service definition for %s because the associated class %s was not found',
+                            $entityClassName,
+                            $adminClassName
+                        )
+                    );
                 }
+
+                $adminService = clone $def;
+                $adminService->setClass($adminClassName);
+
+                $id = Str::systemize($adminClassName, '.');
+
+                $tags = $adminService->getTags();
+                $tags['sonata.admin'][0]['show_in_dashboard'] = 0;
+                $tags['sonata.admin'][0]['label'] = $id;
+                $adminService->setTags($tags);
+
+                $adminService->replaceArgument(0, $id);
+                $adminService->replaceArgument(1, $entityClassName);
+
+                $container->setDefinition($id, $adminService);
+
+                $serviceDefinitions[$type][] = $id;
             }
         }
 
-        foreach ($serviceDefs['page'] as $pageServiceId) {
+        foreach ($serviceDefinitions['page'] as $pageServiceId) {
             $pageDef = $container->getDefinition($pageServiceId);
             $pageClassName = $pageDef->getArgument(1);
 
-            if (is_a($pageClassName, 'Zicht\Bundle\PageBundle\Model\ContentItemContainer', true)) {
+            if (!is_a($pageClassName, 'Zicht\Bundle\PageBundle\Model\ContentItemContainer', true)) {
+                continue;
+            }
 
-                /** @var ContentItemContainer $instance */
-                $instance = new $pageClassName;
+            /** @var ContentItemContainer $instance */
+            $instance = new $pageClassName;
+            $contentItemClassNames = $instance->getContentItemMatrix()->getTypes();
+            foreach ($serviceDefinitions['contentItem'] as $contentItemServiceId) {
+                $contentItemDefinition = $container->getDefinition($contentItemServiceId);
 
-                if ($matrix = $instance->getContentItemMatrix()) {
-                    $contentItemClassNames = $matrix->getTypes();
-
-                    foreach ($serviceDefs['contentItem'] as $contentItemServiceId) {
-                        $contentItemDefinition = $container->getDefinition($contentItemServiceId);
-
-                        if (in_array($contentItemDefinition->getArgument(1), $contentItemClassNames)) {
-                            $pageDef
-                                ->addMethodCall(
-                                    'addChild',
-                                    array(new Reference($contentItemServiceId))
-                                );
-                        }
-                    }
+                if (in_array($contentItemDefinition->getArgument(1), $contentItemClassNames)) {
+                    $pageDef->addMethodCall(
+                        'addChild',
+                        array(new Reference($contentItemServiceId))
+                    );
                 }
             }
         }
+    }
+
+    /**
+     * @param string $fullyQualifiedClassName
+     *
+     * @return string
+     */
+    private function renderAdminClassName($fullyQualifiedClassName)
+    {
+        return sprintf(
+            '%s%s',
+            str_replace('\\Entity\\', '\\Admin\\', $fullyQualifiedClassName),
+            'Admin'
+        );
     }
 }

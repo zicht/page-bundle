@@ -1,27 +1,25 @@
 <?php
 /**
- * @author Gerard van Helden <gerard@zicht.nl>
  * @copyright Zicht Online <http://zicht.nl>
  */
 
 namespace Zicht\Bundle\PageBundle\Admin;
 
-use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\AdminBundle\Admin\Admin;
-use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
+use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\AdminBundle\Show\ShowMapper;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Zicht\Bundle\AdminBundle\Util\AdminUtil;
 use Zicht\Bundle\MenuBundle\Entity\MenuItem;
 use Zicht\Bundle\MenuBundle\Form\Subscriber\MenuItemPersistenceSubscriber;
+use Zicht\Bundle\MenuBundle\Manager\MenuManager;
 use Zicht\Bundle\PageBundle\Entity\ContentItem;
 use Zicht\Bundle\PageBundle\Manager\PageManager;
 use Zicht\Bundle\PageBundle\Model\ContentItemContainer;
 use Zicht\Bundle\PageBundle\Model\PageInterface;
-use Zicht\Bundle\MenuBundle\Manager\MenuManager;
-use Zicht\Bundle\UrlBundle\Aliasing\ProviderDecorator;
 use Zicht\Bundle\UrlBundle\Url\Provider;
 use Zicht\Util\Str;
 
@@ -64,7 +62,7 @@ class PageAdmin extends Admin
     protected $contentItemAdminCode;
 
     /**
-     * @var ProviderDecorator | null
+     * @var Provider|null
      */
     private $urlProvider = null;
 
@@ -191,7 +189,6 @@ class PageAdmin extends Admin
                         $contentItems = $pageData->getContentItems();
 
                         foreach ($contentItems as $data) {
-
                             if (null === $data) {
                                 continue;
                             }
@@ -311,6 +308,7 @@ class PageAdmin extends Admin
      *
      * @param string|array $fieldNames one fieldname or array of fieldnames
      * @param FormMapper $formMapper
+     * @return self
      */
     public function removeFields($fieldNames, FormMapper $formMapper)
     {
@@ -340,6 +338,10 @@ class PageAdmin extends Admin
         if (array_key_exists($tabName, $tabs)) {
             $groups = $this->getFormGroups();
 
+            if (!is_array($groups)) {
+                return;
+            }
+
             foreach ($tabs[$tabName]['groups'] as $group) {
                 if (isset($groups[$group])) {
                     foreach ($groups[$group]['fields'] as $field) {
@@ -360,6 +362,11 @@ class PageAdmin extends Admin
     public function removeEmptyGroups()
     {
         $tabs = $this->getFormTabs();
+
+        if (!is_array($tabs)) {
+            return;
+        }
+
         $groups = $this->getFormGroups();
 
         foreach ($tabs as $tabKey => $tab) {

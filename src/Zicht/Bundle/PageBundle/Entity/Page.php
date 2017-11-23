@@ -1,13 +1,12 @@
 <?php
 /**
- * @author Gerard van Helden <gerard@zicht.nl>
  * @copyright Zicht Online <http://zicht.nl>
  */
 namespace Zicht\Bundle\PageBundle\Entity;
 
-use Zicht\Util\Str;
-use Zicht\Bundle\PageBundle\Model\PageInterface;
 use Zicht\Bundle\PageBundle\Model\ContentItemMatrix;
+use Zicht\Bundle\PageBundle\Model\PageInterface;
+use Zicht\Util\Str;
 
 /**
  * Base class for pages.
@@ -21,7 +20,6 @@ abstract class Page implements PageInterface
     {
     }
 
-
     /**
      * @{inheritDoc}
      */
@@ -29,7 +27,6 @@ abstract class Page implements PageInterface
     {
         return Str::infix(Str::rstrip(Str::classname(get_class($this)), 'Page'), '-');
     }
-
 
     /**
      * May be implemented to support translated pages.
@@ -40,7 +37,6 @@ abstract class Page implements PageInterface
     {
         return null;
     }
-
 
     /**
      * Returns the content item matrix for the item.
@@ -60,7 +56,6 @@ abstract class Page implements PageInterface
     {
         return get_class($this);
     }
-
 
     /**
      * By default, pages are never public (sane default). If you need your own logic,

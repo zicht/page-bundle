@@ -1,6 +1,5 @@
 <?php
 /**
- * @author Gerard van Helden <gerard@zicht.nl>
  * @copyright Zicht Online <http://zicht.nl>
  */
 namespace ZichtTest\Bundle\PageBundle\DependencyInjection;
@@ -36,10 +35,10 @@ class ZichtPageExtensionTest extends \PHPUnit_Framework_TestCase
         $classMap = array(
             'zicht_page.page_url_provider'                        => '%zicht_page.page_url_provider.class%',
             'zicht_page.page_aliaser'                             => 'Zicht\Bundle\UrlBundle\Aliasing\Aliaser',
-            'zicht_page.page_manager'                             => 'Zicht\Bundle\PageBundle\Manager\PageManager',
-            'zicht_page.page_manager_subscriber'                  => 'Zicht\Bundle\PageBundle\Manager\Doctrine\Subscriber',
-            'zicht_page.form.type.zicht_content_item_type_type'   => 'Zicht\Bundle\PageBundle\Type\ContentItemTypeType',
-            'zicht_page.form.type.zicht_content_item_region_type' => 'Zicht\Bundle\PageBundle\Type\ContentItemRegionType',
+            'zicht_page.page_manager'                             => '%zicht_page.page_manager.class%',
+            'zicht_page.page_manager_subscriber'                  => '%zicht_page.page_manager_subscriber.class%',
+            'zicht_page.form.type.zicht_content_item_type_type'   => '%zicht_page.form.type.zicht_content_item_type_type.class%',
+            'zicht_page.form.type.zicht_content_item_region_type' => '%zicht_page.form.type.zicht_content_item_region_type.class%',
             'zicht_page.admin.event_propagation_builder'          => '%zicht_page.admin.event_propagation_builder.class%'
         );
 

@@ -1,12 +1,11 @@
 <?php
 /**
- * @author Gerard van Helden <gerard@zicht.nl>
  * @copyright Zicht Online <http://zicht.nl>
  */
 namespace Zicht\Bundle\PageBundle\AdminMenu;
 
-use Symfony\Component\EventDispatcher\Event;
 use Sonata\AdminBundle\Admin\Pool;
+use Symfony\Component\EventDispatcher\Event;
 use Zicht\Bundle\AdminBundle\Event\AdminEvents;
 use Zicht\Bundle\AdminBundle\Event\MenuEvent;
 use Zicht\Bundle\AdminBundle\Event\PropagationInterface;
@@ -44,7 +43,7 @@ class EventPropagationBuilder implements PropagationInterface
      * Build the relevant event and forward it.
      *
      * @param \Symfony\Component\EventDispatcher\Event $e
-     * @return mixed|void
+     * @return null|void
      */
     public function buildAndForwardEvent(Event $e)
     {
@@ -53,12 +52,13 @@ class EventPropagationBuilder implements PropagationInterface
         }
 
         $page = $e->getPage();
-        if ($page->getId()
-            && (
-                ($admin = $this->sonata->getAdminByClass(get_class($page)))
-                || ($admin = $this->sonata->getAdminByClass(get_parent_class($page)))
-            )
-        ) {
+        $admin = $this->sonata->getAdminByClass(get_class($page));
+
+        if ($admin === null) {
+            $admin = $this->sonata->getAdminByClass(get_parent_class($page));
+        }
+
+        if ($page->getId() && $admin !== null) {
             $title = $e->getPage()->getTitle();
             /** @var \Zicht\Bundle\PageBundle\Event\PageViewEvent $e */
             $e->getDispatcher()->dispatch(
