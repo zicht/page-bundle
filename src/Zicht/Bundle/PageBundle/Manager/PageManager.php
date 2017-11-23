@@ -26,12 +26,12 @@ class PageManager
     /**
      * @var array
      */
-    private $mappings = array();
+    private $mappings;
 
     /**
      * @var null|PageInterface
      */
-    private $loadedPage = null;
+    private $loadedPage;
 
     /**
      * @var Registry
@@ -68,6 +68,7 @@ class PageManager
      */
     public function __construct(Registry $doctrine, $dispatcher, $pageClassName, $contentItemClassName)
     {
+        $this->mappings = [];
         $this->doctrine = $doctrine;
         $this->em = $doctrine->getManager();
         $this->eventDispatcher = $dispatcher;
@@ -75,8 +76,8 @@ class PageManager
         $this->pageClassName = $pageClassName;
         $this->contentItemClassName = $contentItemClassName;
 
-        $this->mappings[$pageClassName] = array();
-        $this->mappings[$contentItemClassName] = array();
+        $this->mappings[$pageClassName] = [];
+        $this->mappings[$contentItemClassName] = [];
     }
 
     /**
@@ -119,6 +120,7 @@ class PageManager
             throw new \RuntimeException("Could not determine bundle name for " . $className);
         }
         $bundle = $vendor . $bundleName;
+
         return $bundle;
     }
 

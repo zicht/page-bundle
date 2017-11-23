@@ -30,9 +30,9 @@ class GenerateAdminServicesCompilerPass implements CompilerPassInterface
 
         $baseIds = $config['admin']['base'];
 
-        $serviceDefinitions = array();
+        $serviceDefinitions = [];
         $pageManagerDef = $container->getDefinition('zicht_page.page_manager');
-        $types = array();
+        $types = [];
 
         foreach ($pageManagerDef->getMethodCalls() as $call) {
             switch ($call[0]) {
@@ -45,8 +45,8 @@ class GenerateAdminServicesCompilerPass implements CompilerPassInterface
             }
         }
 
-        foreach (array('page', 'contentItem') as $type) {
-            $serviceDefinitions[$type] = array();
+        foreach (['page', 'contentItem'] as $type) {
+            $serviceDefinitions[$type] = [];
 
             $def = $container->getDefinition($baseIds[$type]);
 
@@ -98,7 +98,7 @@ class GenerateAdminServicesCompilerPass implements CompilerPassInterface
                 if (in_array($contentItemDefinition->getArgument(1), $contentItemClassNames)) {
                     $pageDef->addMethodCall(
                         'addChild',
-                        array(new Reference($contentItemServiceId))
+                        [new Reference($contentItemServiceId)]
                     );
                 }
             }

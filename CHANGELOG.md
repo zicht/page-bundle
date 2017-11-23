@@ -2,9 +2,9 @@
 ## Breaking Changes
 - Naming admin services of Pages and ContentItems using the fully 
 qualified class name instead of using only the last part. 
-So when updating all the service names of admins change all strings
-in configs where you depend on the service names.
-To have easy access to the names make use of symfony debug in 
+Updating changes the service ids of the Page Admins. In `sonata_admin` config
+ids should be changed accordingly.
+To have easy access to the ids make use of symfony debug in 
 the console `php app/console debug:container` which will give 
 a list of all registered services.
 - Registering content items via the `$page->getContentItemMatrix()` 
