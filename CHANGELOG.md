@@ -40,7 +40,7 @@ First `create()` has no namespace params anymore.
 Second `type()` only accepts an existing class name. 
 So the best practice would be to use `::class` for this. 
 
-- The discriminator fields in the database do need a update.
+- The discriminator fields in the database do need an update.
 The type fields in Page tables and ContentItem tables can be updated using
 a migration. An example script could be;
 ```
