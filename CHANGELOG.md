@@ -40,6 +40,27 @@ First `create()` has no namespace params anymore.
 Second `type()` only accepts an existing class name. 
 So the best practice would be to use `::class` for this. 
 
+- The discriminator fields in the database do need an update.
+The type fields in Page tables and ContentItem tables can be updated using
+a migration. An example script could be;
+```
+    /**
+     * @param Schema $schema
+     */
+    public function up(Schema $schema)
+    {
+        foreach ($this->updatePage as $oldType => $newType) {
+            $this->addSql('UPDATE page SET type = ? WHERE type = ?', [$newType, $oldType]);
+        }
+
+        foreach ($this->updateContentItem as $oldType => $newType) {
+            $this->addSql('UPDATE content_item SET type = ? WHERE type = ?', [$newType, $oldType]);
+        }
+    }
+```
+
+The arrays in the migrations class should contain the oldtype and the newtype.
+
 # 2.6.0 - 2017-10-05
 ## Added
 - Added a service `zicht_page.controller.view_validator` to vote on weather a page is viewable or not
