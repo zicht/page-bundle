@@ -193,8 +193,10 @@ class PageManager
             $c->discriminatorMap = array();
             $c->discriminatorMap[strtolower(Str::classname($parentClassName))] = $parentClassName;
             foreach ($this->mappings[$parentClassName] as $className) {
+                $bundlePrefix = Str::infix($this->getBundleName($className), '-');
                 $name = Str::infix(Str::classname(Str::rstrip($className, Str::classname($parentClassName))), '-');
-                $c->discriminatorMap[$name] = $className;
+                $combinedDiscriminator = sprintf('%s-%s', $bundlePrefix, $name);
+                $c->discriminatorMap[$combinedDiscriminator] = $className;
                 $c->subClasses[] = $className;
             }
             $c->subClasses = array_unique($c->subClasses);

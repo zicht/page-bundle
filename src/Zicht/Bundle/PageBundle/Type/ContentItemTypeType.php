@@ -106,7 +106,7 @@ class ContentItemTypeType extends AbstractType
 
             try {
                 if ($subject->getId() && $subject->getRegion() !== null && $typeAdmin = $this->sonata->getAdminByClass(get_class($subject))) {
-                    $view->vars['type']= Str::humanize(Str::classname($subject->getConvertToType()));
+                    $view->vars['type'] = Str::humanize($subject->getType());
                     $childAdmin = $this->sonata->getAdminByAdminCode($parentAdmin->getCode() . '|' . $typeAdmin->getCode());
                     $childAdmin->setRequest($genericAdmin->getRequest());
 
