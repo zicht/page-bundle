@@ -104,7 +104,8 @@ class ContentItemRegionType extends AbstractType
 
         foreach ($fullmatrix as $region => $classNames) {
             foreach ($classNames as $className) {
-                $placeholder = 'content_item.type.' . strtolower(str_replace(' ', '_', Str::humanize(Str::classname($className))));
+                $snakeCasedClassName = strtolower(str_replace(' ', '_', Str::humanize($className)));
+                $placeholder = sprintf('content_item.type.%s', $snakeCasedClassName);
                 $matrix[$region][$className] = $this->translator->trans($placeholder, array(), 'admin', 'nl');
             }
         }
