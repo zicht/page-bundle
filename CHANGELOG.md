@@ -1,3 +1,12 @@
+# 3.0.3 - 2018-01-04
+## Removed
+* Removed the wronly named and wronly placed override for `$datagridValues` in the PageAdmin. At this point we don't know yet how to sort the admin-list. Leave this to the default here.
+
+
+# 3.0.1 - # 3.0.2
+## Fixed
+* Various bugfixes concerning the 3.0-release.
+
 # 3.0.0
 ## Breaking Changes
 - Naming admin services of Pages and ContentItems using the fully 
