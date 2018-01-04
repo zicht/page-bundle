@@ -29,14 +29,6 @@ use Zicht\Util\Str;
 class PageAdmin extends Admin
 {
     /**
-     * @var array
-     */
-    protected $dataGridValues = array(
-        '_sort_by'      => 'date_updated',
-        '_sort_order'   => 'DESC',
-    );
-
-    /**
      * @var bool
      */
     protected $persistFilters = true;
