@@ -39,6 +39,6 @@ This Voter looks for the `isPublic` public function to check whether a page can 
 The ScheduledContentVoter requires the page to have `Zicht\Bundle\PageBundle\Model\ScheduledContentInterface` implemented.
 With this voter a page can be scheduled for publication. 
 
-# Maintainer(s)
-* Muhammed Akbulut <muhammed@zicht.nl>
-
+# Maintainers
+* Boudewijn Schoon <boudewijn@zicht.nl>
+* Erik Trapman <erik@zicht.nl>
