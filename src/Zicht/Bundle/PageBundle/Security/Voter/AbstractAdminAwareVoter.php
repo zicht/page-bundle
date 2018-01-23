@@ -43,7 +43,6 @@ abstract class AbstractAdminAwareVoter extends AbstractVoter
             foreach ($token->getRoles() as $role) {
                 if (in_array($role->getRole(), array('ROLE_ADMIN', 'ROLE_SUPER_ADMIN'))) {
                     return VoterInterface::ACCESS_GRANTED;
-                    break;
                 }
             }
         }

@@ -61,7 +61,6 @@ class AliasCommand extends ContainerAwareCommand
         }
         $items = $q->getQuery()->execute();
 
-        $progress = null;
         $progress = new ProgressBar($output, count($items));
         if ($output->getVerbosity() == OutputInterface::VERBOSITY_VERBOSE) {
             $progress->display();

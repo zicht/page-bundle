@@ -1,3 +1,75 @@
+# 3.0.3 - 2018-01-04
+## Removed
+* Removed the wronly named and wronly placed override for `$datagridValues` in the PageAdmin. At this point we don't know yet how to sort the admin-list. Leave this to the default here.
+
+
+# 3.0.1 - # 3.0.2
+## Fixed
+* Various bugfixes concerning the 3.0-release.
+
+# 3.0.0
+## Breaking Changes
+- Naming admin services of Pages and ContentItems using the fully 
+qualified class name instead of using only the last part. 
+Updating changes the service ids of the Page Admins. In `sonata_admin` config
+ids should be changed accordingly.
+To have easy access to the ids make use of symfony debug in 
+the console `php app/console debug:container` which will give 
+a list of all registered services.
+- Registering content items via the `$page->getContentItemMatrix()` 
+has changed. 
+Old situation 
+```
+    /**
+     * @{inheritDoc}
+     */
+    public function getContentItemMatrix()
+    {
+        return ContentItemMatrix::create('Zicht\Bundle\SomeSiteBundle\Entity\ContentItem')
+            ->region('center')
+                ->type('Card')
+                ->type('Contact');
+    }
+```
+New situation
+```
+    /**
+     * @{inheritDoc}
+     */
+    public function getContentItemMatrix()
+    {
+        return ContentItemMatrix::create()
+            ->region('center')
+                ->type(Zicht\Bundle\SomeSiteBundle\Entity\ContentItem\Card::class')
+                ->type(Zicht\Bundle\SomeSiteBundle\Entity\ContentItem\Contact::class);
+    }
+```
+Noticeable 2 changes here. 
+First `create()` has no namespace params anymore.
+Second `type()` only accepts an existing class name. 
+So the best practice would be to use `::class` for this. 
+
+- The discriminator fields in the database do need an update.
+The type fields in Page tables and ContentItem tables can be updated using
+a migration. An example script could be;
+```
+    /**
+     * @param Schema $schema
+     */
+    public function up(Schema $schema)
+    {
+        foreach ($this->updatePage as $oldType => $newType) {
+            $this->addSql('UPDATE page SET type = ? WHERE type = ?', [$newType, $oldType]);
+        }
+
+        foreach ($this->updateContentItem as $oldType => $newType) {
+            $this->addSql('UPDATE content_item SET type = ? WHERE type = ?', [$newType, $oldType]);
+        }
+    }
+```
+
+The arrays in the migrations class should contain the oldtype and the newtype.
+
 # 2.6.0 - 2017-10-05
 ## Added
 - Added a service `zicht_page.controller.view_validator` to vote on weather a page is viewable or not

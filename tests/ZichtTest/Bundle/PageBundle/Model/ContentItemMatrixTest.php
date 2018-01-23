@@ -13,21 +13,19 @@ namespace Baz\Bat {
     class c{}
 }
 
-
 namespace ZichtTest\Bundle\PageBundle\AdminMenu {
 
     class ContentItemMatrixTest extends \PHPUnit_Framework_TestCase
     {
         function testApi()
         {
-            $matrix = \Zicht\Bundle\PageBundle\Model\ContentItemMatrix::create('Foo\Bar')
+            $matrix = \Zicht\Bundle\PageBundle\Model\ContentItemMatrix::create()
                 ->region('left')
-                    ->type('a')
-                    ->type('b')
+                    ->type(\Foo\Bar\a::class)
+                    ->type(\Foo\Bar\b::class)
                 ->region('right')
-                    ->type('b')
-                    ->ns('Baz\Bat')
-                    ->type('c')
+                    ->type(\Foo\Bar\b::class)
+                    ->type(\Baz\Bat\c::class)
             ;
 
             $this->assertEquals(array('left', 'right'), $matrix->getRegions());
@@ -45,5 +43,4 @@ namespace ZichtTest\Bundle\PageBundle\AdminMenu {
             $this->assertEquals(array(), $matrix->getTypes('left'));
         }
     }
-
 }

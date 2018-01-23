@@ -3,8 +3,18 @@
  * @author Gerard van Helden <gerard@zicht.nl>
  * @copyright Zicht Online <http://zicht.nl>
  */
-namespace {
+namespace ZichtTest\Bundle\SomeBundle\Entity\Page {
     class SomePage {
+    }
+
+    class SomeOtherPage {
+    }
+}
+namespace ZichtTest\Bundle\SomeBundle\Entity\ContentItem {
+    class SomeContentItem {
+    }
+
+    class SomeOtherContentItem {
     }
 }
 
@@ -71,7 +81,7 @@ namespace ZichtTest\Bundle\PageBundle\Manager {
          * @expectedException \RuntimeException
          */
         function testGetTemplateWillThrowExceptionIfBundleNameIsUndeterminable() {
-            $this->pageManager->getTemplate(new \SomePage());
+            $this->pageManager->getTemplate(new \stdClass());
         }
 
 
@@ -89,8 +99,8 @@ namespace ZichtTest\Bundle\PageBundle\Manager {
         function testPageTypeDecoration()
         {
             $types = array(
-                'some' => 'SomePage',
-                'some-other' => 'SomeOtherPage',
+                'zicht-test-some-bundle-some' => \ZichtTest\Bundle\SomeBundle\Entity\Page\SomePage::class,
+                'zicht-test-some-bundle-some-other' => \ZichtTest\Bundle\SomeBundle\Entity\Page\SomeOtherPage::class,
             );
             $this->pageManager->setPageTypes(array_values($types));
 
@@ -107,8 +117,8 @@ namespace ZichtTest\Bundle\PageBundle\Manager {
         function testContentItemTypeDecoration()
         {
             $types = array(
-                'some' => 'SomeContentItem',
-                'some-other' => 'SomeOtherContentItem'
+                'zicht-test-some-bundle-some' => \ZichtTest\Bundle\SomeBundle\Entity\ContentItem\SomeContentItem::class,
+                'zicht-test-some-bundle-some-other' => \ZichtTest\Bundle\SomeBundle\Entity\ContentItem\SomeOtherContentItem::class
             );
             $this->pageManager->setContentItemTypes(array_values($types));
 

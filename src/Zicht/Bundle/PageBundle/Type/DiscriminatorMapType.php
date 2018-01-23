@@ -46,7 +46,7 @@ class DiscriminatorMapType extends ChoiceType
         $choiceCallback = function (Options $options) use ($em) {
             $ret = array();
             foreach ($em->getClassMetadata($options['entity'])->discriminatorMap as $className) {
-                $placeholder = 'content_item.type.' . strtolower(str_replace(' ', '_', Str::humanize(Str::classname($className))));
+                $placeholder = 'content_item.type.' . strtolower(str_replace(' ', '_', Str::humanize($className)));
                 $ret[$className] = $placeholder;
             }
             if (is_callable($options['choice_filter'])) {

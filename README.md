@@ -1,7 +1,7 @@
 # `zicht/page-bundle`
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/zicht/page-bundle/badges/quality-score.png?b=release%2F2.5.x)](https://scrutinizer-ci.com/g/zicht/page-bundle/?branch=release%2F2.5.x)
-[![Code Coverage](https://scrutinizer-ci.com/g/zicht/page-bundle/badges/coverage.png?b=release%2F2.5.x)](https://scrutinizer-ci.com/g/zicht/page-bundle/?branch=release%2F2.5.x)
-[![Build Status](https://scrutinizer-ci.com/g/zicht/page-bundle/badges/build.png?b=release%2F2.5.x)](https://scrutinizer-ci.com/g/zicht/page-bundle/build-status/release/2.5.x)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/zicht/page-bundle/badges/quality-score.png?b=release%2F3.x)](https://scrutinizer-ci.com/g/zicht/page-bundle/?branch=release%2F3.x)
+[![Code Coverage](https://scrutinizer-ci.com/g/zicht/page-bundle/badges/coverage.png?b=release%2F3.x)](https://scrutinizer-ci.com/g/zicht/page-bundle/?branch=release%2F3.x)
+[![Build Status](https://scrutinizer-ci.com/g/zicht/page-bundle/badges/build.png?b=release%2F3.x)](https://scrutinizer-ci.com/g/zicht/page-bundle/build-status/release/3.x)
 
 Provides composable pages through a simple entity model.
 
@@ -39,6 +39,6 @@ This Voter looks for the `isPublic` public function to check whether a page can 
 The ScheduledContentVoter requires the page to have `Zicht\Bundle\PageBundle\Model\ScheduledContentInterface` implemented.
 With this voter a page can be scheduled for publication. 
 
-# Maintainer(s)
-* Muhammed Akbulut <muhammed@zicht.nl>
-
+# Maintainers
+* Boudewijn Schoon <boudewijn@zicht.nl>
+* Erik Trapman <erik@zicht.nl>

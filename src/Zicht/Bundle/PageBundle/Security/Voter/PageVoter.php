@@ -1,12 +1,11 @@
 <?php
 /**
- * @author Rik van der Kemp <rik@zicht.nl>
  * @copyright Zicht Online <http://www.zicht.nl>
  */
 namespace Zicht\Bundle\PageBundle\Security\Voter;
 
-use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 use Zicht\Bundle\PageBundle\Model\PageInterface;
 
 /**
