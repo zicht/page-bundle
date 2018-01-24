@@ -85,6 +85,10 @@ class ScheduledContentVoter extends AbstractAdminAwareVoter
      */
     public function vote(TokenInterface $token, $object, array $attributes)
     {
+        if (null === $object) {
+            return VoterInterface::ACCESS_ABSTAIN;
+        }
+
         // Abstract class checks if user is admin, if not so it will return VoterInterface::ACCESS_ABSTAIN
         $vote = parent::vote($token, $object, $attributes);
 

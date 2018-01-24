@@ -30,6 +30,10 @@ abstract class AbstractAdminAwareVoter extends AbstractVoter
      */
     public function vote(TokenInterface $token, $object, array $attributes)
     {
+        if (null === $object) {
+            return VoterInterface::ACCESS_ABSTAIN;
+        }
+
         /**
          * Admin users should see content no matter the scheduled dates
          * Since you can set the decision strategy to unanimous, you want to grant this explicitly
