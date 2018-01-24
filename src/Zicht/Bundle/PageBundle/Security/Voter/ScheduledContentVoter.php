@@ -77,7 +77,7 @@ class ScheduledContentVoter extends AbstractAdminAwareVoter
      */
     public function supportsClass($class)
     {
-        return in_array('Zicht\Bundle\PageBundle\Model\ScheduledContentInterface', class_implements($class));
+        return in_array(ScheduledContentInterface::class, class_implements($class));
     }
 
     /**
@@ -85,10 +85,6 @@ class ScheduledContentVoter extends AbstractAdminAwareVoter
      */
     public function vote(TokenInterface $token, $object, array $attributes)
     {
-        if (null === $object) {
-            return VoterInterface::ACCESS_ABSTAIN;
-        }
-
         // Abstract class checks if user is admin, if not so it will return VoterInterface::ACCESS_ABSTAIN
         $vote = parent::vote($token, $object, $attributes);
 

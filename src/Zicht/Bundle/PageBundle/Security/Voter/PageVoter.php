@@ -6,6 +6,7 @@ namespace Zicht\Bundle\PageBundle\Security\Voter;
 
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
+use Zicht\Bundle\PageBundle\Entity\Page;
 use Zicht\Bundle\PageBundle\Model\PageInterface;
 
 /**
@@ -18,9 +19,7 @@ class PageVoter extends AbstractVoter
      */
     public function supportsClass($class)
     {
-        $supportedClass = 'Zicht\Bundle\PageBundle\Entity\Page';
-
-        return $supportedClass === $class || is_subclass_of($class, $supportedClass);
+        return Page::class === $class || is_subclass_of($class, Page::class);
     }
 
     /**
@@ -28,10 +27,6 @@ class PageVoter extends AbstractVoter
      */
     public function vote(TokenInterface $token, $object, array $attributes)
     {
-        if (null === $object) {
-            return VoterInterface::ACCESS_ABSTAIN;
-        }
-
         // check if class of this object is supported by this voter
         if (!$this->supportsClass(get_class($object))) {
             return VoterInterface::ACCESS_ABSTAIN;
