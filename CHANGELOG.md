@@ -1,3 +1,8 @@
+# 2.7.0 - 2018-02-19
+## Added
+- Added `TranslatePageEventPropagationBuilder`.  This adds translation links into the menu.  These
+  provide the `zz` locale translation urls
+
 # 2.6.0 - 2017-10-05
 ## Added
 - Added a service `zicht_page.controller.view_validator` to vote on weather a page is viewable or not
