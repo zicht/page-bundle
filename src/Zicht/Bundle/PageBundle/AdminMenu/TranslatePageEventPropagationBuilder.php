@@ -41,33 +41,36 @@ class TranslatePageEventPropagationBuilder implements PropagationInterface
             return;
         }
 
+        if (!$this->router) {
+            return;
+        }
+
         /** @var Page $page */
         $page = $event->getPage();
         if (!$page->getId()) {
             return;
         }
-        if ($this->router) {
-            $event->getDispatcher()->dispatch(
-                AdminEvents::MENU_EVENT,
-                new MenuEvent(
-                    $this->router->generate('zicht_page_page_view', [
-                        'id' => $page->getId(),
-                        '_locale' => 'zz',
-                    ]),
-                    'Vertalingen'
-                )
-            );
 
-            $event->getDispatcher()->dispatch(
-                AdminEvents::MENU_EVENT,
-                new MenuEvent(
-                    $this->router->generate('zicht_page_page_view', [
-                        'id' => $page->getId(),
-                        '_locale' => $page->getLanguage(),
-                    ]),
-                    'Pagina herladen'
-                )
-            );
-        }
+        $event->getDispatcher()->dispatch(
+            AdminEvents::MENU_EVENT,
+            new MenuEvent(
+                $this->router->generate('zicht_page_page_view', [
+                    'id' => $page->getId(),
+                    '_locale' => 'zz',
+                ]),
+                'Vertalingen'
+            )
+        );
+
+        $event->getDispatcher()->dispatch(
+            AdminEvents::MENU_EVENT,
+            new MenuEvent(
+                $this->router->generate('zicht_page_page_view', [
+                    'id' => $page->getId(),
+                    '_locale' => $page->getLanguage(),
+                ]),
+                'Pagina herladen'
+            )
+        );
     }
 }
