@@ -16,8 +16,8 @@
     "require": {
         "php": "^7",
         "zicht/util": "^1.7",
-        "zicht/admin-bundle": "^3.5",
-        "zicht/url-bundle": "^2.4",
+        "zicht/admin-bundle": "^4",
+        "zicht/url-bundle": "^3",
         "zicht/menu-bundle": "^2.2"
     },
     "require-dev": {
