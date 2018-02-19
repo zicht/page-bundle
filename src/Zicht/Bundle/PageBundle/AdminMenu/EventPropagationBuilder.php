@@ -13,7 +13,7 @@ use Zicht\Bundle\PageBundle\Event\PageViewEvent;
 use Zicht\Bundle\UrlBundle\Url\Provider;
 
 /**
- * Propagates a PageView event as an AdminMenu event.
+ * Add links to edit a page to the zicht admin menu
  */
 class EventPropagationBuilder implements PropagationInterface
 {
@@ -42,16 +42,16 @@ class EventPropagationBuilder implements PropagationInterface
     /**
      * Build the relevant event and forward it.
      *
-     * @param \Symfony\Component\EventDispatcher\Event $e
+     * @param \Symfony\Component\EventDispatcher\Event $event
      * @return null|void
      */
-    public function buildAndForwardEvent(Event $e)
+    public function buildAndForwardEvent(Event $event)
     {
-        if (!$e instanceof PageViewEvent) {
+        if (!$event instanceof PageViewEvent) {
             return;
         }
 
-        $page = $e->getPage();
+        $page = $event->getPage();
         $admin = $this->sonata->getAdminByClass(get_class($page));
 
         if ($admin === null) {
@@ -59,12 +59,12 @@ class EventPropagationBuilder implements PropagationInterface
         }
 
         if ($page->getId() && $admin !== null) {
-            $title = $e->getPage()->getTitle();
-            /** @var \Zicht\Bundle\PageBundle\Event\PageViewEvent $e */
-            $e->getDispatcher()->dispatch(
+            $title = $event->getPage()->getTitle();
+            /** @var \Zicht\Bundle\PageBundle\Event\PageViewEvent $event */
+            $event->getDispatcher()->dispatch(
                 AdminEvents::MENU_EVENT,
                 new MenuEvent(
-                    $admin->generateObjectUrl('edit', $e->getPage()),
+                    $admin->generateObjectUrl('edit', $event->getPage()),
                     sprintf(
                         'Beheer pagina "%s"',
                         strlen($title) > 20 ? substr($title, 0, 20) . '...' : $title
