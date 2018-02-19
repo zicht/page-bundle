@@ -5,6 +5,7 @@
     <parameters>
         <parameter key="zicht_page.page_url_provider.class">Zicht\Bundle\PageBundle\Url\PageUrlProvider</parameter>
         <parameter key="zicht_page.admin.event_propagation_builder.class">Zicht\Bundle\PageBundle\AdminMenu\EventPropagationBuilder</parameter>
+        <parameter key="zicht_bundle_page.admin_menu.translate_page_event_propagation_builder.class">Zicht\Bundle\PageBundle\AdminMenu\TranslatePageEventPropagationBuilder</parameter>
         <parameter key="zicht_page.page_manager_subscriber.class">Zicht\Bundle\PageBundle\Manager\Doctrine\Subscriber</parameter>
         <parameter key="zicht_page.form.type.zicht_content_item_type_type.class">Zicht\Bundle\PageBundle\Type\ContentItemTypeType</parameter>
         <parameter key="zicht_page.form.type.zicht_content_item_region_type.class">Zicht\Bundle\PageBundle\Type\ContentItemRegionType</parameter>
@@ -43,6 +44,10 @@
         <service id="zicht_page.admin.event_propagation_builder" class="%zicht_page.admin.event_propagation_builder.class%">
             <argument type="service" id="sonata.admin.pool" on-invalid="null" />
             <argument type="service" id="zicht_url.provider" on-invalid="null" />
+            <tag name="zicht_admin.event_propagation" event="zicht_page.view"/>
+        </service>
+        <service id="zicht_bundle_page.admin_menu.translate_page_event_propagation_builder" class="%zicht_bundle_page.admin_menu.translate_page_event_propagation_builder.class%">
+            <argument type="service" id="router" on-invalid="null"/>
             <tag name="zicht_admin.event_propagation" event="zicht_page.view"/>
         </service>
         <service id="zicht_page.page_manager" class="%zicht_page.page_manager.class%">

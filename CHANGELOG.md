@@ -9,16 +9,16 @@
 
 # 3.0.0
 ## Breaking Changes
-- Naming admin services of Pages and ContentItems using the fully 
-qualified class name instead of using only the last part. 
+- Naming admin services of Pages and ContentItems using the fully
+qualified class name instead of using only the last part.
 Updating changes the service ids of the Page Admins. In `sonata_admin` config
 ids should be changed accordingly.
-To have easy access to the ids make use of symfony debug in 
-the console `php app/console debug:container` which will give 
+To have easy access to the ids make use of symfony debug in
+the console `php app/console debug:container` which will give
 a list of all registered services.
-- Registering content items via the `$page->getContentItemMatrix()` 
-has changed. 
-Old situation 
+- Registering content items via the `$page->getContentItemMatrix()`
+has changed.
+Old situation
 ```
     /**
      * @{inheritDoc}
@@ -44,10 +44,10 @@ New situation
                 ->type(Zicht\Bundle\SomeSiteBundle\Entity\ContentItem\Contact::class);
     }
 ```
-Noticeable 2 changes here. 
+Noticeable 2 changes here.
 First `create()` has no namespace params anymore.
-Second `type()` only accepts an existing class name. 
-So the best practice would be to use `::class` for this. 
+Second `type()` only accepts an existing class name.
+So the best practice would be to use `::class` for this.
 
 - The discriminator fields in the database do need an update.
 The type fields in Page tables and ContentItem tables can be updated using
@@ -69,6 +69,11 @@ a migration. An example script could be;
 ```
 
 The arrays in the migrations class should contain the oldtype and the newtype.
+
+# 2.7.0 - 2018-02-19
+## Added
+- Added `TranslatePageEventPropagationBuilder`.  This adds translation links into the menu.  These
+  provide the `zz` locale translation urls
 
 # 2.6.0 - 2017-10-05
 ## Added
