@@ -105,12 +105,16 @@ class ContentItemTypeType extends AbstractType
 
 
             try {
-                if ($subject->getId() && $subject->getRegion() !== null && $typeAdmin = $this->sonata->getAdminByClass(get_class($subject))) {
+                // Undo commit d59d452 (Bugfix on ContentItemTypeType)
+                // Commit d59d452 added a check on $subject->getId(), and only allowed the edit_url to be generated when
+                // a subject existed and was already persisted in the database.  Unfortunately this is not correct when
+                // the `zicht/versioning-bundle` is used (as those ContentItem entities do exist but do *not* have an id.
+                if ($subject->getRegion() !== null && $typeAdmin = $this->sonata->getAdminByClass(get_class($subject))) {
                     $view->vars['type']= Str::humanize(Str::classname($subject->getConvertToType()));
                     $childAdmin = $this->sonata->getAdminByAdminCode($parentAdmin->getCode() . '|' . $typeAdmin->getCode());
                     $childAdmin->setRequest($genericAdmin->getRequest());
 
-                    if ($subject && $subject->getId() && $subject->getPage() && $subject->getPage()->getId()) {
+                    if ($subject && $subject->getPage() && $subject->getPage()->getId()) {
                         try {
                             $view->vars['edit_url'] = $childAdmin->generateObjectUrl('edit', $subject, ['childId' => $subject->getId()]);
                         } catch (InvalidParameterException $e) {
