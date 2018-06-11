@@ -1,7 +1,16 @@
+# Change Log
+All notable changes to this project will be documented in this file.
+
+The format is based on [Keep a Changelog](http://keepachangelog.com/)
+and this project adheres to [Semantic Versioning](http://semver.org/).
+
+## [Unreleased]
+### Added|Changed|Deprecated|Removed|Fixed|Security
+Nothing so far
+
 # 3.0.3 - 2018-01-04
 ## Removed
 * Removed the wronly named and wronly placed override for `$datagridValues` in the PageAdmin. At this point we don't know yet how to sort the admin-list. Leave this to the default here.
-
 
 # 3.0.1 - # 3.0.2
 ## Fixed
@@ -69,6 +78,13 @@ a migration. An example script could be;
 ```
 
 The arrays in the migrations class should contain the oldtype and the newtype.
+
+# 2.7.1 - 2018-06-11
+## Fixed
+- Undo commit d59d452 (Bugfix on ContentItemTypeType)
+  Commit d59d452 added a check on $subject->getId(), and only allowed the edit_url to be generated when
+  a subject existed and was already persisted in the database.  Unfortunately this is not correct when
+  the `zicht/versioning-bundle` is used (as those ContentItem entities do exist but do *not* have an id.
 
 # 2.7.0 - 2018-02-19
 ## Added
