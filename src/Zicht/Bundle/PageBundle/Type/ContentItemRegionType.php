@@ -3,10 +3,12 @@
  * @author Gerard van Helden <gerard@zicht.nl>
  * @copyright Zicht Online <http://zicht.nl>
  */
+
 namespace Zicht\Bundle\PageBundle\Type;
 
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\AbstractType;
@@ -49,17 +51,15 @@ class ContentItemRegionType extends AbstractType
     }
 
     /**
-     * @{inheritDoc}
+     * {@inheritDoc}
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
-        parent::setDefaultOptions($resolver);
-
         $resolver->setDefaults(
             array(
-                'inherit_data'    => true,
+                'inherit_data' => true,
                 'data_class' => $this->contentItemClassName,
-                'container'  => '',
+                'container' => '',
                 'default_regions' => $this->defaultRegions,
                 'translation_domain' => 'admin',
             )
@@ -121,6 +121,14 @@ class ContentItemRegionType extends AbstractType
      * @return string The name of this type
      */
     public function getName()
+    {
+        return 'zicht_content_item_region';
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getBlockPrefix()
     {
         return 'zicht_content_item_region';
     }

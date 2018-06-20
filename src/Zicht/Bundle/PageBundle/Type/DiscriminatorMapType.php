@@ -8,6 +8,7 @@ namespace Zicht\Bundle\PageBundle\Type;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\OptionsResolver\Options;
 use Zicht\Util\Str;
@@ -33,12 +34,9 @@ class DiscriminatorMapType extends ChoiceType
         $this->doctrine = $registry;
     }
 
-    /**
-     * @{inheritDoc}
-     */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
-        parent::setDefaultOptions($resolver);
+        parent::configureOptions($resolver);
 
         /** @var $em \Doctrine\ORM\EntityManager */
         $em = $this->doctrine->getManager();
@@ -66,15 +64,18 @@ class DiscriminatorMapType extends ChoiceType
             );
     }
 
-
     /**
      * @{inheritDoc}
      */
     public function getParent()
     {
-        return 'choice';
+        return ChoiceType::class;
     }
 
+    public function getBlockPrefix()
+    {
+        return 'zicht_discriminator_map';
+    }
 
     /**
      * @{inheritDoc}
