@@ -6,6 +6,7 @@ namespace Zicht\Bundle\PageBundle\AdminMenu;
 
 use Sonata\AdminBundle\Admin\Pool;
 use Symfony\Component\EventDispatcher\Event;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Zicht\Bundle\AdminBundle\Event\AdminEvents;
 use Zicht\Bundle\AdminBundle\Event\MenuEvent;
 use Zicht\Bundle\AdminBundle\Event\PropagationInterface;
@@ -28,15 +29,21 @@ class EventPropagationBuilder implements PropagationInterface
     protected $pageUrlProvider;
 
     /**
+     * @var EventDispatcher
+     */
+    private $eventDispatcher;
+
+    /**
      * Construct with the specified admin pool
      *
      * @param Pool $sonata
      * @param Provider $pageUrlProvider
      */
-    public function __construct(Pool $sonata = null, Provider $pageUrlProvider = null)
+    public function __construct(Pool $sonata = null, Provider $pageUrlProvider = null, EventDispatcherInterface $eventDispatcher)
     {
         $this->sonata = $sonata;
         $this->pageUrlProvider = $pageUrlProvider;
+        $this->eventDispatcher = $eventDispatcher;
     }
 
     /**
@@ -61,7 +68,8 @@ class EventPropagationBuilder implements PropagationInterface
         if ($page->getId() && $admin !== null) {
             $title = $event->getPage()->getTitle();
             /** @var \Zicht\Bundle\PageBundle\Event\PageViewEvent $event */
-            $event->getDispatcher()->dispatch(
+            /** @var \Zicht\Bundle\PageBundle\Event\PageViewEvent $e */
+            $this->eventDispatcher->dispatch(
                 AdminEvents::MENU_EVENT,
                 new MenuEvent(
                     $admin->generateObjectUrl('edit', $event->getPage()),

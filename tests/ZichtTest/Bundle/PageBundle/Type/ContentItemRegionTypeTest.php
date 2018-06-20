@@ -32,7 +32,7 @@ namespace ZichtTest\Bundle\PageBundle\Assets {
         function testSetDefaultOptions($type)
         {
             $optionsResolver = new \Symfony\Component\OptionsResolver\OptionsResolver();
-            $type->setDefaultOptions($optionsResolver);
+            $type->configureOptions($optionsResolver);
             $options = $optionsResolver->resolve(array());
             $this->assertEquals(true, $options['inherit_data']);
             $this->assertEquals('foo', $options['data_class']);

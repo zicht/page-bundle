@@ -6,6 +6,7 @@
 namespace Zicht\Bundle\PageBundle\AdminMenu;
 
 use Symfony\Component\EventDispatcher\Event;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Routing\Router;
 use Zicht\Bundle\AdminBundle\Event\AdminEvents;
 use Zicht\Bundle\AdminBundle\Event\MenuEvent;
@@ -22,11 +23,17 @@ class TranslatePageEventPropagationBuilder implements PropagationInterface
     private $router;
 
     /**
+     * @var EventDispatcher
+     */
+    private $eventDispatcher;
+
+    /**
      * @param Router $router
      */
-    public function __construct(Router $router)
+    public function __construct(Router $router, EventDispatcherInterface $eventDispatcher)
     {
         $this->router = $router;
+        $this->eventDispatcher = $eventDispatcher;
     }
 
     /**
@@ -51,7 +58,7 @@ class TranslatePageEventPropagationBuilder implements PropagationInterface
             return;
         }
 
-        $event->getDispatcher()->dispatch(
+        $this->eventDispatcher->dispatch(
             AdminEvents::MENU_EVENT,
             new MenuEvent(
                 $this->router->generate('zicht_page_page_view', [
@@ -62,7 +69,7 @@ class TranslatePageEventPropagationBuilder implements PropagationInterface
             )
         );
 
-        $event->getDispatcher()->dispatch(
+        $this->eventDispatcher->dispatch(
             AdminEvents::MENU_EVENT,
             new MenuEvent(
                 $this->router->generate('zicht_page_page_view', [

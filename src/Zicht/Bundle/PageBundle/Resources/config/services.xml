@@ -44,10 +44,12 @@
         <service id="zicht_page.admin.event_propagation_builder" class="%zicht_page.admin.event_propagation_builder.class%">
             <argument type="service" id="sonata.admin.pool" on-invalid="null" />
             <argument type="service" id="zicht_url.provider" on-invalid="null" />
+            <argument type="service" id="event_dispatcher"/>
             <tag name="zicht_admin.event_propagation" event="zicht_page.view"/>
         </service>
         <service id="zicht_bundle_page.admin_menu.translate_page_event_propagation_builder" class="%zicht_bundle_page.admin_menu.translate_page_event_propagation_builder.class%">
             <argument type="service" id="router" on-invalid="null"/>
+            <argument type="service" id="event_dispatcher"/>
             <tag name="zicht_admin.event_propagation" event="zicht_page.view"/>
         </service>
         <service id="zicht_page.page_manager" class="%zicht_page.page_manager.class%">

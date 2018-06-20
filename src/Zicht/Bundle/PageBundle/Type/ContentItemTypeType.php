@@ -11,6 +11,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Routing\Exception\InvalidParameterException;
 use Symfony\Component\Routing\Exception\MissingMandatoryParametersException;
@@ -36,11 +37,7 @@ class ContentItemTypeType extends AbstractType
         $this->sonata = $sonata;
     }
 
-
-    /**
-     * @{inheritDoc}
-     */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(
             array(
@@ -51,7 +48,6 @@ class ContentItemTypeType extends AbstractType
             )
         );
     }
-
 
     /**
      * @{inheritDoc}
@@ -73,7 +69,8 @@ class ContentItemTypeType extends AbstractType
                 } else {
                     return $choices;
                 }
-                return $ret;
+                // As of SF2.8
+                return array_flip($ret);
             };
         } else {
             $choiceFilter = null;
@@ -81,10 +78,10 @@ class ContentItemTypeType extends AbstractType
         $builder
             ->add(
                 'convertToType',
-                'zicht_discriminator_map',
+                DiscriminatorMapType::class,
                 array(
                     'entity' => $this->contentItemClass,
-                    'choice_filter' => $choiceFilter
+                    'choice_filter' => $choiceFilter,
                 )
             );
     }
@@ -145,7 +142,7 @@ class ContentItemTypeType extends AbstractType
      *
      * @return string The name of this type
      */
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'zicht_content_item_type';
     }

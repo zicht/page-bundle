@@ -14,6 +14,7 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Zicht\Bundle\AdminBundle\Util\AdminUtil;
 use Zicht\Bundle\MenuBundle\Entity\MenuItem;
+use Zicht\Bundle\MenuBundle\Form\MenuItemType;
 use Zicht\Bundle\MenuBundle\Form\Subscriber\MenuItemPersistenceSubscriber;
 use Zicht\Bundle\MenuBundle\Manager\MenuManager;
 use Zicht\Bundle\PageBundle\Entity\ContentItem;
@@ -202,7 +203,7 @@ class PageAdmin extends Admin
             }
             $formMapper
                 ->tab('admin.tab.menu')
-                ->add('menu_item', 'zicht_menu_item', array('translation_domain' => $this->getTranslationDomain()))
+                ->add('menu_item', MenuItemType::class, array('translation_domain' => $this->getTranslationDomain()))
                 ->end()
                 ->end();
 
