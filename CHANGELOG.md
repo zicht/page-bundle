@@ -8,6 +8,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added|Changed|Deprecated|Removed|Fixed|Security
 Nothing so far
 
+## 5.0.0 - 2018-06-22
+### Added
+- Support for Symfony 3.x
+### Removed
+- Support for Symfony 2.x
+
 # 3.0.3 - 2018-01-04
 ## Removed
 * Removed the wronly named and wronly placed override for `$datagridValues` in the PageAdmin. At this point we don't know yet how to sort the admin-list. Leave this to the default here.

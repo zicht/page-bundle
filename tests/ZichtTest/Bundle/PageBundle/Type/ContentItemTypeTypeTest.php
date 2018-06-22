@@ -11,7 +11,7 @@ class ContentItemTypeTypeTest extends \PHPUnit_Framework_TestCase
     {
         $pool = $this->getMockBuilder('Sonata\AdminBundle\Admin\Pool')->disableOriginalConstructor()->getMock();
         $ret = new \Zicht\Bundle\PageBundle\Type\ContentItemTypeType('foo', $pool);
-        $this->assertEquals('zicht_content_item_type', $ret->getName());
+        $this->assertEquals('zicht_content_item_type', $ret->getBlockPrefix());
         return $ret;
     }
 
@@ -22,7 +22,7 @@ class ContentItemTypeTypeTest extends \PHPUnit_Framework_TestCase
     public function testSetDefaultOptions($type)
     {
         $resolver = new \Symfony\Component\OptionsResolver\OptionsResolver();
-        $type->setDefaultOptions($resolver);
+        $type->configureOptions($resolver);
         $options = $resolver->resolve(array());
 
         $this->assertTrue($options['inherit_data']);

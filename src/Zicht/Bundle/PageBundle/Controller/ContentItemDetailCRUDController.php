@@ -21,7 +21,7 @@ class ContentItemDetailCRUDController extends CRUDController
      */
     public function showAction($id = null)
     {
-        $id = $this->get('request')->get($this->admin->getIdParameter());
+        $id = $this->getRequest()->get($this->admin->getIdParameter());
         $obj = $this->admin->getObject($id);
 
         $page = $obj->getPage();
