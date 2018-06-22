@@ -8,6 +8,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added|Changed|Deprecated|Removed|Fixed|Security
 Nothing so far
 
+# 5.0.0 - 2018-06-22
+### Added
+- Support for Symfony 3.x
+### Removed
+- Support for Symfony 2.x
+
 # 4.0.5 - 2019-01-10
 ## Fixed
 - Rebased to include v3.0.9: Fix for the content item type view var to be
