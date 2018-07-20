@@ -110,7 +110,7 @@ class PageControllerTest extends \PHPUnit_Framework_TestCase
         $page = new Page($id);
         $this->pm->expects($this->once())->method('findForView')->with($id)->will($this->returnValue($page));
         $this->pm->expects($this->once())->method('getTemplate')->with($page)->will($this->returnValue('foo.template'));
-        $this->templating->expects($this->once())->method('renderResponse')->with('foo.template', array(
+        $this->templating->expects($this->once())->method('render')->with('foo.template', array(
             'page' => $page,
             'id' => $id
         ));
