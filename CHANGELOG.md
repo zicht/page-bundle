@@ -8,7 +8,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added|Changed|Deprecated|Removed|Fixed|Security
 Nothing so far
 
-# 5.0.0 - 2018-06-22
+## 5.0.2 - 2018-07-20
+### Fixed
+- Unittests by referencing the correct expect-method
+- `context->addViolationAt` no longer exists and replaced with `buildViolation`
+
+## 5.0.1 - 2018-07-20
+### Fixed
+- Updated Twig syntax for `replace` in `form_theme.html.twig`
+
+## 5.0.0 - 2018-06-22
 ### Added
 - Support for Symfony 3.x
 ### Removed
