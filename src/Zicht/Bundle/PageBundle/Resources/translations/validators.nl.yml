@@ -1,0 +1,3 @@
+content_item:
+    invalid:
+        region_type_combination: De regio %region% en het type %type% komen niet overeen
