@@ -79,6 +79,10 @@ a migration. An example script could be;
 
 The arrays in the migrations class should contain the oldtype and the newtype.
 
+# 2.7.2 - 2018-07-23
+## Fixed
+- Changed handling of versioned contentitems, which was fixed in 2.7.1 but the bug had even more scenario's that were not covered.
+
 # 2.7.1 - 2018-06-11
 ## Fixed
 - Undo commit d59d452 (Bugfix on ContentItemTypeType)

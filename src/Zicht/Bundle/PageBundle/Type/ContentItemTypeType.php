@@ -3,6 +3,7 @@
  * @author Gerard van Helden <gerard@zicht.nl>
  * @copyright Zicht Online <http://zicht.nl>
  */
+
 namespace Zicht\Bundle\PageBundle\Type;
 
 use Sonata\AdminBundle\Admin\Pool;
@@ -13,6 +14,7 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Routing\Exception\InvalidParameterException;
 use Symfony\Component\Routing\Exception\MissingMandatoryParametersException;
+use Zicht\Bundle\PageBundle\Entity\ContentItem;
 use Zicht\Bundle\PageBundle\Model\ContentItemContainer;
 use Zicht\Util\Str;
 
@@ -98,19 +100,26 @@ class ContentItemTypeType extends AbstractType
 
             $parentAdmin = $genericAdmin->getParent();
 
+            /** @var ContentItem $subject */
             $subject = $form->getParent()->getData();
 
             $view->vars['type'] = null;
             $view->vars['edit_url'] = null;
 
-
             try {
-                // Undo commit d59d452 (Bugfix on ContentItemTypeType)
-                // Commit d59d452 added a check on $subject->getId(), and only allowed the edit_url to be generated when
-                // a subject existed and was already persisted in the database.  Unfortunately this is not correct when
-                // the `zicht/versioning-bundle` is used (as those ContentItem entities do exist but do *not* have an id.
-                if ($subject->getRegion() !== null && $typeAdmin = $this->sonata->getAdminByClass(get_class($subject))) {
-                    $view->vars['type'] = Str::humanize($subject->getType());
+                $isPersistedEntity = $subject->getId();
+                // $subject->getId() does not work when the `zicht/versioning-bundle` is used, as those ContentItem entities do exist but do *not* have an id when editing a non-active version.
+                if ($this->sonata->getContainer()->has('zicht_versioning.manager') && $this->sonata->getContainer()->get('zicht_versioning.manager')->isManaged($subject->getPage())) {
+                    if (method_exists($subject, 'getWeight')) {
+                        // sonata adds new entries with a weight of 0.
+                        $isPersistedEntity = $subject->getWeight() > 0 ? true : false;
+                    } else {
+                        // unknown how to determine this when the weight is not available. possibly update VersioningBundle to tell us this.
+                        throw new \LogicException('Unable to determine the persisted state of this contentitem');
+                    }
+                }
+                if ($isPersistedEntity && $typeAdmin = $this->sonata->getAdminByClass(get_class($subject))) {
+                    $view->vars['type'] = Str::humanize(Str::classname($subject->getConvertToType()));
                     $childAdmin = $this->sonata->getAdminByAdminCode($parentAdmin->getCode() . '|' . $typeAdmin->getCode());
                     $childAdmin->setRequest($genericAdmin->getRequest());
 
