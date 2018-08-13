@@ -91,15 +91,16 @@ class GenerateAdminServicesCompilerPass implements CompilerPassInterface
 
             /** @var ContentItemContainer $instance */
             $instance = new $pageClassName;
-            $contentItemClassNames = $instance->getContentItemMatrix()->getTypes();
+
+            if (null === $matrix = $instance->getContentItemMatrix()) {
+                continue;
+            }
+
             foreach ($serviceDefinitions['contentItem'] as $contentItemServiceId) {
                 $contentItemDefinition = $container->getDefinition($contentItemServiceId);
 
-                if (in_array($contentItemDefinition->getArgument(1), $contentItemClassNames)) {
-                    $pageDef->addMethodCall(
-                        'addChild',
-                        [new Reference($contentItemServiceId)]
-                    );
+                if (in_array($contentItemDefinition->getArgument(1), $matrix->getTypes())) {
+                    $pageDef->addMethodCall('addChild', [new Reference($contentItemServiceId)]);
                 }
             }
         }
