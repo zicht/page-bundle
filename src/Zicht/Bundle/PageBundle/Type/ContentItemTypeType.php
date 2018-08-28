@@ -115,7 +115,7 @@ class ContentItemTypeType extends AbstractType
                         throw new \LogicException('Unable to determine the persisted state of this contentitem');
                     }
                 }
-                if ($isPersistedEntity && $typeAdmin = $this->sonata->getAdminByClass(get_class($subject))) {
+                if ($isPersistedEntity && !is_null($subject) && $typeAdmin = $this->sonata->getAdminByClass(get_class($subject))) {
                     $view->vars['type'] = Str::humanize(Str::classname($subject->getConvertToType()));
                     $childAdmin = $this->sonata->getAdminByAdminCode($parentAdmin->getCode() . '|' . $typeAdmin->getCode());
                     $childAdmin->setRequest($genericAdmin->getRequest());
