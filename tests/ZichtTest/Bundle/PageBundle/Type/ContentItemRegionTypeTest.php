@@ -58,7 +58,7 @@ namespace ZichtTest\Bundle\PageBundle\Assets {
                     ->type(\ZichtTest\Bundle\PageBundle\Assets\bar::class);
             $container->expects($this->once())->method('getContentItemMatrix')->will($this->returnValue($matrix));
             $options['container']= $container;
-            $builder->expects($this->once())->method('add')->with('region', 'choice', array('choices' => array('x' => 'x', 'y' => 'y'), 'translation_domain' => 'admin', 'empty_value' => null));
+            $builder->expects($this->once())->method('add')->with('region', 'choice', array('choices' => array('x' => 'x', 'y' => 'y'), 'translation_domain' => 'admin', 'placeholder' => null));
             $type->buildForm($builder, $options);
         }
 
