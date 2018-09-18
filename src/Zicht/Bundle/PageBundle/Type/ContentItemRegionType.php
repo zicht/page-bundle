@@ -86,7 +86,7 @@ class ContentItemRegionType extends AbstractType
                 array(
                     'choices' => $choices,
                     'translation_domain' => 'admin',
-                    'empty_value' => $this->translator->trans('content_item_region.empty_value', array(), 'admin')
+                    'placeholder' => $this->translator->trans('content_item_region.empty_value', array(), 'admin')
                 )
             );
         } else {
