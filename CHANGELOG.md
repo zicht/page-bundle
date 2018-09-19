@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added|Changed|Deprecated|Removed|Fixed|Security
 Nothing so far
 
+## 5.0.6 - 2018-09-19
+### Changed
+- Replace empty_value for Symfony 3.x
+
 ## 5.0.2 - 2018-07-20
 ### Fixed
 - Unittests by referencing the correct expect-method
