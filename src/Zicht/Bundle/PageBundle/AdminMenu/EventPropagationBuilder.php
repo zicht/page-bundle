@@ -31,7 +31,7 @@ class EventPropagationBuilder implements PropagationInterface
     /**
      * @var EventDispatcher
      */
-    private $eventDispatcher;
+    protected $eventDispatcher;
 
     /**
      * Construct with the specified admin pool

@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added|Changed|Deprecated|Removed|Fixed|Security
 Nothing so far
 
+## 5.0.7 - 2018-11-05
+### Changed
+- Changed the variable `$eventDispatcher` in `AdminMenu/EventPropagationBuilder` to `protected`. So it can be overriden outside the class
+
 ## 5.0.6 - 2018-09-19
 ### Changed
 - Replace empty_value for Symfony 3.x
