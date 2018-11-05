@@ -10,7 +10,7 @@ Nothing so far
 
 ## 5.0.7 - 2018-11-05
 ### Changed
-- Change the variable $eventDispatcher to protected. So it can be overriden outside the class
+- Changed the variable `$eventDispatcher` in `AdminMenu/EventPropagationBuilder` to `protected`. So it can be overriden outside the class
 
 ## 5.0.6 - 2018-09-19
 ### Changed
