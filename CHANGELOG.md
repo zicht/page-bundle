@@ -8,6 +8,34 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added|Changed|Deprecated|Removed|Fixed|Security
 Nothing so far
 
+# 4.0.5 - 2019-01-10
+## Fixed
+- Rebased to include v3.0.9: Fix for the content item type view var to be
+constructed from the FQCN again
+
+# 4.0.4 - 2018-08-13
+## Fixed
+- Version 3.0.8 merged into v4: Check for pages that returns null for
+getContentItemMatrix
+
+# 4.0.3 - 2018-07-23
+## Changed
+- Version 3.0.7 merged into v4
+
+# 4.0.2 - 2018-06-11
+## Changed
+- Versions 3.0.5 and 3.0.6 merged into v4
+
+# 4.0.1 - 2018-02-19
+## Fixed
+- Correct versions in Composer JSON for zicht/admin-bundle and zicht/url-bundle
+
+# 4.0.0 - 2018-01-24
+## Added
+- Support for PHP version 7
+## Removed
+- Support for PHP version 5 (^5.6)
+
 # 3.0.9 - 2019-01-10
 ## Fixed
 - Fix for the content item type view var to be constructed from the FQCN again
