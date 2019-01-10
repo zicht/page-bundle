@@ -119,7 +119,7 @@ class ContentItemTypeType extends AbstractType
                     }
                 }
                 if ($isPersistedEntity && $typeAdmin = $this->sonata->getAdminByClass(get_class($subject))) {
-                    $view->vars['type'] = Str::humanize(Str::classname($subject->getConvertToType()));
+                    $view->vars['type'] = Str::humanize($subject->getType());
                     $childAdmin = $this->sonata->getAdminByAdminCode($parentAdmin->getCode() . '|' . $typeAdmin->getCode());
                     $childAdmin->setRequest($genericAdmin->getRequest());
 
