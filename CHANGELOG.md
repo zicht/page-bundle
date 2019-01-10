@@ -8,6 +8,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added|Changed|Deprecated|Removed|Fixed|Security
 Nothing so far
 
+## 5.0.8 - 2019-01-10
+### Fixed
+- Rebased to include v3.0.9: Fix for the content item type view var to be
+constructed from the FQCN again
+
 ## 5.0.7 - 2018-11-05
 ### Changed
 - Changed the variable `$eventDispatcher` in `AdminMenu/EventPropagationBuilder` to `protected`. So it can be overriden outside the class
@@ -31,74 +36,74 @@ Nothing so far
 ### Removed
 - Support for Symfony 2.x
 
-# 4.0.5 - 2019-01-10
-## Fixed
+## 4.0.5 - 2019-01-10
+### Fixed
 - Rebased to include v3.0.9: Fix for the content item type view var to be
 constructed from the FQCN again
 
-# 4.0.4 - 2018-08-13
-## Fixed
+## 4.0.4 - 2018-08-13
+### Fixed
 - Version 3.0.8 merged into v4: Check for pages that returns null for
 getContentItemMatrix
 
-# 4.0.3 - 2018-07-23
-## Changed
+## 4.0.3 - 2018-07-23
+### Changed
 - Version 3.0.7 merged into v4
 
-# 4.0.2 - 2018-06-11
-## Changed
+## 4.0.2 - 2018-06-11
+### Changed
 - Versions 3.0.5 and 3.0.6 merged into v4
 
-# 4.0.1 - 2018-02-19
-## Fixed
+## 4.0.1 - 2018-02-19
+### Fixed
 - Correct versions in Composer JSON for zicht/admin-bundle and zicht/url-bundle
 
-# 4.0.0 - 2018-01-24
-## Added
+## 4.0.0 - 2018-01-24
+### Added
 - Support for PHP version 7
-## Removed
+### Removed
 - Support for PHP version 5 (^5.6)
 
-# 3.0.9 - 2019-01-10
-## Fixed
+## 3.0.9 - 2019-01-10
+### Fixed
 - Fix for the content item type view var to be constructed from the FQCN again
 
-# 3.0.8 - 2018-08-13
-## Fixed
+## 3.0.8 - 2018-08-13
+### Fixed
 - Check for pages that returns null for getContentItemMatrix
 
-# 3.0.7 - 2018-07-23
-## Changed
+## 3.0.7 - 2018-07-23
+### Changed
 - Update handling versioned contentitems
 
-# 3.0.6 - 2018-06-11
-## Added
+## 3.0.6 - 2018-06-11
+### Added
 - Add translation links into the cms menu
-## Changed
+### Changed
 - Fix issue when page-bundle is used with versioning-bundle
 - Fix typo in class name and add Router not available check
 
-# 3.0.5 - 2018-01-24
-## Changed
+## 3.0.5 - 2018-01-24
+### Changed
 - reverted voters fix because it breaks code
 - removed duplicated code and moved to new branch for php >= 7
 
-# 3.0.4 - 2018-01-23
-## Fixed
+## 3.0.4 - 2018-01-23
+### Fixed
 - Fixed the security voters
-## Changed
+### Changed
 - Changed the maintainers in the README.md
 
-# 3.0.3 - 2018-01-04
-## Removed
+## 3.0.3 - 2018-01-04
+### Removed
 * Removed the wronly named and wronly placed override for `$datagridValues` in the PageAdmin. At this point we don't know yet how to sort the admin-list. Leave this to the default here.
 
-# 3.0.1 - # 3.0.2
-## Fixed
+## 3.0.1 - # 3.0.2
+### Fixed
 * Various bugfixes concerning the 3.0-release.
 
-# 3.0.0
-## Breaking Changes
+## 3.0.0
+### Breaking Changes
 - Naming admin services of Pages and ContentItems using the fully
 qualified class name instead of using only the last part.
 Updating changes the service ids of the Page Admins. In `sonata_admin` config
@@ -160,36 +165,36 @@ a migration. An example script could be;
 
 The arrays in the migrations class should contain the oldtype and the newtype.
 
-# 2.7.2 - 2018-07-23
-## Fixed
+## 2.7.2 - 2018-07-23
+### Fixed
 - Changed handling of versioned contentitems, which was fixed in 2.7.1 but the bug had even more scenario's that were not covered.
 
-# 2.7.1 - 2018-06-11
-## Fixed
+## 2.7.1 - 2018-06-11
+### Fixed
 - Undo commit d59d452 (Bugfix on ContentItemTypeType)
   Commit d59d452 added a check on $subject->getId(), and only allowed the edit_url to be generated when
   a subject existed and was already persisted in the database.  Unfortunately this is not correct when
   the `zicht/versioning-bundle` is used (as those ContentItem entities do exist but do *not* have an id.
 
-# 2.7.0 - 2018-02-19
-## Added
+## 2.7.0 - 2018-02-19
+### Added
 - Added `TranslatePageEventPropagationBuilder`.  This adds translation links into the menu.  These
   provide the `zz` locale translation urls
 
-# 2.6.0 - 2017-10-05
-## Added
+## 2.6.0 - 2017-10-05
+### Added
 - Added a service `zicht_page.controller.view_validator` to vote on weather a page is viewable or not
 
-# 2.3.0
+## 2.3.0
 - Includes compatibility with an admin-less kernel
 
-# 2.4.0
+## 2.4.0
 - Includes a possibility to configure the aliasing conflict strategies
 
-## Version 2.0.0
+## 2.0.0
 ### Breaking Changes
 - added support for Symfony >= _2.3_
 - added FormEvent::SUBMIT listener to PageAdmin - since FormBuilder doesn't have getParent() anymore
 
-## Version 1.3.4
+## 1.3.4
 - Symfony < _2.3_
