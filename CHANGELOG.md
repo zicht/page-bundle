@@ -8,6 +8,36 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added|Changed|Deprecated|Removed|Fixed|Security
 Nothing so far
 
+# 3.0.9 - 2019-01-10
+## Fixed
+- Fix for the content item type view var to be constructed from the FQCN again
+
+# 3.0.8 - 2018-08-13
+## Fixed
+- Check for pages that returns null for getContentItemMatrix
+
+# 3.0.7 - 2018-07-23
+## Changed
+- Update handling versioned contentitems
+
+# 3.0.6 - 2018-06-11
+## Added
+- Add translation links into the cms menu
+## Changed
+- Fix issue when page-bundle is used with versioning-bundle
+- Fix typo in class name and add Router not available check
+
+# 3.0.5 - 2018-01-24
+## Changed
+- reverted voters fix because it breaks code
+- removed duplicated code and moved to new branch for php >= 7
+
+# 3.0.4 - 2018-01-23
+## Fixed
+- Fixed the security voters
+## Changed
+- Changed the maintainers in the README.md
+
 # 3.0.3 - 2018-01-04
 ## Removed
 * Removed the wronly named and wronly placed override for `$datagridValues` in the PageAdmin. At this point we don't know yet how to sort the admin-list. Leave this to the default here.
