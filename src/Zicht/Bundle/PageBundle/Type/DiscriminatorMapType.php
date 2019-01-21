@@ -9,7 +9,6 @@ namespace Zicht\Bundle\PageBundle\Type;
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\OptionsResolver\Options;
 use Zicht\Util\Str;
 
