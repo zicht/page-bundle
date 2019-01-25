@@ -39,7 +39,7 @@ class PageVoter extends AbstractVoter
                 continue;
             }
 
-            if ($this->isPublic($object)) {
+            if ($object instanceof PageInterface && $this->isPublic($object)) {
                 return VoterInterface::ACCESS_GRANTED;
             }
         }
