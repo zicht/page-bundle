@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added|Changed|Deprecated|Removed|Fixed|Security
 Nothing so far
 
+## 5.0.9 - 2019-01-29
+### Fixed
+- Regressionbug in `PageVoter::vote` where non-supported objects were wrongly allowed to be interpreted and not abstained from voting.
+
 ## 5.0.8 - 2019-01-10
 ### Fixed
 - Rebased to include v3.0.9: Fix for the content item type view var to be
