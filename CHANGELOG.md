@@ -8,6 +8,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added|Changed|Deprecated|Removed|Fixed|Security
 Nothing so far
 
+# 2.7.4 - 2019-01-29
+- Fixed bug in `PageVoter::vote` where non-supported objects were wrongly allowed to be interpreted and not abstained from voting.
+
+# 2.7.3 - 2019-01-28
+- Not to be used, use 2.7.4
+
 # 2.7.2 - 2018-07-23
 ## Fixed
 - Changed handling of versioned contentitems, which was fixed in 2.7.1 but the bug had even more scenario's that were not covered.
