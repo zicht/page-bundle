@@ -30,6 +30,11 @@ abstract class AbstractAdminAwareVoter extends AbstractVoter
      */
     public function vote(TokenInterface $token, $object, array $attributes)
     {
+        // ignore checks for switch user
+        if (in_array('ROLE_PREVIOUS_ADMIN', $attributes)) {
+            return VoterInterface::ACCESS_ABSTAIN;
+        }
+
         /**
          * Admin users should see content no matter the scheduled dates
          * Since you can set the decision strategy to unanimous, you want to grant this explicitly
