@@ -23,7 +23,7 @@
             <tag name="zicht_url.url_provider"/>
         </service>
         <service id="zicht_page.page_manager_subscriber" class="%zicht_page.page_manager_subscriber.class%">
-            <argument type="service" id="service_container"/>
+            <argument type="service" id="zicht_page.page_manager"/>
             <tag name="doctrine.event_subscriber"/>
         </service>
         <service id="zicht_page.form.type.zicht_content_item_type_type" class="%zicht_page.form.type.zicht_content_item_type_type.class%">
@@ -52,7 +52,7 @@
             <argument type="service" id="event_dispatcher"/>
             <tag name="zicht_admin.event_propagation" event="zicht_page.view"/>
         </service>
-        <service id="zicht_page.page_manager" class="%zicht_page.page_manager.class%">
+        <service id="zicht_page.page_manager" class="%zicht_page.page_manager.class%" public="true">
             <argument type="service" id="doctrine"/>
             <argument type="service" id="event_dispatcher"/>
             <argument/>
@@ -68,7 +68,7 @@
             <tag name="validator.constraint_validator" alias="zicht_page.validator.content_item_matrix_validator" />
             <argument type="service" id="translator"/>
         </service>
-        <service id="zicht_page.controller.view_validator" class="%zicht_page.controller.view_validator.class%">
+        <service id="zicht_page.controller.view_validator" class="%zicht_page.controller.view_validator.class%" public="true">
             <argument type="service" id="security.authorization_checker" on-invalid="null"/>
         </service>
     </services>
