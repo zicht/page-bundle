@@ -9,6 +9,7 @@ use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\LoadClassMetadataEventArgs;
 use Doctrine\ORM\Events;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Zicht\Bundle\PageBundle\Manager\PageManager;
 
 /**
  * Subscriber for loading the class metadata for content items and pages. Delegates to
@@ -17,31 +18,24 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class Subscriber implements EventSubscriber
 {
     /**
-     * @var ContainerInterface
+     * @var PageManager
      */
-    private $container;
+    private $pageManager;
 
-    /**
-     * Construct the subscriber.
-     *
-     * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
-     */
-    public function __construct(ContainerInterface $container)
+    public function __construct(PageManager $pageManager)
     {
-        $this->container = $container;
+        $this->pageManager = $pageManager;
     }
-
 
     /**
      * Returns the page manager service.
      *
-     * @return \Zicht\Bundle\PageBundle\Manager\PageManager
+     * @return PageManager
      */
     public function getManager()
     {
-        return $this->container->get('zicht_page.page_manager');
+        return $this->pageManager;
     }
-
 
     /**
      * Delegates to PageManager::decorateClassMetaData to load the class meta data
@@ -53,7 +47,6 @@ class Subscriber implements EventSubscriber
     {
         $this->getManager()->decorateClassMetaData($args->getClassMetadata());
     }
-
 
     /**
      * @{inheritDoc}
