@@ -8,14 +8,22 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added|Changed|Deprecated|Removed|Fixed|Security
 Nothing so far
 
+## 5.0.11
+## Changed
+- Removed deprecations in `zicht_page.page_manager_subscriber`, we inject now only what is needed, no circular references occur
+- `zicht_page.page_manager` and `zicht_page.controller.view_validator` are now public services as they are used widespread (in Controllers and Traits) and are not easily injectable
+
+## 5.0.10
+### Fixed
+- Ignore checks for impersonated users in `AbstractAdminAwareVoter`
+
 ## 5.0.9 - 2019-01-29
 ### Fixed
 - Regressionbug in `PageVoter::vote` where non-supported objects were wrongly allowed to be interpreted and not abstained from voting.
 
 ## 5.0.8 - 2019-01-10
 ### Fixed
-- Rebased to include v3.0.9: Fix for the content item type view var to be
-constructed from the FQCN again
+- Rebased to include v3.0.9: Fix for the content item type view var to be constructed from the FQCN again
 
 ## 5.0.7 - 2018-11-05
 ### Changed
