@@ -8,6 +8,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added|Changed|Deprecated|Removed|Fixed|Security
 Nothing so far
 
+# 2.7.5 - 2019-05-06
+- Expanded the zicht/admin-bundle dependency to v4 to have real PHP 7 support in this package
+
 # 2.7.4 - 2019-01-29
 - Fixed bug in `PageVoter::vote` where non-supported objects were wrongly allowed to be interpreted and not abstained from voting.
 
