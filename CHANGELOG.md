@@ -8,6 +8,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added|Changed|Deprecated|Removed|Fixed|Security
 Nothing so far
 
+# 3.0.10 - 2019-05-06
+- Merged version 2.7.5 into v3, expanding the zicht/admin-bundle dependency to
+  v4 to have real PHP 7 support in this package, which was removed between
+  3.0.4 and 3.0.5 (as non-breaking!?)
+
 # 3.0.9 - 2019-01-10
 ## Fixed
 - Fix for the content item type view var to be constructed from the FQCN again
@@ -108,6 +113,18 @@ a migration. An example script could be;
 ```
 
 The arrays in the migrations class should contain the oldtype and the newtype.
+
+# 2.7.6 - 2019-05-06
+- Expanded the zicht/admin-bundle dependency to v4 to have real PHP 7 support in this package
+
+# 2.7.5 - 2019-02-15
+- Fixed leftover bugs related to PHP 7.2
+
+# 2.7.4 - 2019-01-29
+- Fixed bug in `PageVoter::vote` where non-supported objects were wrongly allowed to be interpreted and not abstained from voting.
+
+# 2.7.3 - 2019-01-28
+- Not to be used, use 2.7.4
 
 # 2.7.2 - 2018-07-23
 ## Fixed

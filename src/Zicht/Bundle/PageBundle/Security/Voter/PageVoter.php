@@ -28,7 +28,7 @@ class PageVoter extends AbstractVoter
     public function vote(TokenInterface $token, $object, array $attributes)
     {
         // check if class of this object is supported by this voter
-        if (!$this->supportsClass(get_class($object))) {
+        if (is_null($object) || (is_object($object) && !$this->supportsClass(get_class($object)))) {
             return VoterInterface::ACCESS_ABSTAIN;
         }
 

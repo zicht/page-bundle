@@ -34,7 +34,7 @@ abstract class AbstractAdminAwareVoter extends AbstractVoter
          * Admin users should see content no matter the scheduled dates
          * Since you can set the decision strategy to unanimous, you want to grant this explicitly
          */
-        if ($this->supportsClass(get_class($object)) && sizeof($token->getRoles())) {
+        if (!is_null($object) && $this->supportsClass(get_class($object)) && sizeof($token->getRoles())) {
             /** @var \Symfony\Component\Security\Core\Role\Role $role */
             foreach ($token->getRoles() as $role) {
                 if (in_array($role->getRole(), array('ROLE_ADMIN', 'ROLE_SUPER_ADMIN'))) {
