@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added|Changed|Deprecated|Removed|Fixed|Security
 Nothing so far
 
+# 3.0.11 - 2019-07-05
+- Expanding the zicht/url-bundle dependency to v3 to have real PHP 7 support
+  in this package
+
 # 3.0.10 - 2019-05-06
 - Merged version 2.7.5 into v3, expanding the zicht/admin-bundle dependency to
   v4 to have real PHP 7 support in this package, which was removed between
