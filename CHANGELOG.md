@@ -8,8 +8,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added|Changed|Deprecated|Removed|Fixed|Security
 Nothing so far
 
+## 5.0.12 - 2019-07-09
+### Fixed
+- Merge from 4.0.5 and 4.0.6.
+- Merge from 3.0.10 and 3.0.11.
+- Merge from 2.7.3, 2.7.4, 2.7.5, and 2.7.6.
+
 ## 5.0.11
-## Changed
+### Changed
 - Removed deprecations in `zicht_page.page_manager_subscriber`, we inject now only what is needed, no circular references occur
 - `zicht_page.page_manager` and `zicht_page.controller.view_validator` are now public services as they are used widespread (in Controllers and Traits) and are not easily injectable
 
@@ -48,6 +54,20 @@ Nothing so far
 ### Removed
 - Support for Symfony 2.x
 
+## 4.0.6 - 2019-07-09
+### Fixed
+- Merge from 3.0.10 and 3.0.11.
+- Merge from 2.7.3, 2.7.4, 2.7.5, and 2.7.6.
+- The `PageVoter` class now takes into account admin users, i.e. when
+  you are logged in with ROLE_ADMIN or ROLE_SUPER_ADMIN you will be granted
+  access.
+
+  Note that ideally it would be better to have a separate voter that grants
+  access whenever you are logged in as admin.  However, because this might
+  conflict with voting strategies such as 'every voter must agree', and we do
+  not know if this such strategies are in use, we have decides on this change,
+  even though it is not perfect.
+
 ## 4.0.5 - 2019-01-10
 ### Fixed
 - Rebased to include v3.0.9: Fix for the content item type view var to be
@@ -75,6 +95,17 @@ getContentItemMatrix
 - Support for PHP version 7
 ### Removed
 - Support for PHP version 5 (^5.6)
+
+## 3.0.11 - 2019-07-05
+### Fixed
+- Expanding the zicht/url-bundle dependency to v3 to have real PHP 7 support
+  in this package
+
+## 3.0.10 - 2019-05-06
+### Fixed
+- Merged version 2.7.5 into v3, expanding the zicht/admin-bundle dependency to
+  v4 to have real PHP 7 support in this package, which was removed between
+  3.0.4 and 3.0.5 (as non-breaking!?)
 
 ## 3.0.9 - 2019-01-10
 ### Fixed
@@ -176,6 +207,22 @@ a migration. An example script could be;
 ```
 
 The arrays in the migrations class should contain the oldtype and the newtype.
+
+## 2.7.6 - 2019-05-06
+### Fixed
+- Expanded the zicht/admin-bundle dependency to v4 to have real PHP 7 support in this package
+
+## 2.7.5 - 2019-02-15
+### Fixed
+- Fixed leftover bugs related to PHP 7.2
+
+## 2.7.4 - 2019-01-29
+### Fixed
+- Fixed bug in `PageVoter::vote` where non-supported objects were wrongly allowed to be interpreted and not abstained from voting.
+
+## 2.7.3 - 2019-01-28
+### Fixed
+- Not to be used, use 2.7.4
 
 ## 2.7.2 - 2018-07-23
 ### Fixed
