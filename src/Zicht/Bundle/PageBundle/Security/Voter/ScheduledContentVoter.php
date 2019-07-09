@@ -89,7 +89,7 @@ class ScheduledContentVoter extends AbstractAdminAwareVoter
         $vote = parent::vote($token, $object, $attributes);
 
         /** @var ScheduledContentInterface $object */
-        if ($vote === VoterInterface::ACCESS_ABSTAIN && !is_null($object) && $this->supportsClass(get_class($object))) {
+        if ($vote === VoterInterface::ACCESS_ABSTAIN && is_object($object) && $this->supportsClass(get_class($object))) {
             foreach ($attributes as $attribute) {
                 if (!$this->supportsAttribute($attribute)) {
                     continue;

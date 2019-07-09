@@ -13,6 +13,8 @@ Nothing so far
 - Merge from 4.0.5 and 4.0.6.
 - Merge from 3.0.10 and 3.0.11.
 - Merge from 2.7.3, 2.7.4, 2.7.5, and 2.7.6.
+- Fix check in `ScheduledContentVoter`, using `is_object`, as this also covers `!is_null`
+  but also some other cases.
 
 ## 5.0.11
 ### Changed
