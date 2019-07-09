@@ -8,6 +8,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added|Changed|Deprecated|Removed|Fixed|Security
 Nothing so far
 
+# 4.0.6 - 2019-07-09
+## Fixed
+- The `PageVoter` class now takes into account admin users, i.e. when
+  you are logged in with ROLE_ADMIN or ROLE_SUPER_ADMIN you will be granted
+  access.
+
+  Note that ideally it would be better to have a separate voter that grants
+  access whenever you are logged in as admin.  However, because this might
+  conflict with voting strategies such as 'every voter must agree', and we do
+  not know if this such strategies are in use, we have decides on this change,
+  even though it is not perfect.
+
 # 4.0.5 - 2019-01-10
 ## Fixed
 - Rebased to include v3.0.9: Fix for the content item type view var to be

@@ -2,6 +2,7 @@
 /**
  * @copyright Zicht Online <http://www.zicht.nl>
  */
+
 namespace Zicht\Bundle\PageBundle\Security\Voter;
 
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -12,7 +13,7 @@ use Zicht\Bundle\PageBundle\Model\PageInterface;
 /**
  * Votes for pages to be public for anyone.
  */
-class PageVoter extends AbstractVoter
+class PageVoter extends AbstractAdminAwareVoter
 {
     /**
      * @{inheritDoc}
@@ -27,21 +28,23 @@ class PageVoter extends AbstractVoter
      */
     public function vote(TokenInterface $token, $object, array $attributes)
     {
-        // check if class of this object is supported by this voter
-        if (!$this->supportsClass(get_class($object))) {
-            return VoterInterface::ACCESS_ABSTAIN;
+        // Abstract class checks if user is admin, if not so it will return VoterInterface::ACCESS_ABSTAIN
+        $vote = parent::vote($token, $object, $attributes);
+
+        if ($vote === VoterInterface::ACCESS_ABSTAIN && $this->supportsClass(get_class($object))) {
+            foreach ($attributes as $attribute) {
+                if (!$this->supportsAttribute($attribute)) {
+                    continue;
+                }
+
+                if ($this->isPublic($object)) {
+                    $vote = VoterInterface::ACCESS_GRANTED;
+                    break;
+                }
+            }
         }
 
-        foreach ($attributes as $attribute) {
-            if (!$this->supportsAttribute($attribute)) {
-                continue;
-            }
-
-            if ($this->isPublic($object)) {
-                return VoterInterface::ACCESS_GRANTED;
-            }
-        }
-        return VoterInterface::ACCESS_ABSTAIN;
+        return $vote;
     }
 
 
