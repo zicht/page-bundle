@@ -31,7 +31,7 @@ class PageVoter extends AbstractAdminAwareVoter
         // Abstract class checks if user is admin, if not so it will return VoterInterface::ACCESS_ABSTAIN
         $vote = parent::vote($token, $object, $attributes);
 
-        if ($vote === VoterInterface::ACCESS_ABSTAIN && $this->supportsClass(get_class($object))) {
+        if ($vote === VoterInterface::ACCESS_ABSTAIN && !is_null($object) && $this->supportsClass(get_class($object))) {
             foreach ($attributes as $attribute) {
                 if (!$this->supportsAttribute($attribute)) {
                     continue;
