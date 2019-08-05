@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added|Changed|Deprecated|Removed|Fixed|Security
 Nothing so far
 
+## 5.0.13 - 2019-08-05
+### Fixed
+- Fixed that tests are no longer auto loaded on production.
+
 ## 5.0.12 - 2019-07-09
 ### Fixed
 - Merge from 4.0.5 and 4.0.6.

@@ -25,7 +25,18 @@
         "phpunit/phpunit": "^4"
     },
     "autoload": {
-        "psr-0": { "": ["src/", "tests/"] }
+        "psr-0": {
+            "": [
+                "src/"
+            ]
+        }
+    },
+    "autoload-dev": {
+        "psr-0": {
+            "": [
+                "tests/"
+            ]
+        }
     },
     "minimum-stability": "stable"
 }
