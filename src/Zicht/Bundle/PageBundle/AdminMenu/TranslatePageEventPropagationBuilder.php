@@ -5,8 +5,8 @@
 
 namespace Zicht\Bundle\PageBundle\AdminMenu;
 
-use Symfony\Component\EventDispatcher\Event;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Contracts\EventDispatcher\Event;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Routing\Router;
 use Zicht\Bundle\AdminBundle\Event\AdminEvents;
 use Zicht\Bundle\AdminBundle\Event\MenuEvent;
@@ -39,7 +39,7 @@ class TranslatePageEventPropagationBuilder implements PropagationInterface
     /**
      * Build the relevant event and forward it.
      *
-     * @param \Symfony\Component\EventDispatcher\Event $event
+     * @param Event $event
      * @return mixed|void
      */
     public function buildAndForwardEvent(Event $event)

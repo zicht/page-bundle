@@ -47,6 +47,6 @@ class ZichtPageExtensionTest extends \PHPUnit_Framework_TestCase
             $this->assertEquals($container->getDefinition($key)->getClass(), $className);
         }
 
-        $this->assertEquals(array('ZichtPageBundle::form_theme.html.twig'), $container->getParameter('twig.form.resources'));
+        $this->assertEquals(array('@ZichtPage/form_theme.html.twig'), $container->getParameter('twig.form.resources'));
     }
 }

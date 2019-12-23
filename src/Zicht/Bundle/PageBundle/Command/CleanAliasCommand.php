@@ -3,10 +3,13 @@
  * @author Rik van der Kemp <rik@zicht.nl>
  * @copyright Zicht Online <http://www.zicht.nl>
  */
+
 namespace Zicht\Bundle\PageBundle\Command;
 
 use Doctrine\DBAL\Connection;
+use Symfony\Bridge\Doctrine\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -18,15 +21,25 @@ use Symfony\Component\Console\Question\ConfirmationQuestion;
  *
  * Remove aliases referencing pages that do not exist anymore.
  */
-class CleanAliasCommand extends ContainerAwareCommand
+class CleanAliasCommand extends Command
 {
+    protected static $defaultName = 'zicht:page:clean:alias';
+
+    /** @var ManagerRegistry */
+    private $doctrine;
+
+    public function __construct(ManagerRegistry $doctrine, string $name = null)
+    {
+        parent::__construct($name);
+        $this->doctrine = $doctrine;
+    }
+
     /**
      * {@inheritDoc}
      */
     protected function configure()
     {
         $this
-            ->setName('zicht:page:clean:alias')
             ->addArgument('locale', InputArgument::REQUIRED, 'Page locale to clean')
             ->setDescription('Clean aliases that are not attached to pages any more.');
     }
@@ -39,7 +52,7 @@ class CleanAliasCommand extends ContainerAwareCommand
         $locale = $input->getArgument('locale');
 
         /** @var Connection $connection */
-        $connection = $this->getContainer()->get('doctrine')->getConnection();
+        $connection = $this->doctrine->getConnection();
         $stmt = $connection->prepare(
             'SELECT 
                 page.id as original_page_id, 
@@ -72,10 +85,10 @@ class CleanAliasCommand extends ContainerAwareCommand
         foreach ($records as $record) {
             $table->addRow(
                 [
-                   $record['public_url'],
-                   $record['internal_url'],
-                   $record['page_id'],
-                   $record['original_page_id'],
+                    $record['public_url'],
+                    $record['internal_url'],
+                    $record['page_id'],
+                    $record['original_page_id'],
                 ]
             );
         }

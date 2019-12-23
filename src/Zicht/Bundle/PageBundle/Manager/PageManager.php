@@ -5,11 +5,11 @@
 
 namespace Zicht\Bundle\PageBundle\Manager;
 
-use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\Persistence\ObjectRepository;
 use Doctrine\Common\Util\ClassUtils;
 use Doctrine\ORM\Mapping\ClassMetadata;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\EventDispatcher\Event as SymfonyEvent;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -66,11 +66,10 @@ class PageManager
      * @param string $pageClassName
      * @param string $contentItemClassName
      */
-    public function __construct(Registry $doctrine, $dispatcher, $pageClassName, $contentItemClassName)
+    public function __construct(ManagerRegistry $doctrine, $dispatcher, $pageClassName, $contentItemClassName)
     {
         $this->mappings = [];
         $this->doctrine = $doctrine;
-        $this->em = $doctrine->getManager();
         $this->eventDispatcher = $dispatcher;
 
         $this->pageClassName = $pageClassName;
@@ -141,7 +140,7 @@ class PageManager
      */
     public function getBaseRepository()
     {
-        return $this->em->getRepository($this->pageClassName);
+        return $this->doctrine->getRepository($this->pageClassName);
     }
 
     /**
@@ -217,10 +216,10 @@ class PageManager
         if (!$type) {
             throw new NotFoundHttpException;
         }
-        $types = $this->em->getClassMetadata($this->pageClassName)->discriminatorMap;
+        $types = $this->doctrine->getClassMetadata($this->pageClassName)->discriminatorMap;
 
         $class = $types[$type];
-        $repos = $this->em->getRepository($class);
+        $repos = $this->doctrine->getRepository($class);
 
         if ($repos instanceof ViewablePageRepository) {
             $ret = $repos->findForView($id);
@@ -246,7 +245,7 @@ class PageManager
      */
     public function findPageBy($repository, $conditions)
     {
-        $ret = $this->em->getRepository($repository)->findOneBy($conditions);
+        $ret = $this->doctrine->getRepository($repository)->findOneBy($conditions);
         if (!$ret) {
             throw new NotFoundHttpException;
         }

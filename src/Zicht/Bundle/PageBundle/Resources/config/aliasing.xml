@@ -10,7 +10,7 @@
     </parameters>
 
     <services>
-        <service id="zicht_page.page_aliaser" class="Zicht\Bundle\UrlBundle\Aliasing\Aliaser">
+        <service id="zicht_page.page_aliaser" class="Zicht\Bundle\UrlBundle\Aliasing\Aliaser" public="true">
             <argument type="service" id="zicht_url.aliasing"/>
             <argument type="service" id="zicht_page.page_url_provider"/>
             <argument /><!-- Replaced by dependeny injection (based on service id configured in the bundle config -->
@@ -34,6 +34,19 @@
 
             <tag name="doctrine.event_subscriber" />
         </service>
+
+        <service id="Zicht\Bundle\PageBundle\Command\AliasCommand">
+            <tag name="console.command"/>
+            <argument type="service" id="doctrine"/>
+            <argument type="service" id="zicht_page.page_aliaser"/>
+            <argument type="service" id="zicht_page.page_manager"/>
+        </service>
+
+        <service id="Zicht\Bundle\PageBundle\Command\CleanAliasCommand">
+            <tag name="console.command"/>
+            <argument type="service" id="doctrine"/>
+        </service>
+
     </services>
 </container>
 
