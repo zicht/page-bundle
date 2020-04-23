@@ -70,14 +70,14 @@ class EventPropagationBuilder implements PropagationInterface
             /** @var \Zicht\Bundle\PageBundle\Event\PageViewEvent $event */
             /** @var \Zicht\Bundle\PageBundle\Event\PageViewEvent $e */
             $this->eventDispatcher->dispatch(
-                AdminEvents::MENU_EVENT,
                 new MenuEvent(
                     $admin->generateObjectUrl('edit', $event->getPage()),
                     sprintf(
                         'Beheer pagina "%s"',
                         strlen($title) > 20 ? substr($title, 0, 20) . '...' : $title
                     )
-                )
+                ),
+                AdminEvents::MENU_EVENT
             );
         }
     }

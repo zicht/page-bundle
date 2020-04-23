@@ -89,9 +89,14 @@ class PageManager
      */
     public function getTemplate($page)
     {
-        // determine page bundle name.
-        $bundle = $this->getBundleName(ClassUtils::getRealClass(get_class($page)));
-        return sprintf('%s:Page:%s.html.twig', $bundle, $page->getTemplateName());
+        $className = ClassUtils::getRealClass(get_class($page));
+        if (strpos($className, 'App') === 0) {
+            return sprintf('page/%s.html.twig', $page->getTemplateName());
+        }
+
+        // Not in App namespace, so determine the page bundle name.
+        $bundle = $this->getBundleName($className);
+        return sprintf('@%s/Page/%s.html.twig', $bundle, $page->getTemplateName());
     }
 
     /**
@@ -102,6 +107,10 @@ class PageManager
     protected function getBundleName($className)
     {
         $parts = explode('\\', $className);
+        if (count($parts) > 1 && strpos($parts[0], 'App') === 0 && $parts[1] === 'Entity') {
+            return $parts[0];
+        }
+
         $vendor = array_shift($parts);
         $bundleName = null;
         foreach ($parts as $part) {
@@ -216,7 +225,8 @@ class PageManager
         if (!$type) {
             throw new NotFoundHttpException;
         }
-        $types = $this->doctrine->getClassMetadata($this->pageClassName)->discriminatorMap;
+        $types = $this->doctrine->getManagerForClass($this->pageClassName)
+            ->getClassMetadata($this->pageClassName)->discriminatorMap;
 
         $class = $types[$type];
         $repos = $this->doctrine->getRepository($class);
@@ -269,7 +279,7 @@ class PageManager
      */
     public function setLoadedPage($loadedPage)
     {
-        $this->dispatch(Event\PageEvents::PAGE_VIEW, new Event\PageViewEvent($loadedPage));
+        $this->dispatch(new Event\PageViewEvent($loadedPage), Event\PageEvents::PAGE_VIEW);
         $this->loadedPage = $loadedPage;
     }
 
@@ -300,13 +310,13 @@ class PageManager
     /**
      * Dispatch an event
      *
-     * @param string $type
      * @param SymfonyEvent $event
+     * @param string $type
      *
      * @return SymfonyEvent
      */
-    public function dispatch($type, $event)
+    public function dispatch($event, $type)
     {
-        return $this->eventDispatcher->dispatch($type, $event);
+        return $this->eventDispatcher->dispatch($event, $type);
     }
 }
