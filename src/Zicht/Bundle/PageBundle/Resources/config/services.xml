@@ -58,6 +58,7 @@
             <argument/>
             <argument/>
         </service>
+        <service id="Zicht\Bundle\PageBundle\Manager\PageManager" alias="zicht_page.page_manager" public="true"/>
         <service id="zicht_page.security.authorization.voter.page_voter" class="%zicht_page.security.authorization.voter.page_voter.class%" public="false">
             <tag name="security.voter" />
         </service>
