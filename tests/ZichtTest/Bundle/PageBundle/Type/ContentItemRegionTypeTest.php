@@ -10,6 +10,9 @@ namespace ZichtTest\Bundle\PageBundle\Assets {
 }
 
  namespace ZichtTest\Bundle\PageBundle\Type {
+
+    use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+
     class ContentItemRegionTypeTest extends \PHPUnit_Framework_TestCase
     {
         function testConstruct()
@@ -58,7 +61,7 @@ namespace ZichtTest\Bundle\PageBundle\Assets {
                     ->type(\ZichtTest\Bundle\PageBundle\Assets\bar::class);
             $container->expects($this->once())->method('getContentItemMatrix')->will($this->returnValue($matrix));
             $options['container']= $container;
-            $builder->expects($this->once())->method('add')->with('region', 'choice', array('choices' => array('x' => 'x', 'y' => 'y'), 'translation_domain' => 'admin', 'placeholder' => null));
+            $builder->expects($this->once())->method('add')->with('region', ChoiceType::class, array('choices' => array('x' => 'x', 'y' => 'y'), 'translation_domain' => 'admin', 'placeholder' => null));
             $type->buildForm($builder, $options);
         }
 
@@ -70,7 +73,7 @@ namespace ZichtTest\Bundle\PageBundle\Assets {
         {
             list($options, $type) = $args;
             $builder = $this->getMockBuilder('Symfony\Component\Form\FormBuilder')->disableOriginalConstructor()->getMock();
-            $builder->expects($this->once())->method('add')->with('region', 'choice', array('choices' => array('a' => 'a', 'b' => 'b'), 'translation_domain' => 'admin'));
+            $builder->expects($this->once())->method('add')->with('region', ChoiceType::class, array('choices' => array('a' => 'a', 'b' => 'b'), 'translation_domain' => 'admin'));
             $type->buildForm($builder, $options);
         }
     }

@@ -6,6 +6,7 @@
 
 namespace Zicht\Bundle\PageBundle\Type;
 
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -75,21 +76,28 @@ class ContentItemRegionType extends AbstractType
             && $container instanceof ContentItemContainer
             && (null !== ($matrix = $container->getContentItemMatrix()))
         ) {
-            $choices = array();
-            foreach ($matrix->getRegions() as $c) {
-                $choices[$c] = $c;
+            $choices = [];
+            foreach ($matrix->getRegions() as $r) {
+                $choices[$r] = $r;
             }
             $builder->add(
                 'region',
-                'choice',
-                array(
+                ChoiceType::class,
+                [
                     'choices' => $choices,
                     'translation_domain' => 'admin',
-                    'placeholder' => $this->translator->trans('content_item_region.empty_value', array(), 'admin')
-                )
+                    'placeholder' => $this->translator->trans('content_item_region.empty_value', [], 'admin'),
+                ]
             );
         } else {
-            $builder->add('region', 'choice', array('choices' => $options['default_regions'], 'translation_domain' => 'admin'));
+            $builder->add(
+                'region',
+                ChoiceType::class,
+                [
+                    'choices' => $options['default_regions'],
+                    'translation_domain' => 'admin',
+                ]
+            );
         }
     }
 
