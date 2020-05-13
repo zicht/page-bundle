@@ -6,12 +6,12 @@
 
 namespace Zicht\Bundle\PageBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController as BaseAbstractController;
 
 /**
  * Common utility base controller
  */
-abstract class AbstractController extends Controller
+abstract class AbstractController extends BaseAbstractController
 {
     /**
      * Utility method that returns the page manager.
