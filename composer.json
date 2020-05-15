@@ -2,39 +2,30 @@
     "name": "zicht/page-bundle",
     "description": "Zicht PageBundle",
     "type": "symfony-bundle",
-    "authors": [
-        {
-            "name": "Gerard van Helden",
-            "email": "gerard@zicht.nl"
-        },
-        {
-            "name": "Muhammed Akbulut",
-            "email": "muhammed@zicht.nl"
-        }
-    ],
     "license": "MIT",
     "require": {
-        "php": "^7",
-        "symfony/symfony": "^3.4",
+        "php": "^7.1",
+        "symfony/console": "^4.4",
         "zicht/util": "^1.7",
-        "zicht/admin-bundle": "^5.0",
-        "zicht/url-bundle": "^4.0",
-        "zicht/menu-bundle": "^3.0"
+        "zicht/admin-bundle": "^6",
+        "zicht/framework-extra-bundle": "^9",
+        "zicht/url-bundle": "^5",
+        "zicht/menu-bundle": "^4"
     },
     "require-dev": {
-        "phpunit/phpunit": "^4"
+        "phpunit/phpunit": "^7"
     },
     "autoload": {
         "psr-4": {
             "Zicht\\Bundle\\PageBundle\\": [
-                "src/Zicht/Bundle/PageBundle/"
+                "src/"
             ]
         }
     },
     "autoload-dev": {
         "psr-4": {
             "ZichtTest\\Bundle\\PageBundle\\": [
-                "tests/ZichtTest/Bundle/PageBundle/"
+                "tests/"
             ]
         }
     },

@@ -58,6 +58,7 @@
             <argument/>
             <argument/>
         </service>
+        <service id="Zicht\Bundle\PageBundle\Manager\PageManager" alias="zicht_page.page_manager" public="true"/>
         <service id="zicht_page.security.authorization.voter.page_voter" class="%zicht_page.security.authorization.voter.page_voter.class%" public="false">
             <tag name="security.voter" />
         </service>
@@ -71,5 +72,17 @@
         <service id="zicht_page.controller.view_validator" class="%zicht_page.controller.view_validator.class%" public="true">
             <argument type="service" id="security.authorization_checker" on-invalid="null"/>
         </service>
+
+        <service id="Zicht\Bundle\PageBundle\Command\CheckContentItemsCommand">
+            <tag name="console.command"/>
+            <argument type="service" id="doctrine"/>
+        </service>
+
+        <service id="Zicht\Bundle\PageBundle\Command\ListCommand">
+            <tag name="console.command"/>
+            <argument type="service" id="zicht_page.page_manager"/>
+            <argument type="service" id="zicht_url.provider"/>
+        </service>
+
     </services>
 </container>

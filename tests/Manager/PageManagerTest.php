@@ -72,7 +72,7 @@ namespace ZichtTest\Bundle\PageBundle\Manager {
 
         function testGetTemplateWillReturnBundleTemplate() {
             $this->assertEquals(
-                'MyPageBundle:Page:foo-bar.html.twig',
+                '@MyPageBundle/Page/foo-bar.html.twig',
                 $this->pageManager->getTemplate(new \My\PageBundle\Entity\FooBarPage())
             );
         }

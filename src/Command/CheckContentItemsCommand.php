@@ -3,10 +3,12 @@
  * @author    Philip Bergman <philip@zicht.nl>
  * @copyright Zicht Online <http://www.zicht.nl>
  */
+
 namespace Zicht\Bundle\PageBundle\Command;
 
+use Doctrine\Persistence\ManagerRegistry;
 use Psr\Log\LogLevel;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Logger\ConsoleLogger;
@@ -19,14 +21,25 @@ use Zicht\Bundle\PageBundle\Entity\Page;
  *
  * @package Zicht\Bundle\PageBundle\Command
  */
-class CheckContentItemsCommand extends ContainerAwareCommand
+class CheckContentItemsCommand extends Command
 {
-    /** @var bool  */
+    /** @var bool */
     protected $isVeryVerbose;
     /** @var bool */
     protected $force;
-    /** @var ConsoleLogger  */
+    /** @var ConsoleLogger */
     protected $logger;
+
+    /** @var ManagerRegistry */
+    private $doctrine;
+
+    protected static $defaultName = 'zicht:page:contentitems:check';
+
+    public function __construct(ManagerRegistry $doctrine, string $name = null)
+    {
+        parent::__construct($name);
+        $this->doctrine = $doctrine;
+    }
 
     /**
      * @{inheritDoc}
@@ -34,7 +47,6 @@ class CheckContentItemsCommand extends ContainerAwareCommand
     protected function configure()
     {
         $this
-            ->setName('zicht:page:contentitems:check')
             ->addOption('force', 'f', InputOption::VALUE_NONE, 'Set this flag te remove/invalid broken content items')
             ->setHelp('Check/validate the page content items');
     }
@@ -44,7 +56,7 @@ class CheckContentItemsCommand extends ContainerAwareCommand
      */
     protected function initialize(InputInterface $input, OutputInterface $output)
     {
-        $this->force  = $input->getOption('force');
+        $this->force = $input->getOption('force');
         $this->logger = $this->getLogger($output);
         $this->isVeryVerbose = $output->getVerbosity() >= OutputInterface::VERBOSITY_VERY_VERBOSE;
     }
@@ -54,7 +66,7 @@ class CheckContentItemsCommand extends ContainerAwareCommand
      */
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        $em = $this->getContainer()->get('doctrine')->getManager();
+        $em = $this->doctrine->getManager();
 
         foreach ($this->getBasePageMeta() as $meta) {
             $this->logger->info(sprintf('Checking all sub classes of "%s"', $meta->getName()));
@@ -144,13 +156,13 @@ class CheckContentItemsCommand extends ContainerAwareCommand
         return new ConsoleLogger(
             $output,
             [
-                LogLevel::WARNING   => OutputInterface::VERBOSITY_NORMAL,
-                LogLevel::INFO      => OutputInterface::VERBOSITY_NORMAL,
-                LogLevel::DEBUG     => OutputInterface::VERBOSITY_VERBOSE,
+                LogLevel::WARNING => OutputInterface::VERBOSITY_NORMAL,
+                LogLevel::INFO => OutputInterface::VERBOSITY_NORMAL,
+                LogLevel::DEBUG => OutputInterface::VERBOSITY_VERBOSE,
             ],
             [
-                LogLevel::WARNING   => 'comment',
-                LogLevel::DEBUG     => 'fg=cyan',
+                LogLevel::WARNING => 'comment',
+                LogLevel::DEBUG => 'fg=cyan',
             ]
         );
     }
@@ -160,13 +172,7 @@ class CheckContentItemsCommand extends ContainerAwareCommand
      */
     protected function getBasePageMeta()
     {
-        $allMeta = $this
-            ->getContainer()
-            ->get('doctrine')
-            ->getManager()
-            ->getMetadataFactory()
-            ->getAllMetadata();
-
+        $allMeta = $this->doctrine->getManager()->getMetadataFactory()->getAllMetadata();
         $done = [];
 
         /** @var \Doctrine\ORM\Mapping\ClassMetadata $meta */

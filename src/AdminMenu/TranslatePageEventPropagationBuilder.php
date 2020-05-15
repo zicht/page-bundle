@@ -5,8 +5,8 @@
 
 namespace Zicht\Bundle\PageBundle\AdminMenu;
 
-use Symfony\Component\EventDispatcher\Event;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Contracts\EventDispatcher\Event;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Routing\Router;
 use Zicht\Bundle\AdminBundle\Event\AdminEvents;
 use Zicht\Bundle\AdminBundle\Event\MenuEvent;
@@ -39,7 +39,7 @@ class TranslatePageEventPropagationBuilder implements PropagationInterface
     /**
      * Build the relevant event and forward it.
      *
-     * @param \Symfony\Component\EventDispatcher\Event $event
+     * @param Event $event
      * @return mixed|void
      */
     public function buildAndForwardEvent(Event $event)
@@ -59,25 +59,25 @@ class TranslatePageEventPropagationBuilder implements PropagationInterface
         }
 
         $this->eventDispatcher->dispatch(
-            AdminEvents::MENU_EVENT,
             new MenuEvent(
                 $this->router->generate('zicht_page_page_view', [
                     'id' => $page->getId(),
                     '_locale' => 'zz',
                 ]),
                 'Vertalingen'
-            )
+            ),
+            AdminEvents::MENU_EVENT
         );
 
         $this->eventDispatcher->dispatch(
-            AdminEvents::MENU_EVENT,
             new MenuEvent(
                 $this->router->generate('zicht_page_page_view', [
                     'id' => $page->getId(),
                     '_locale' => $page->getLanguage(),
                 ]),
                 'Pagina herladen'
-            )
+            ),
+            AdminEvents::MENU_EVENT
         );
     }
 }

@@ -8,9 +8,11 @@ namespace ZichtTest\Bundle\PageBundle\AdminMenu;
 
 use Sonata\AdminBundle\Admin\Pool;
 use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Contracts\EventDispatcher\Event;
 use Zicht\Bundle\PageBundle\AdminMenu\EventPropagationBuilder;
 use Zicht\Bundle\PageBundle\Event\PageViewEvent;
 use ZichtTest\Bundle\PageBundle\Assets\PageAdapter;
+use PHPUnit\Framework\TestCase;
 
 class P1 extends PageAdapter
 {
@@ -41,7 +43,8 @@ class P1 extends PageAdapter
     }
 }
 
-class EventPropagationBuilderTest extends \PHPUnit_Framework_TestCase
+
+class EventPropagationBuilderTest extends TestCase
 {
     /**
      * @var EventPropagationBuilder
@@ -61,7 +64,7 @@ class EventPropagationBuilderTest extends \PHPUnit_Framework_TestCase
     function setUp()
     {
         $this->pool = $this->getMockBuilder('Sonata\AdminBundle\Admin\Pool')->disableOriginalConstructor()->getMock();
-        $this->dispatcher = $this->getMock('Symfony\Component\EventDispatcher\EventDispatcher');
+        $this->dispatcher = self::getMockBuilder(EventDispatcher::class)->disableOriginalConstructor()->getMock();
         $this->propagator = new EventPropagationBuilder($this->pool, null, $this->dispatcher);
     }
 
@@ -77,10 +80,10 @@ class EventPropagationBuilderTest extends \PHPUnit_Framework_TestCase
                 })
             );
 
-        $dispatcher = $this->getMock(EventDispatcher::class);
+        $dispatcher = self::getMockBuilder(EventDispatcher::class)->disableOriginalConstructor()->getMock();
 
         $event = new PageViewEvent(new P1('bar'));
-        $this->propagator->buildAndForwardEvent($event, 'event', $dispatcher);
+        $this->propagator->buildAndForwardEvent($event);
 
         $this->assertEquals(
             $classes,
@@ -94,7 +97,7 @@ class EventPropagationBuilderTest extends \PHPUnit_Framework_TestCase
     function testFiringForeignEventDoesNotFail()
     {
         $this->pool->expects($this->any())->method('getAdminByClass')->will($this->returnValue(null));
-        $event = new \Symfony\Component\EventDispatcher\Event();
+        $event = new Event();
 
         $this->dispatcher->expects($this->never())->method('dispatch');
         $this->propagator->buildAndForwardEvent($event);

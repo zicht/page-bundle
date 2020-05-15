@@ -5,8 +5,8 @@
 namespace Zicht\Bundle\PageBundle\AdminMenu;
 
 use Sonata\AdminBundle\Admin\Pool;
-use Symfony\Component\EventDispatcher\Event;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Contracts\EventDispatcher\Event;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Zicht\Bundle\AdminBundle\Event\AdminEvents;
 use Zicht\Bundle\AdminBundle\Event\MenuEvent;
 use Zicht\Bundle\AdminBundle\Event\PropagationInterface;
@@ -49,7 +49,7 @@ class EventPropagationBuilder implements PropagationInterface
     /**
      * Build the relevant event and forward it.
      *
-     * @param \Symfony\Component\EventDispatcher\Event $event
+     * @param Event $event
      * @return null|void
      */
     public function buildAndForwardEvent(Event $event)
@@ -70,14 +70,14 @@ class EventPropagationBuilder implements PropagationInterface
             /** @var \Zicht\Bundle\PageBundle\Event\PageViewEvent $event */
             /** @var \Zicht\Bundle\PageBundle\Event\PageViewEvent $e */
             $this->eventDispatcher->dispatch(
-                AdminEvents::MENU_EVENT,
                 new MenuEvent(
                     $admin->generateObjectUrl('edit', $event->getPage()),
                     sprintf(
                         'Beheer pagina "%s"',
                         strlen($title) > 20 ? substr($title, 0, 20) . '...' : $title
                     )
-                )
+                ),
+                AdminEvents::MENU_EVENT
             );
         }
     }

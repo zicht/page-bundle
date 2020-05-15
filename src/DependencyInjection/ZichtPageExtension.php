@@ -71,7 +71,7 @@ class ZichtPageExtension extends Extension
 
         if ($container->hasParameter('twig.form.resources')) {
             $formResources = $container->getParameter('twig.form.resources');
-            $formResources[]= 'ZichtPageBundle::form_theme.html.twig';
+            $formResources[] = '@ZichtPage/form_theme.html.twig';
             $container->setParameter('twig.form.resources', $formResources);
         }
     }

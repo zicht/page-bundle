@@ -4,7 +4,7 @@
  */
 namespace Zicht\Bundle\PageBundle\Event;
 
-use Symfony\Component\EventDispatcher\Event;
+use Symfony\Contracts\EventDispatcher\Event;
 use Zicht\Bundle\PageBundle\Model\PageInterface;
 
 /**

@@ -3,28 +3,52 @@
  * @author Gerard van Helden <gerard@zicht.nl>
  * @copyright Zicht Online <http://zicht.nl>
  */
+
 namespace Zicht\Bundle\PageBundle\Command;
 
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputInterface;
+use Zicht\Bundle\PageBundle\Manager\PageManager;
+use Zicht\Bundle\UrlBundle\Aliasing\Aliaser;
 use Zicht\Bundle\UrlBundle\Aliasing\Aliasing;
 
 /**
  * Generates URL aliases for all pages.
  */
-class AliasCommand extends ContainerAwareCommand
+class AliasCommand extends Command
 {
+    protected static $defaultName = 'zicht:page:alias';
+
+    /** @var ManagerRegistry */
+    private $doctrine;
+
+    /** @var Aliaser */
+    private $aliaser;
+
+    /** @var PageManager */
+    private $pageManager;
+
+    public function __construct(ManagerRegistry $doctrine, Aliaser $aliaser, PageManager $pageManager, string $name = null)
+    {
+        parent::__construct($name);
+        $this->doctrine = $doctrine;
+        $this->aliaser = $aliaser;
+        $this->pageManager = $pageManager;
+    }
+
     /**
      * @{inheritDoc}
      */
     protected function configure()
     {
-        $this->setDescription("Creates aliases for all pages")
-            ->setName('zicht:page:alias')
+        $this
+            ->setDescription('Creates aliases for all pages')
             ->addArgument('entity', InputArgument::OPTIONAL, 'Only do a specific entity')
             ->addOption('where', 'w', InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'Add a WHERE query')
             ->addOption('move', '', InputOption::VALUE_NONE, 'Force regeneration (use MOVE strategy for new aliases)');
@@ -35,7 +59,7 @@ class AliasCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $aliaser = $this->getContainer()->get('zicht_page.page_aliaser');
+        $aliaser = $this->aliaser;
 
         if ($input->getOption('move')) {
             $aliaser->setConflictingInternalUrlStrategy(Aliasing::STRATEGY_MOVE_PREVIOUS_TO_NEW);
@@ -46,9 +70,9 @@ class AliasCommand extends ContainerAwareCommand
         $onDone = $aliaser->setIsBatch(true);
 
         if ($entity = $input->getArgument('entity')) {
-            $repo = $this->getContainer()->get('doctrine')->getRepository($entity);
+            $repo = $this->doctrine->getRepository($entity);
         } else {
-            $repo = $this->getContainer()->get('zicht_page.page_manager')->getBaseRepository();
+            $repo = $this->pageManager->getBaseRepository();
         }
         $q = $repo->createQueryBuilder('p');
 

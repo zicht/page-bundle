@@ -8,6 +8,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added|Changed|Deprecated|Removed|Fixed|Security
 Nothing so far
 
+## 6.0.0 - 2020-05-15
+### Added
+- Support for Symfony 4.x
+### Removed
+- Support for Symfony 3.x
+### Changed
+- Removed Zicht(Test)/Bundle/PageBundle/ directory depth: moved all code up directly into src/ and test/
+
 ## 5.0.15 - 2020-05-15
 ### Changed
 - Switched from PSR-0 to PSR-4 autoloading
