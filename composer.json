@@ -25,16 +25,16 @@
         "phpunit/phpunit": "^4"
     },
     "autoload": {
-        "psr-0": {
-            "": [
-                "src/"
+        "psr-4": {
+            "Zicht\\Bundle\\PageBundle\\": [
+                "src/Zicht/Bundle/PageBundle/"
             ]
         }
     },
     "autoload-dev": {
-        "psr-0": {
-            "": [
-                "tests/"
+        "psr-4": {
+            "ZichtTest\\Bundle\\PageBundle\\": [
+                "tests/ZichtTest/Bundle/PageBundle/"
             ]
         }
     },

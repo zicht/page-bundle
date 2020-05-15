@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added|Changed|Deprecated|Removed|Fixed|Security
 Nothing so far
 
+## 5.0.15 - 2020-05-15
+### Changed
+- Switched from PSR-0 to PSR-4 autoloading
+
 ## 5.0.14 - 2020-04-29
 ### Changed
 - Use FQCN for form types
