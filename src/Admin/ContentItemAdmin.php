@@ -6,10 +6,10 @@
 
 namespace Zicht\Bundle\PageBundle\Admin;
 
-use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\AdminBundle\Datagrid\ListMapper;
-use Sonata\AdminBundle\Admin\Admin;
+use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
+use Sonata\AdminBundle\Datagrid\ListMapper;
+use Sonata\AdminBundle\Form\FormMapper;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Zicht\Bundle\PageBundle\Type\ContentItemRegionType;
 use Zicht\Bundle\PageBundle\Type\ContentItemTypeType;
@@ -17,7 +17,7 @@ use Zicht\Bundle\PageBundle\Type\ContentItemTypeType;
 /**
  * Admin for content items.
  */
-class ContentItemAdmin extends Admin
+class ContentItemAdmin extends AbstractAdmin
 {
     /**
      * @{inheritDoc}

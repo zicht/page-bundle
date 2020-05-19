@@ -5,6 +5,7 @@
     "license": "MIT",
     "require": {
         "php": "^7.1",
+        "sonata-project/admin-bundle": "^3.1",
         "symfony/console": "^4.4",
         "zicht/util": "^1.7",
         "zicht/admin-bundle": "^6",
