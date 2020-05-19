@@ -72,6 +72,7 @@
         <service id="zicht_page.controller.view_validator" class="%zicht_page.controller.view_validator.class%" public="true">
             <argument type="service" id="security.authorization_checker" on-invalid="null"/>
         </service>
+        <service id="Zicht\Bundle\PageBundle\Security\PageViewValidation" alias="zicht_page.controller.view_validator"/>
 
         <service id="Zicht\Bundle\PageBundle\Command\CheckContentItemsCommand">
             <tag name="console.command"/>

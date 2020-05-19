@@ -1,26 +1,34 @@
 <?php
 /**
- * @author Gerard van Helden <gerard@zicht.nl>
- * @copyright Zicht Online <http://zicht.nl>
+ * @copyright Zicht Online <https://zicht.nl>
  */
 
 namespace Zicht\Bundle\PageBundle\Controller;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-use Zicht\Bundle\PageBundle\Model\PageInterface;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Zicht\Bundle\PageBundle\Entity\ControllerPageInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Zicht\Bundle\PageBundle\Entity\ControllerPageInterface;
+use Zicht\Bundle\PageBundle\Model\PageInterface;
 use Zicht\Bundle\PageBundle\Model\ViewValidationInterface;
+use Zicht\Bundle\PageBundle\Security\PageViewValidation;
+use Zicht\Bundle\UrlBundle\Url\Provider as UrlProvider;
 
 /**
  * Controller for public page actions
  */
 class PageController extends AbstractController
 {
+    /** {@inheritDoc} */
+    public static function getSubscribedServices()
+    {
+        return array_merge(parent::getSubscribedServices(), [
+            'zicht_url.provider' => UrlProvider::class,
+            'zicht_page.controller.view_validator' => PageViewValidation::class,
+        ]);
+    }
+
     /**
      * Redirects to the page identified by the passed id.
      *
@@ -63,7 +71,6 @@ class PageController extends AbstractController
      */
     public function viewAction(Request $request, $id)
     {
-        /** @var $pageManager \Zicht\Bundle\PageBundle\Manager\PageManager */
         $pageManager = $this->getPageManager();
         $page = $pageManager->findForView($id);
 
