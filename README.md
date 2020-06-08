@@ -40,6 +40,5 @@ The ScheduledContentVoter requires the page to have `Zicht\Bundle\PageBundle\Mod
 With this voter a page can be scheduled for publication. 
 
 # Maintainers
-* Philip Bergman <philip@zicht.nl>
 * Boudewijn Schoon <boudewijn@zicht.nl>
 * Erik Trapman <erik@zicht.nl>

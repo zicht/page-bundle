@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added|Changed|Deprecated|Removed|Fixed|Security
 Nothing so far
 
+## 6.0.1 - 2020-06-08
+### Changed
+- Reverted the 2nd argument for `addChild` in `GenerateAdminServicesCompilerPass` as it causes bugs in `sonata-project/admin-bundle` handling parent-assocations.
+
 ## 6.0.0 - 2020-05-15
 ### Added
 - Support for Symfony 4.x
