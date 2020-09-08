@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added|Changed|Deprecated|Removed|Fixed|Security
 Nothing so far
 
+# 2.7.7 - 2020-09-08
+- Trigger 403 response instead of redirecting to the login page
+  (catch AccessDeniedException and throw AccessDeniedHttpException instead)
+
 # 2.7.6 - 2019-05-06
 - Expanded the zicht/admin-bundle dependency to v4 to have real PHP 7 support in this package
 
