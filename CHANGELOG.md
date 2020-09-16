@@ -8,6 +8,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added|Changed|Deprecated|Removed|Fixed|Security
 Nothing so far
 
+## 6.0.3 - 2020-09-08
+### Fixed
+- Forward merge of v5.0.16: Trigger 403 response instead of redirecting to the login page
+  (catch AccessDeniedException and throw AccessDeniedHttpException instead)
+
 ## 6.0.2 - 2020-07-20
 ### Added
 - `ScheduledContentRepositoryTrait` to easily apply conditions to queries where the published state of an entity is relevant.
