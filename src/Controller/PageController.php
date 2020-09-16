@@ -9,6 +9,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Zicht\Bundle\PageBundle\Entity\ControllerPageInterface;
 use Zicht\Bundle\PageBundle\Model\PageInterface;
 use Zicht\Bundle\PageBundle\Model\ViewValidationInterface;
@@ -75,7 +77,14 @@ class PageController extends AbstractController
         $page = $pageManager->findForView($id);
 
         if (null !== ($validator = $this->getViewActionValidator())) {
-            $validator->validate($page);
+            try {
+                $validator->validate($page);
+            } catch (AccessDeniedException $e) {
+                // AccessDeniedException will cause a redirect to the login page, so we're throwing
+                // an AccessDeniedHttpException instead to make Symfony return a 403 response
+                // (don't pass the previous exception, as this will again cause a redirect to the login page)
+                throw new AccessDeniedHttpException($e->getMessage());
+            }
         }
 
         if ($page instanceof ControllerPageInterface) {

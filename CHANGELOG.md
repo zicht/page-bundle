@@ -8,6 +8,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added|Changed|Deprecated|Removed|Fixed|Security
 Nothing so far
 
+## 6.0.3 - 2020-09-08
+### Fixed
+- Forward merge of v5.0.16: Trigger 403 response instead of redirecting to the login page
+  (catch AccessDeniedException and throw AccessDeniedHttpException instead)
+
 ## 6.0.2 - 2020-07-20
 ### Added
 - `ScheduledContentRepositoryTrait` to easily apply conditions to queries where the published state of an entity is relevant.
@@ -23,6 +28,11 @@ Nothing so far
 - Support for Symfony 3.x
 ### Changed
 - Removed Zicht(Test)/Bundle/PageBundle/ directory depth: moved all code up directly into src/ and test/
+
+## 5.0.16 - 2020-09-08
+### Fixed
+- Forward merge of v4.0.7: Trigger 403 response instead of redirecting to the login page
+  (catch AccessDeniedException and throw AccessDeniedHttpException instead)
 
 ## 5.0.15 - 2020-05-15
 ### Changed
@@ -84,6 +94,11 @@ Nothing so far
 ### Removed
 - Support for Symfony 2.x
 
+## 4.0.7 - 2020-09-08
+### Fixed
+- Forward merge of v3.0.12: Trigger 403 response instead of redirecting to the login page
+  (catch AccessDeniedException and throw AccessDeniedHttpException instead)
+
 ## 4.0.6 - 2019-07-09
 ### Fixed
 - Merge from 3.0.10 and 3.0.11.
@@ -125,6 +140,11 @@ getContentItemMatrix
 - Support for PHP version 7
 ### Removed
 - Support for PHP version 5 (^5.6)
+
+## 3.0.12 - 2020-09-08
+### Fixed
+- Forward merge of v2.7.7: Trigger 403 response instead of redirecting to the login page
+  (catch AccessDeniedException and throw AccessDeniedHttpException instead)
 
 ## 3.0.11 - 2019-07-05
 ### Fixed
@@ -237,6 +257,11 @@ a migration. An example script could be;
 ```
 
 The arrays in the migrations class should contain the oldtype and the newtype.
+
+## 2.7.7 - 2020-09-08
+### Fixed
+- Trigger 403 response instead of redirecting to the login page
+  (catch AccessDeniedException and throw AccessDeniedHttpException instead)
 
 ## 2.7.6 - 2019-05-06
 ### Fixed
