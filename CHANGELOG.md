@@ -68,6 +68,11 @@ Nothing so far
 ### Removed
 - Support for Symfony 2.x
 
+## 4.0.7 - 2020-09-08
+### Fixed
+- Forward merge of v3.0.12: Trigger 403 response instead of redirecting to the login page
+  (catch AccessDeniedException and throw AccessDeniedHttpException instead)
+
 ## 4.0.6 - 2019-07-09
 ### Fixed
 - Merge from 3.0.10 and 3.0.11.
@@ -109,6 +114,11 @@ getContentItemMatrix
 - Support for PHP version 7
 ### Removed
 - Support for PHP version 5 (^5.6)
+
+## 3.0.12 - 2020-09-08
+### Fixed
+- Forward merge of v2.7.7: Trigger 403 response instead of redirecting to the login page
+  (catch AccessDeniedException and throw AccessDeniedHttpException instead)
 
 ## 3.0.11 - 2019-07-05
 ### Fixed
@@ -222,6 +232,12 @@ a migration. An example script could be;
 
 The arrays in the migrations class should contain the oldtype and the newtype.
 
+## 2.7.7 - 2020-09-08
+### Fixed
+- Trigger 403 response instead of redirecting to the login page
+  (catch AccessDeniedException and throw AccessDeniedHttpException instead)
+
+# 2.7.6 - 2019-05-06
 ## 2.7.6 - 2019-05-06
 ### Fixed
 - Expanded the zicht/admin-bundle dependency to v4 to have real PHP 7 support in this package
