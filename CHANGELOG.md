@@ -118,6 +118,10 @@ a migration. An example script could be;
 
 The arrays in the migrations class should contain the oldtype and the newtype.
 
+# 2.7.7 - 2020-09-08
+- Trigger 403 response instead of redirecting to the login page
+  (catch AccessDeniedException and throw AccessDeniedHttpException instead)
+
 # 2.7.6 - 2019-05-06
 - Expanded the zicht/admin-bundle dependency to v4 to have real PHP 7 support in this package
 
