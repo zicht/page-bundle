@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added|Changed|Deprecated|Removed|Fixed|Security
 Nothing so far
 
+# 4.0.7 - 2020-09-08
+- Forward merge of v3.0.12: Trigger 403 response instead of redirecting to the login page
+  (catch AccessDeniedException and throw AccessDeniedHttpException instead)
+
 # 4.0.6 - 2019-07-09
 ## Fixed
 - Merge from 3.0.10 and 3.0.11.
