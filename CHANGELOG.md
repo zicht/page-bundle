@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added|Changed|Deprecated|Removed|Fixed|Security
 Nothing so far
 
+# 3.0.12 - 2020-09-08
+- Forward merge of v2.7.7: Trigger 403 response instead of redirecting to the login page
+  (catch AccessDeniedException and throw AccessDeniedHttpException instead)
+
 # 3.0.11 - 2019-07-05
 - Expanding the zicht/url-bundle dependency to v3 to have real PHP 7 support
   in this package
@@ -117,6 +121,10 @@ a migration. An example script could be;
 ```
 
 The arrays in the migrations class should contain the oldtype and the newtype.
+
+# 2.7.7 - 2020-09-08
+- Trigger 403 response instead of redirecting to the login page
+  (catch AccessDeniedException and throw AccessDeniedHttpException instead)
 
 # 2.7.6 - 2019-05-06
 - Expanded the zicht/admin-bundle dependency to v4 to have real PHP 7 support in this package
