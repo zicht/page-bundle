@@ -7,11 +7,11 @@
         "php": "^7.1",
         "sonata-project/admin-bundle": "^3.1",
         "symfony/console": "^4.4",
-        "zicht/util": "^1.7",
-        "zicht/admin-bundle": "^6",
+        "zicht/admin-bundle": "^6.1",
         "zicht/framework-extra-bundle": "^9",
+        "zicht/menu-bundle": "^4",
         "zicht/url-bundle": "^5",
-        "zicht/menu-bundle": "^4"
+        "zicht/util": "^1.7"
     },
     "require-dev": {
         "phpunit/phpunit": "^7"

@@ -85,5 +85,9 @@
             <argument type="service" id="zicht_url.provider"/>
         </service>
 
+        <service id="Zicht\Bundle\PageBundle\Event\AdminObjectDuplicateListener">
+            <tag name="kernel.event_listener" event="zicht_admin.object_duplicate"/>
+        </service>
+
     </services>
 </container>

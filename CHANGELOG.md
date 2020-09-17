@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added|Changed|Deprecated|Removed|Fixed|Security
 Nothing so far
 
+## 6.1.0 - 2020-10-29
+### Added
+- Added the AdminObjectDuplicateListener to listen to an event, dispatched in the admin-bundle, to set isPublic to false on duplicate.
+
 ## 6.0.3 - 2020-09-08
 ### Fixed
 - Forward merge of v5.0.16: Trigger 403 response instead of redirecting to the login page
