@@ -39,15 +39,28 @@ abstract class ContentItem implements ContentItemInterface
      */
     public static function convert(ContentItemInterface $from, ContentItemInterface $to)
     {
-        $reflectionFrom = new \ReflectionClass($from);
-        $reflectionTo = new \ReflectionClass($to);
+        $properties = [];
+        try {
+            $reflectionFrom = new \ReflectionClass($from);
+            $reflectionTo = new \ReflectionClass($to);
 
-        foreach ($reflectionFrom->getProperties() as $property) {
-            $property->setAccessible(true);
-            $method = 'set' . ucfirst($property->getName());
-            if ($reflectionTo->hasMethod($method)) {
-                $to->$method($property->getValue($from));
-            }
+            do {
+                $convertToType = [];
+                /* @var $p \ReflectionProperty */
+                foreach ($reflectionFrom->getProperties() as $property) {
+                    $property->setAccessible(true);
+                    $method = 'set' . ucfirst($property->getName());
+
+                    if (!$reflectionTo->hasMethod($method)) {
+                        continue;
+                    }
+                    $to->$method($property->getValue($from));
+                    $convertToType[$method] = $to->$method($property->getValue($from));
+                }
+                $properties = array_merge($convertToType, $properties);
+            } while ($reflectionFrom = $reflectionFrom->getParentClass());
+        } catch (\ReflectionException $e) {
+            // error not needed to shown when there is no parent
         }
 
         return $to;

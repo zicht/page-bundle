@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added|Changed|Deprecated|Removed|Fixed|Security
 Nothing so far
 
+## 6.1.1 - 2020-11-05
+### Fixed
+- Resolve the problem where the current weight is not set to the converted content-item
+
 ## 6.1.0 - 2020-10-29
 ### Added
 - Added the AdminObjectDuplicateListener to listen to an event, dispatched in the admin-bundle, to set isPublic to false on duplicate.
