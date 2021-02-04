@@ -34,13 +34,9 @@ class ZichtPageExtension extends Extension
             $loader->load('aliasing.xml');
 
             if (!empty($config['aliasing']['prefixLanguages'])) {
-                $def = new Definition(
-                    'Zicht\Bundle\PageBundle\Aliasing\Strategy\LanguageAwareAliasingStrategy',
-                    [
-                        new Reference($config['aliasing']['service']),
-                        $config['aliasing']['prefixLanguages']
-                    ]
-                );
+                $def = $container->getDefinition('Zicht\Bundle\PageBundle\Aliasing\Strategy\LanguageAwareAliasingStrategy');
+                $def->replaceArgument(0, new Reference($config['aliasing']['service']));
+                $def->replaceArgument(1, $config['aliasing']['prefixLanguages']);
             } else {
                 $def = new Reference($config['aliasing']['service']);
             }

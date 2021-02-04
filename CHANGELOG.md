@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added|Changed|Deprecated|Removed|Fixed|Security
 Nothing so far
 
+## 6.1.2 - 2021-02-4
+### Changed
+- Made `LanguageAwareAliasingStrategy` a real service so it can be modified
+
 ## 6.1.1 - 2020-11-05
 ### Fixed
 - Resolve the problem where the current weight is not set to the converted content-item
