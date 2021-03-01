@@ -19,6 +19,7 @@ use Zicht\Bundle\MenuBundle\Form\MenuItemType;
 use Zicht\Bundle\MenuBundle\Form\Subscriber\MenuItemPersistenceSubscriber;
 use Zicht\Bundle\MenuBundle\Manager\MenuManager;
 use Zicht\Bundle\PageBundle\Entity\ContentItem;
+use Zicht\Bundle\PageBundle\Entity\Page;
 use Zicht\Bundle\PageBundle\Manager\PageManager;
 use Zicht\Bundle\PageBundle\Model\ContentItemContainer;
 use Zicht\Bundle\PageBundle\Model\PageInterface;
@@ -27,6 +28,9 @@ use Zicht\Util\Str;
 
 /**
  * Admin for the messages catalogue
+ *
+ * @template T of Page
+ * @extends AbstractAdmin<T>
  */
 class PageAdmin extends AbstractAdmin
 {
@@ -42,6 +46,7 @@ class PageAdmin extends AbstractAdmin
 
     /**
      * @var PageManager
+     * @psalm-suppress PropertyNotSetInConstructor
      */
     protected $pageManager;
 

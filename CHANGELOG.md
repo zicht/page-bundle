@@ -8,6 +8,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added|Changed|Deprecated|Removed|Fixed|Security
 Nothing so far
 
+## 6.1.3 - 2021-03-01
+### Added
+- Added support for Psalm static analysis
+### Fixed
+- Set correct return type on Page::getLanguage()
+
 ## 6.1.2 - 2021-02-4
 ### Changed
 - Made `LanguageAwareAliasingStrategy` a real service so it can be modified
