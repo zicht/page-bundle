@@ -1,7 +1,6 @@
 <?php
 /**
- * @author    Rik van der Kemp <rik@zicht.nl>
- * @copyright Zicht Online <http://www.zicht.nl>
+ * @copyright Zicht Online <https://www.zicht.nl>
  */
 
 namespace Zicht\Bundle\PageBundle\Type;
@@ -23,8 +22,6 @@ class DiscriminatorMapType extends ChoiceType
     private $doctrine = null;
 
     /**
-     * Construct with the registry specified.
-     *
      * @param \Doctrine\Bundle\DoctrineBundle\Registry $registry
      */
     public function __construct(Registry $registry)
@@ -40,31 +37,39 @@ class DiscriminatorMapType extends ChoiceType
         /** @var $em \Doctrine\ORM\EntityManager */
         $em = $this->doctrine->getManager();
 
-        $choiceCallback = function (Options $options) use ($em) {
-            $ret = array();
+        $choiceCallback = static function (Options $options) use ($em) {
+            $choices = [];
             foreach ($em->getClassMetadata($options['entity'])->discriminatorMap as $className) {
-                $placeholder = 'content_item.type.' . strtolower(str_replace(' ', '_', Str::humanize($className)));
-                $ret[$className] = $placeholder;
+                if ($className === $options['entity']) {
+                    continue;
+                }
+
+                $label = 'content_item.type.' . strtolower(str_replace(' ', '_', Str::humanize($className)));
+                $choices[$label] = $className;
             }
+
             if (is_callable($options['choice_filter'])) {
-                $ret = call_user_func($options['choice_filter'], $ret);
+                $choices = call_user_func($options['choice_filter'], $choices);
             }
-            return $ret;
+
+            return $choices;
         };
 
         $resolver
-            ->setRequired(array('entity'))
+            ->setRequired(['entity'])
             ->setDefaults(
-                array(
+                [
                     'choices' => $choiceCallback,
-                    'choice_filter' => '',
+                    'choice_filter' => null,
                     'translation_domain' => 'admin',
-                )
-            );
+                ]
+            )
+            ->setAllowedTypes('choices', ['array'])
+            ->setAllowedTypes('choice_filter', ['null', 'callable']);
     }
 
     /**
-     * @{inheritDoc}
+     * {@inheritDoc}
      */
     public function getParent()
     {
@@ -77,7 +82,7 @@ class DiscriminatorMapType extends ChoiceType
     }
 
     /**
-     * @{inheritDoc}
+     * {@inheritDoc}
      */
     public function getName()
     {

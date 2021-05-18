@@ -8,6 +8,20 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added|Changed|Deprecated|Removed|Fixed|Security
 Nothing so far
 
+## 6.2.0 - 2021-05-20
+### Added
+- Added `region` option to ContentItemTypeType to show types for a specific region only
+- Introduced `HasContentItemInterface` interface to indicate an item which has a (child)
+  Content Item (e.g. for Global Content Items used in projects)
+### Fixed
+- ContentItemTypeType choice keys and values (flipped since Sf 3)
+- Fixed types in ContentItemContainer, ContentItemMatrix
+- Use `choice.content_item_region.X` translates for content item region choices
+- Skip base class in DiscriminatorMapType choices + optimized code
+- Fixed content item edit link: made it into button and got the wrench icon back again
+### Changed
+- Use early returns in code to optimize the code and its readability
+
 ## 6.1.3 - 2021-03-01
 ### Added
 - Added support for Psalm static analysis

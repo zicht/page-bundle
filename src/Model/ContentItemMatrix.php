@@ -1,6 +1,6 @@
 <?php
 /**
- * @copyright Zicht Online <http://zicht.nl>
+ * @copyright Zicht Online <https://zicht.nl>
  */
 
 namespace Zicht\Bundle\PageBundle\Model;
@@ -33,7 +33,7 @@ final class ContentItemMatrix
     /**
      * Contains the matrix
      *
-     * @var array
+     * @var array<string, class-string<ContentItemInterface>[]>
      */
     private $matrix;
 
@@ -49,7 +49,7 @@ final class ContentItemMatrix
     /**
      * Provides fluent interface for building the matrix.
      *
-     * @return ContentItemMatrix
+     * @return self
      */
     public static function create()
     {
@@ -61,8 +61,7 @@ final class ContentItemMatrix
      *
      * @param string $region
      * @param bool $reset
-     *
-     * @return ContentItemMatrix
+     * @return $this
      */
     public function region($region, $reset = false)
     {
@@ -78,7 +77,6 @@ final class ContentItemMatrix
      * Remove a region
      *
      * @param string $region
-     *
      * @return $this
      */
     public function removeRegion($region)
@@ -93,9 +91,8 @@ final class ContentItemMatrix
     /**
      * Remove a type from a region
      *
-     * @param string $type
+     * @param class-string<ContentItemInterface> $type
      * @param string $region
-     *
      * @return $this
      */
     public function removeTypeFromRegion($type, $region)
@@ -121,9 +118,8 @@ final class ContentItemMatrix
     /**
      * Adds the type to the currently selected region.
      *
-     * @param string $className
-     *
-     * @return ContentItemMatrix
+     * @param class-string<ContentItemInterface> $className
+     * @return $this
      */
     public function type($className)
     {
@@ -144,9 +140,8 @@ final class ContentItemMatrix
      * Returns the available types for a specified region.
      * If not specified, returns all types configured.
      *
-     * @param string $region
-     *
-     * @return array
+     * @param string|null $region
+     * @return class-string<ContentItemInterface>[]
      */
     public function getTypes($region = null)
     {
@@ -166,9 +161,8 @@ final class ContentItemMatrix
      * Returns the available regions for a specified type.
      * If not specified, all regions are returned.
      *
-     * @param null $type
-     *
-     * @return array
+     * @param class-string<ContentItemInterface>|null $type
+     * @return string[]
      */
     public function getRegions($type = null)
     {
@@ -187,7 +181,7 @@ final class ContentItemMatrix
     }
 
     /**
-     * @return array
+     * @return array<string, class-string<ContentItemInterface>[]>
      */
     public function getMatrix()
     {
