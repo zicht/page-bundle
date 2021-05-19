@@ -14,15 +14,15 @@ interface ContentItemContainer
     /**
      * Returns the content item matrix for the item.
      *
-     * @return ContentItemMatrix
+     * @return ContentItemMatrix|null
      */
     public function getContentItemMatrix();
 
     /**
      * Returns a list of ContentItems
      *
-     * @param null $region
-     * @return mixed
+     * @param string|null $region
+     * @return iterable<array-key, ContentItemInterface>
      */
     public function getContentItems($region = null);
 
@@ -30,7 +30,6 @@ interface ContentItemContainer
      * Adds a ContentItem
      *
      * @param ContentItemInterface $contentItem
-     * @return mixed
      */
     public function addContentItem(ContentItemInterface $contentItem);
 
@@ -38,7 +37,6 @@ interface ContentItemContainer
      * Remove a ContentItem
      *
      * @param ContentItemInterface $contentItem
-     * @return mixed
      */
     public function removeContentItem(ContentItemInterface $contentItem);
 }

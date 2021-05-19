@@ -1,7 +1,6 @@
 <?php
 /**
- * @author Gerard van Helden <gerard@zicht.nl>
- * @copyright Zicht Online <http://zicht.nl>
+ * @copyright Zicht Online <https://zicht.nl>
  */
 
 namespace Zicht\Bundle\PageBundle\Type;
@@ -24,11 +23,15 @@ use Zicht\Util\Str;
  */
 class ContentItemTypeType extends AbstractType
 {
+    /** @var string */
+    private $contentItemClass;
+
+    /** @var Pool|null */
+    private $sonata;
+
     /**
-     * Constructor
-     *
-     * @param \Sonata\AdminBundle\Admin\Pool $sonata
      * @param string $contentItemClass
+     * @param \Sonata\AdminBundle\Admin\Pool $sonata
      */
     public function __construct($contentItemClass, Pool $sonata = null)
     {
@@ -39,55 +42,54 @@ class ContentItemTypeType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(
-            array(
+            [
                 'inherit_data' => true,
                 'data_class' => $this->contentItemClass,
-                'container' => '',
-                'translation_domain' => 'admin'
-            )
-        );
+                'container' => null,
+                'region' => null,
+                'translation_domain' => 'admin',
+            ]
+        )
+        ->setAllowedTypes('container', ['null', ContentItemContainer::class])
+        ->setAllowedTypes('region', ['null', 'string']);
     }
 
     /**
-     * @{inheritDoc}
+     * {@inheritDoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        if ($options['container']) {
-            $page = $options['container'];
-            $choiceFilter = function ($choices) use ($page) {
-                $ret = array();
-                if ($page instanceof ContentItemContainer && null !== $page->getContentItemMatrix()) {
-                    $types = $page->getContentItemMatrix()->getTypes();
+        $choiceFilter = null;
 
-                    foreach ($choices as $className => $name) {
-                        if (in_array($className, $types)) {
-                            $ret[$className] = $name;
-                        }
+        if (($page = $options['container']) && $page instanceof ContentItemContainer && null !== $page->getContentItemMatrix()) {
+            $choiceFilter = static function ($choices) use ($options, $page) {
+                $filteredChoices = [];
+                $types = $page->getContentItemMatrix()->getTypes($options['region']);
+
+                foreach ($choices as $label => $className) {
+                    if (in_array($className, $types)) {
+                        $filteredChoices[$label] = $className;
                     }
-                } else {
-                    return $choices;
                 }
-                // As of SF2.8
-                return array_flip($ret);
+
+                return $filteredChoices;
             };
-        } else {
-            $choiceFilter = null;
         }
+
         $builder
             ->add(
                 'convertToType',
                 DiscriminatorMapType::class,
-                array(
+                [
                     'entity' => $this->contentItemClass,
                     'choice_filter' => $choiceFilter,
-                )
+                ]
             );
     }
 
 
     /**
-     * @{inheritDoc}
+     * {@inheritDoc}
      */
     public function buildView(FormView $view, FormInterface $form, array $options)
     {

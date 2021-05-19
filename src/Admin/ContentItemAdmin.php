@@ -27,20 +27,22 @@ class ContentItemAdmin extends AbstractAdmin
      */
     protected function configureFormFields(FormMapper $form)
     {
-        if (!$this->isChild()) {
+        $parentFieldDescription = $this->getParentFieldDescription();
+        if (!$this->isChild() || !$parentFieldDescription) {
             $form->add('page');
-        } else {
-            $page = $this->getParentFieldDescription()->getAdmin()->getSubject();
-
-            // This fixes a weird bug where the router does not get the correct parameters for the containing page.
-            $this->getParentFieldDescription()->setOption('link_parameters', array('id' => $page->getId()));
-
-            $form
-                ->add('weight')
-                ->add('internalName', TextType::class, array('disabled' => true, 'required' => false, 'attr' => ['read_only' => true]))
-                ->add('content_item_region', ContentItemRegionType::class, array('container' => $page))
-                ->add('content_item_type', ContentItemTypeType::class, array('container' => $page));
+            return;
         }
+
+        $page = $parentFieldDescription->getAdmin()->getSubject();
+
+        // This fixes a weird bug where the router does not get the correct parameters for the containing page.
+        $parentFieldDescription->setOption('link_parameters', ['id' => $page->getId()]);
+
+        $form
+            ->add('weight')
+            ->add('internalName', TextType::class, ['disabled' => true, 'required' => false, 'attr' => ['read_only' => true]])
+            ->add('content_item_region', ContentItemRegionType::class, ['container' => $page])
+            ->add('content_item_type', ContentItemTypeType::class, ['container' => $page, 'region' => $parentFieldDescription->getOption('region')]);
     }
 
     /**

@@ -1,7 +1,6 @@
 <?php
 /**
- * @author Gerard van Helden <gerard@zicht.nl>
- * @copyright Zicht Online <http://zicht.nl>
+ * @copyright Zicht Online <https://zicht.nl>
  */
 
 namespace Zicht\Bundle\PageBundle\Type;
@@ -13,6 +12,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 use Zicht\Bundle\PageBundle\Model\ContentItemContainer;
 use Zicht\Util\Str;
 
@@ -29,7 +29,7 @@ class ContentItemRegionType extends AbstractType
     /**
      * @var array $defaultRegions
      */
-    protected $defaultRegions = array();
+    protected $defaultRegions = [];
 
     /**
      * @var TranslatorInterface $translator
@@ -37,8 +37,6 @@ class ContentItemRegionType extends AbstractType
     private $translator;
 
     /**
-     * Constructor.
-     *
      * @param string $contentItemClassName
      * @param array $defaultRegions
      * @param TranslatorInterface $translator
@@ -56,53 +54,44 @@ class ContentItemRegionType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(
-            array(
+            [
                 'inherit_data' => true,
                 'data_class' => $this->contentItemClassName,
-                'container' => '',
+                'container' => null,
                 'default_regions' => $this->defaultRegions,
                 'translation_domain' => 'admin',
-            )
+            ]
         );
     }
 
     /**
-     * @{inheritDoc}
+     * {@inheritDoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $choices = $options['default_regions'];
         $container = $options['container'];
-        if ($container
-            && $container instanceof ContentItemContainer
-            && (null !== ($matrix = $container->getContentItemMatrix()))
-        ) {
-            $choices = [];
-            foreach ($matrix->getRegions() as $r) {
-                $choices[$r] = $r;
-            }
-            $builder->add(
-                'region',
-                ChoiceType::class,
-                [
-                    'choices' => $choices,
-                    'translation_domain' => 'admin',
-                    'placeholder' => $this->translator->trans('content_item_region.empty_value', [], 'admin'),
-                ]
-            );
-        } else {
-            $builder->add(
-                'region',
-                ChoiceType::class,
-                [
-                    'choices' => $options['default_regions'],
-                    'translation_domain' => 'admin',
-                ]
-            );
+        if ($container && $container instanceof ContentItemContainer && $container->getContentItemMatrix() !== null) {
+            $choices = $container->getContentItemMatrix()->getRegions();
         }
+
+        $builder->add(
+            'region',
+            ChoiceType::class,
+            [
+                'choices' => $choices,
+                'choice_label' => static function ($choice) {
+                    return 'choice.content_item_region.' . str_replace('-', '_', $choice);
+                },
+                'translation_domain' => 'admin',
+                'placeholder' => $this->translator->trans('content_item_region.empty_value', [], 'admin'),
+                'constraints' => [new Assert\NotBlank()],
+            ]
+        );
     }
 
     /**
-     * @{inheritDoc}
+     * {@inheritDoc}
      */
     public function finishView(FormView $view, FormInterface $form, array $options)
     {

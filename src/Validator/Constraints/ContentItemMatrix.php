@@ -1,22 +1,16 @@
 <?php
 /**
- * @author Gerard van Helden <gerard@zicht.nl>
- * @copyright Zicht Online <http://zicht.nl>
+ * @copyright Zicht Online <https://zicht.nl>
  */
+
 namespace Zicht\Bundle\PageBundle\Validator\Constraints;
 
 use Symfony\Component\Validator\Constraint;
 
-/**
- * Class ContentItemMatrix
- *
- * @package Zicht\Bundle\PageBundle\Validator\Constraints
- */
 class ContentItemMatrix extends Constraint
 {
-
     /**
-     * @return string
+     * {@inheritDoc}
      */
     public function getTargets()
     {
@@ -24,9 +18,7 @@ class ContentItemMatrix extends Constraint
     }
 
     /**
-     * Returns service name
-     *
-     * @return string
+     * {@inheritDoc}
      */
     public function validatedBy()
     {

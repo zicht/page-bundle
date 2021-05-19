@@ -2,7 +2,7 @@
     {% if type %}
         <input type="hidden" name="{{ name }}" value="{{ value }}">
         {% if edit_url %}
-            <a class="edit_link" href="{{ edit_url }}"> {{ ('content_item.type.' ~ (type|replace({' ': '_'})|lower))|trans({}, 'admin') }} <a class="edit_link" href="{{ edit_url }}"><i class="icon-wrench"></i></a>
+            <a class="btn" href="{{ edit_url }}"> {{ ('content_item.type.' ~ (type|replace({' ': '_'})|lower))|trans({}, 'admin') }}&nbsp; <i class="fa fa-wrench" aria-hidden="true"></i>&nbsp;</a>
         {% else %}
             {{ ('content_item.type.' ~ (type|replace({' ': '_'})|lower))|trans({}, 'admin') }}
         {% endif %}
@@ -18,15 +18,14 @@
         <script type="text/javascript">
             window.attachMatrixHandler = window.attachMatrixHandler || function(matrix, field) {
                 var regionSelect = $(field),
-                        regionBlockSelect = regionSelect.parent().next().find('select')
-                        ;
+                    regionBlockSelect = regionSelect.parent().next().find('select');
 
                 function updateValues(region) {
                     var values = matrix[region];
                     regionBlockSelect.empty();
                     for (var value in values) {
                         regionBlockSelect.append(
-                                $('<option />').val(value).text(values[value])
+                            $('<option />').val(value).text(values[value])
                         );
                     }
                 }
