@@ -8,6 +8,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added|Changed|Deprecated|Removed|Fixed|Security
 Nothing so far
 
+## 6.1.4 - 2021-06-23
+### Added
+- Added check in viewAction for the case an OverviewPage doesn't need a Controller
+### Fixed
+- Set correct return type for getController() in ControllerPageInterface.php
+
 ## 6.1.3 - 2021-03-01
 ### Added
 - Added support for Psalm static analysis

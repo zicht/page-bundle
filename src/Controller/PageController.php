@@ -87,7 +87,7 @@ class PageController extends AbstractController
             }
         }
 
-        if ($page instanceof ControllerPageInterface) {
+        if ($page instanceof ControllerPageInterface && $page->getController() !== null) {
             return $this->forward(
                 $page->getController(),
                 (array)$page->getControllerParameters()
