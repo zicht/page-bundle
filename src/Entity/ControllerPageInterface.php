@@ -14,7 +14,7 @@ interface ControllerPageInterface
     /**
      * Returns a controller reference (string) which is responsible for rendering the page.
      *
-     * @return mixed
+     * @return string|null
      */
     public function getController();
 
