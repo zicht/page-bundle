@@ -1,7 +1,6 @@
 <?php
 /**
- * @author Rik van der Kemp <rik@zicht.nl>
- * @copyright Zicht Online <http://www.zicht.nl>
+ * @copyright Zicht Online <https://zicht.nl>
  */
 
 namespace Zicht\Bundle\PageBundle\Security\Voter;
@@ -11,8 +10,6 @@ use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 
 /**
  * Checks on 'vote' whether or not the current user is and admin
- *
- * @package Zicht\Bundle\PageBundle\Security\Voter
  */
 abstract class AbstractAdminAwareVoter extends AbstractVoter
 {
@@ -39,10 +36,9 @@ abstract class AbstractAdminAwareVoter extends AbstractVoter
          * Admin users should see content no matter the scheduled dates
          * Since you can set the decision strategy to unanimous, you want to grant this explicitly
          */
-        if (!is_null($object) && $this->supportsClass(get_class($object)) && sizeof($token->getRoles())) {
-            /** @var \Symfony\Component\Security\Core\Role\Role $role */
-            foreach ($token->getRoles() as $role) {
-                if (in_array($role->getRole(), array('ROLE_ADMIN', 'ROLE_SUPER_ADMIN'))) {
+        if (!is_null($object) && $this->supportsClass(get_class($object)) && count($token->getRoleNames()) > 0) {
+            foreach ($token->getRoleNames() as $role) {
+                if (in_array($role, ['ROLE_ADMIN', 'ROLE_SUPER_ADMIN'])) {
                     return VoterInterface::ACCESS_GRANTED;
                 }
             }
