@@ -5,12 +5,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+### Added|Changed|Deprecated|Removed|Fixed|Security
+Nothing so far
+
+## 6.1.5 - 2021-07-27
 ### Fixed
 - Fixed `TokenInterface->getRoles()` deprecation using `TokenInterface->getRoleNames()` instead
 ### Changed
 - Deprecated non-static `generatePublisedWhereClausesCriteria()` and added static `getPublishedCriteria()` in `ScheduledContentRepositoryTrait`
-### Added|Changed|Deprecated|Removed|Fixed|Security
-Nothing else so far
 
 ## 6.1.4 - 2021-06-23
 ### Added
