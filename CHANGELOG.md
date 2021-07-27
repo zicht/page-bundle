@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 ### Fixed
 - Fixed `TokenInterface->getRoles()` deprecation using `TokenInterface->getRoleNames()` instead
+### Changed
+- Deprecated non-static `generatePublisedWhereClausesCriteria()` and added static `getPublishedCriteria()` in `ScheduledContentRepositoryTrait`
 ### Added|Changed|Deprecated|Removed|Fixed|Security
 Nothing else so far
 
