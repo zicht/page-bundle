@@ -75,6 +75,29 @@ class GenerateAdminServicesCompilerPass implements CompilerPassInterface
                 $adminService->replaceArgument(0, $id);
                 $adminService->replaceArgument(1, $entityClassName);
 
+                // If there's a (partial) definition for this Page or ContentItem Admin already, then take
+                // the relevant values and place them onto (or merge them into) our admin service.
+                if ($container->hasDefinition($id)) {
+                    $mergeWithAdminService = $container->getDefinition($id);
+                    if ($mergeWithAdminService->getClass() !== null) {
+                        $adminService->setClass($mergeWithAdminService->getClass());
+                    }
+                    if (count($mergeWithAdminService->getMethodCalls()) > 0) {
+                        $adminService->setMethodCalls(array_merge($adminService->getMethodCalls(), $mergeWithAdminService->getMethodCalls()));
+                    }
+                    if (count($mergeWithAdminService->getProperties()) > 0) {
+                        $adminService->setProperties(array_merge($adminService->getProperties(), $mergeWithAdminService->getProperties()));
+                    }
+                    if (count($mergeWithAdminService->getTags()) > 0) {
+                        $adminService->setTags(array_merge($adminService->getTags(), $mergeWithAdminService->getTags()));
+                    }
+                    if (count($mergeWithAdminService->getArguments()) > 0) {
+                        $mergedArguments = $mergeWithAdminService->getArguments() + $adminService->getArguments();
+                        ksort($mergedArguments, SORT_NATURAL);
+                        $adminService->setArguments($mergedArguments);
+                    }
+                }
+
                 $container->setDefinition($id, $adminService);
 
                 $serviceDefinitions[$type][] = $id;

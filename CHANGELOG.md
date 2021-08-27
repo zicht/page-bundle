@@ -8,6 +8,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added|Changed|Deprecated|Removed|Fixed|Security
 Nothing so far
 
+## 6.2.0 - 2021-09-15
+### Added
+- Possibility to add a (partial) Page or Content Item admin definition in your
+  project. Those values will be merged into the auto-generated service definition.
+
 ## 6.1.5 - 2021-07-27
 ### Fixed
 - Fixed `TokenInterface->getRoles()` deprecation using `TokenInterface->getRoleNames()` instead
