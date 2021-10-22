@@ -55,9 +55,9 @@ class ContentItemAdmin extends AbstractAdmin
     /**
      * {@inheritDoc}
      */
-    public function configureListFields(ListMapper $listMapper)
+    public function configureListFields(ListMapper $list)
     {
-        return $listMapper
+        return $list
             ->addIdentifier('page')
             ->add(
                 '_action',
