@@ -127,9 +127,9 @@ class PageAdmin extends AbstractAdmin
     /**
      * @{inheritDoc}
      */
-    public function configureListFields(ListMapper $listMapper)
+    public function configureListFields(ListMapper $list)
     {
-        return $listMapper
+        return $list
             ->addIdentifier('title')
             ->add('displayType')
             ->add('date_updated')
@@ -149,9 +149,9 @@ class PageAdmin extends AbstractAdmin
     /**
      * @{inheritDoc}
      */
-    public function configureFormFields(FormMapper $formMapper)
+    public function configureFormFields(FormMapper $form)
     {
-        $formMapper
+        $form
             ->tab('admin.tab.general')
                 ->add('title', null, array('required' => true))
             ->end()->end();
@@ -162,7 +162,7 @@ class PageAdmin extends AbstractAdmin
                     throw new \RuntimeException(sprintf('The zicht/page-bundle assumes that entity %s implements the ContentItemContainer interface.', get_class($subject)));
                 }
 
-                $formMapper
+                $form
                     ->tab('admin.tab.content')
                     ->add(
                         'contentItems',
@@ -179,7 +179,7 @@ class PageAdmin extends AbstractAdmin
                     )
                     ->end()->end();
 
-                $formMapper->getFormBuilder()->addEventListener(
+                $form->getFormBuilder()->addEventListener(
                     FormEvents::SUBMIT,
                     function (FormEvent $e) {
                         /** @var PageInterface $pageData */
@@ -207,13 +207,13 @@ class PageAdmin extends AbstractAdmin
                     64
                 );
             }
-            $formMapper
+            $form
                 ->tab('admin.tab.menu')
                 ->add('menu_item', MenuItemType::class, array('translation_domain' => $this->getTranslationDomain()))
                 ->end()
                 ->end();
 
-            $formMapper
+            $form
                 ->getFormBuilder()
                 ->addEventSubscriber(
                     new MenuItemPersistenceSubscriber(

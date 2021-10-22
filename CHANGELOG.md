@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added|Changed|Deprecated|Removed|Fixed|Security
 Nothing so far
 
+## 6.2.1 - 2021-10-22
+### Fixed
+- Fixed admin method param names
+
 ## 6.2.0 - 2021-09-15
 ### Added
 - Possibility to add a (partial) Page or Content Item admin definition in your
