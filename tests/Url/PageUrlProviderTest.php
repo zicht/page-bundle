@@ -9,7 +9,7 @@ namespace ZichtTest\Bundle\PageBundle\Url {
 
     class PageUrlProviderTest extends TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         $this->createUrlProvider();
     }
