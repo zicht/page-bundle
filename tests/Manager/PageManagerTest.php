@@ -3,18 +3,24 @@
  * @author Gerard van Helden <gerard@zicht.nl>
  * @copyright Zicht Online <http://zicht.nl>
  */
+
 namespace ZichtTest\Bundle\SomeBundle\Entity\Page {
-    class SomePage {
+    class SomePage
+    {
     }
 
-    class SomeOtherPage {
+    class SomeOtherPage
+    {
     }
 }
+
 namespace ZichtTest\Bundle\SomeBundle\Entity\ContentItem {
-    class SomeContentItem {
+    class SomeContentItem
+    {
     }
 
-    class SomeOtherContentItem {
+    class SomeOtherContentItem
+    {
     }
 }
 
@@ -22,7 +28,8 @@ namespace My\PageBundle\Entity {
 
     use ZichtTest\Bundle\PageBundle\Assets\PageAdapter;
 
-    class FooBarPage extends PageAdapter {
+    class FooBarPage extends PageAdapter
+    {
         public function getTitle()
         {
             return '';
@@ -43,21 +50,28 @@ namespace My\PageBundle\Entity {
 
 namespace ZichtTest\Bundle\PageBundle\Manager {
 
+    use PHPUnit\Framework\TestCase;
     use Zicht\Util\Str;
 
-    class PageManagerTest extends \PHPUnit_Framework_TestCase
+    class PageManagerTest extends TestCase
     {
-        protected $doctrine, $em, $repos, $eventDispatcher, $pageClassName, $contentItemClassName, $pageManager;
+        protected $doctrine, $em, $repos, $eventDispatcher, $pageClassName, $contentItemClassName, $pageManager, $managerForClass;
 
         function setUp()
         {
+            $this->managerForClass = $this->createMock('Doctrine\Persistence\ObjectManager');
+            $metadata = $this->getMockBuilder('Doctrine\ORM\Mapping\ClassMetadataInfo')->disableOriginalConstructor()->getMock();
+            $metadata->discriminatorMap = array('bar' => 'My\PageBundle\Entity\FooBarPage');
+            $this->managerForClass->expects($this->any())->method('getClassMetadata')->willReturn($metadata);
             $this->doctrine = $this->getMockBuilder('Doctrine\Bundle\DoctrineBundle\Registry')->disableOriginalConstructor()->getMock();
             $this->em = $this->getMockBuilder('Doctrine\ORM\EntityManager')->setMethods(
                 array('getRepository', 'getClassMetaData'))->disableOriginalConstructor()->getMock();
             $this->repos = $this->getMockBuilder('Doctrine\ORM\EntityRepository')->setMethods(array('find', 'findOneBy', 'findAll'))->disableOriginalConstructor()->getMock();
             $this->em->expects($this->any())->method('getRepository')->will($this->returnValue($this->repos));
             $this->doctrine->expects($this->any())->method('getManager')->will($this->returnValue($this->em));
-            $this->eventDispatcher = $this->getMock('Symfony\Component\EventDispatcher\EventDispatcher');
+            $this->doctrine->expects($this->any())->method('getManagerForClass')->will($this->returnValue($this->managerForClass));
+            $this->doctrine->expects($this->any())->method('getRepository')->will($this->returnValue($this->repos));
+            $this->eventDispatcher = $this->createMock('Symfony\Component\EventDispatcher\EventDispatcher');
             $this->pageClassName = 'My\Page';
             $this->contentItemClassName = 'My\ContentItem';
 
@@ -70,7 +84,8 @@ namespace ZichtTest\Bundle\PageBundle\Manager {
         }
 
 
-        function testGetTemplateWillReturnBundleTemplate() {
+        function testGetTemplateWillReturnBundleTemplate()
+        {
             $this->assertEquals(
                 '@MyPageBundle/Page/foo-bar.html.twig',
                 $this->pageManager->getTemplate(new \My\PageBundle\Entity\FooBarPage())
@@ -80,7 +95,8 @@ namespace ZichtTest\Bundle\PageBundle\Manager {
         /**
          * @expectedException \RuntimeException
          */
-        function testGetTemplateWillThrowExceptionIfBundleNameIsUndeterminable() {
+        function testGetTemplateWillThrowExceptionIfBundleNameIsUndeterminable()
+        {
             $this->pageManager->getTemplate(new \stdClass());
         }
 
@@ -165,7 +181,7 @@ namespace ZichtTest\Bundle\PageBundle\Manager {
         function testGetLoadedPageWillCallCallableIfNoLoadedPage()
         {
             $called = false;
-            $fn = function() use(&$called) {
+            $fn = function () use (&$called) {
                 $called = true;
                 return new \My\PageBundle\Entity\FooBarPage();
             };
@@ -177,7 +193,7 @@ namespace ZichtTest\Bundle\PageBundle\Manager {
         {
             $called = false;
             $this->pageManager->setLoadedPage(new \My\PageBundle\Entity\FooBarPage());
-            $fn = function() use(&$called) {
+            $fn = function () use (&$called) {
                 $called = true;
                 return new \My\PageBundle\Entity\FooBarPage();
             };
@@ -191,7 +207,7 @@ namespace ZichtTest\Bundle\PageBundle\Manager {
         function testGetLoadedPageWillThrowNotFoundHttpExceptionIfLoaderReturnsNothing()
         {
             $called = false;
-            $fn = function() use(&$called) {
+            $fn = function () use (&$called) {
                 $called = true;
                 return null;
             };
@@ -216,7 +232,7 @@ namespace ZichtTest\Bundle\PageBundle\Manager {
 
         function testFindByPage()
         {
-            $this->em->expects($this->once())->method('getRepository')->with('Qux\Foo')->will($this->returnValue($this->repos));
+            $this->doctrine->expects($this->once())->method('getRepository')->with('Qux\Foo')->will($this->returnValue($this->repos));
             $ret = array(
                 'a', 'b'
             );
@@ -230,7 +246,7 @@ namespace ZichtTest\Bundle\PageBundle\Manager {
          */
         function testFindByWillThrowNotFoundExceptionIfNotFound()
         {
-            $this->em->expects($this->once())->method('getRepository')->with('Qux\Foo')->will($this->returnValue($this->repos));
+            $this->doctrine->expects($this->once())->method('getRepository')->with('Qux\Foo')->will($this->returnValue($this->repos));
             $ret = null;
             $conditions = array('foo' => 'bar');
             $this->repos->expects($this->once())->method('findOneBy')->with($conditions)->will($this->returnValue($ret));
@@ -242,9 +258,9 @@ namespace ZichtTest\Bundle\PageBundle\Manager {
         {
             $connection = $this->stubConnection();
             $connection->expects($this->once())->method('fetchColumn')->will($this->returnValue('bar'));
-            $this->em->expects($this->once())->method('getClassMetaData')->with($this->pageClassName)->will(
+            $this->managerForClass->expects($this->once())->method('getClassMetaData')->with($this->pageClassName)->will(
                 $this->returnValue(
-                    (object) array(
+                    (object)array(
                         'discriminatorMap' => array(
                             'bar' => 'Acme\Bar'
                         )

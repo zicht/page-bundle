@@ -4,7 +4,7 @@
     "type": "symfony-bundle",
     "license": "MIT",
     "require": {
-        "php": "^7.1",
+        "php": "^7.2",
         "sonata-project/admin-bundle": "^3.1",
         "symfony/console": "^4.4",
         "symfony/security-core": "^4.4",
@@ -31,5 +31,10 @@
             ]
         }
     },
-    "minimum-stability": "stable"
+    "minimum-stability": "stable",
+    "scripts": {
+        "test": [
+            "phpunit -c phpunit.xml.dist"
+        ]
+    }
 }

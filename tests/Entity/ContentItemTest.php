@@ -5,6 +5,8 @@
  */
 namespace ZichtTest\Bundle\PageBundle\Entity;
 
+use PHPUnit\Framework\TestCase;
+
 abstract class Base extends \Zicht\Bundle\PageBundle\Entity\ContentItem
 {
     private $commonProperty = 'foo-common';
@@ -25,7 +27,7 @@ class MyBarContentItem extends Base
     private $barProperty = 'bar';
 }
 
-class ContentItemTest extends \PHPUnit_Framework_TestCase
+class ContentItemTest extends TestCase
 {
     public function testGetShortType()
     {

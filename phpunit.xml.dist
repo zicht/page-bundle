@@ -1,8 +1,3 @@
-<!--
-  ~ @author Muhammed Akbulut <muhammed@zicht.nl>
-  ~ @copyright Zicht Online <http://www.zicht.nl>
-  -->
-
 <phpunit
         bootstrap="vendor/autoload.php"
         convertWarningsToExceptions="true"
@@ -14,7 +9,7 @@
         <const name="APPLICATION_ENV" value="testing"/>
     </php>
     <testsuites>
-        <testsuite>
+        <testsuite name="tests">
             <directory suffix="Test.php">tests/</directory>
         </testsuite>
     </testsuites>
