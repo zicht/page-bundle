@@ -5,7 +5,9 @@
  */
 namespace ZichtTest\Bundle\PageBundle\Type;
 
-class ContentItemTypeTypeTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class ContentItemTypeTypeTest extends TestCase
 {
     public function testConstruct()
     {

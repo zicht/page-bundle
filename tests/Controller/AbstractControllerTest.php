@@ -6,18 +6,20 @@
 
 namespace ZichtTest\Bundle\PageBundle\Controller;
 
-class AbstractControllerTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class AbstractControllerTest extends TestCase
 {
     function testGetPagemanagerReturnsPageManagerService()
     {
         $foo = rand(1, 100);
 
-        $controller = $this->getMock('Zicht\Bundle\PageBundle\Controller\AbstractController', array('get'));
+        $controller = $this->getMockBuilder('Zicht\Bundle\PageBundle\Controller\AbstractController')
+            ->setMethods(array('get'))->getMock();
         $controller
             ->expects($this->once())->method('get')
             ->with('zicht_page.page_manager')
-            ->will($this->returnValue($foo))
-        ;
+            ->will($this->returnValue($foo));
         $this->assertEquals($foo, $controller->getPageManager());
     }
 }

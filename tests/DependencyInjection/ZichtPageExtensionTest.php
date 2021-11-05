@@ -4,10 +4,11 @@
  */
 namespace ZichtTest\Bundle\PageBundle\DependencyInjection;
  
+use PHPUnit\Framework\TestCase;
 use Zicht\Bundle\PageBundle\DependencyInjection\ZichtPageExtension;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
-class ZichtPageExtensionTest extends \PHPUnit_Framework_TestCase
+class ZichtPageExtensionTest extends TestCase
 {
     protected function createContainer()
     {

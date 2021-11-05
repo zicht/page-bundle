@@ -11,16 +11,17 @@ namespace ZichtTest\Bundle\PageBundle\Assets {
 
  namespace ZichtTest\Bundle\PageBundle\Type {
 
-    use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+     use PHPUnit\Framework\TestCase;
+     use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
-    class ContentItemRegionTypeTest extends \PHPUnit_Framework_TestCase
+    class ContentItemRegionTypeTest extends TestCase
     {
         function testConstruct()
         {
             $ret = new \Zicht\Bundle\PageBundle\Type\ContentItemRegionType(
                 'foo',
                 array('a' => 'a', 'b' => 'b'),
-                $this->getMock('Symfony\Component\Translation\TranslatorInterface')
+                $this->createMock('Symfony\Component\Translation\TranslatorInterface')
             );
 
             $this->assertEquals('zicht_content_item_region', $ret->getName());

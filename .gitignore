@@ -1,4 +1,6 @@
+.idea/
+vendor/
+build/
+.env
 composer.lock
-.idea
-vendor
-build
+docker-compose.y*ml
