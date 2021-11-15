@@ -15,7 +15,9 @@ namespace Baz\Bat {
 
 namespace ZichtTest\Bundle\PageBundle\AdminMenu {
 
-    class ContentItemMatrixTest extends \PHPUnit_Framework_TestCase
+    use PHPUnit\Framework\TestCase;
+
+    class ContentItemMatrixTest extends TestCase
     {
         function testApi()
         {

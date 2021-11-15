@@ -5,7 +5,9 @@
  */
 namespace ZichtTest\Bundle\PageBundle\Manager\Doctrine;
  
-class SubscriberTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class SubscriberTest extends TestCase
 {
     function testEvent()
     {
@@ -18,7 +20,7 @@ class SubscriberTest extends \PHPUnit_Framework_TestCase
             $pm
         ));
 
-        $s = new \Zicht\Bundle\PageBundle\Manager\Doctrine\Subscriber($container);
+        $s = new \Zicht\Bundle\PageBundle\Manager\Doctrine\Subscriber($pm);
         $this->assertEquals(array('loadClassMetadata'), $s->getSubscribedEvents());
         $event = $this->getMockBuilder('Doctrine\ORM\Event\LoadClassMetadataEventArgs')->disableOriginalConstructor()->getMock();
         $metadata = new \Doctrine\ORM\Mapping\ClassMetadata('foo');

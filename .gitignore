@@ -1,4 +1,6 @@
+.env
+.idea/
+.phpunit.result.cache
 composer.lock
-.idea
-vendor
-build
+docker-compose.y*ml
+vendor/

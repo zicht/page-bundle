@@ -5,9 +5,11 @@
  */
 namespace ZichtTest\Bundle\PageBundle\Url {
 
-    class PageUrlProviderTest extends \PHPUnit_Framework_TestCase
+    use PHPUnit\Framework\TestCase;
+
+    class PageUrlProviderTest extends TestCase
 {
-    public function testConstruct()
+    public function setUp()
     {
         $this->createUrlProvider();
     }
@@ -22,31 +24,22 @@ namespace ZichtTest\Bundle\PageBundle\Url {
 
         $this->pageManager->expects($this->any())->method('getPageClass')->will($this->returnValue('Foo\Bar\Page'));
 
-        return new \Zicht\Bundle\PageBundle\Url\PageUrlProvider(
+        $this->urlProvider = new \Zicht\Bundle\PageBundle\Url\PageUrlProvider(
             $this->getMockBuilder('Symfony\Component\Routing\RouterInterface')->getMock(),
             $this->pageManager
         );
     }
 
-
-    /**
-     * @depends testConstruct
-     */
     public function testSupports()
     {
-        $provider = $this->createUrlProvider();
-        $this->assertTrue($provider->supports(new \Foo\Bar\Page()));
-        $this->assertTrue($provider->supports(new \Foo\Bar\SubPage()));
-        $this->assertFalse($provider->supports(new \Foo\Bar\Baz()));
+        $this->assertTrue($this->urlProvider->supports(new \Foo\Bar\Page()));
+        $this->assertTrue($this->urlProvider->supports(new \Foo\Bar\SubPage()));
+        $this->assertFalse($this->urlProvider->supports(new \Foo\Bar\Baz()));
     }
 
-    /**
-     * @depends testConstruct
-     */
     public function testRouting()
     {
-        $provider = $this->createUrlProvider();
-        $page = $this->getMock('Foo\Bar\Page');
+        $page = $this->createMock('Foo\Bar\Page');
 
         $rand = rand(1, 100);
         $page->expects($this->once())->method('getId')->will($this->returnValue($rand));
@@ -57,14 +50,13 @@ namespace ZichtTest\Bundle\PageBundle\Url {
                     'id' => $rand
                 )
             ),
-            $provider->routing($page)
+            $this->urlProvider->routing($page)
         );
     }
 
 
     public function testSuggest()
     {
-        $p = $this->createUrlProvider();
         $repo = $this->getMockBuilder('Doctrine\ORM\EntityRepository')
             ->setMethods(array('createQueryBuilder'))
             ->disableOriginalConstructor()
@@ -88,7 +80,7 @@ namespace ZichtTest\Bundle\PageBundle\Url {
             new \Foo\Bar\Page(),
         )));
 
-        $items = $p->suggest('foo');
+        $items = $this->urlProvider->suggest('foo');
         $this->assertCount(2, $items);
         foreach ($items as $item) {
             $this->assertTrue(array_key_exists('value', $item));

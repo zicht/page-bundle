@@ -6,6 +6,7 @@
 
 namespace Zicht\Bundle\PageBundle\Security\Voter;
 
+use PHPUnit\Framework\TestCase;
 use \Symfony\Component\Security\Core\Authentication\Token\AnonymousToken;
 use \Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use \Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
@@ -16,7 +17,7 @@ use \Zicht\Bundle\PageBundle\Model\ScheduledContentInterface;
  *
  * @package Zicht\Bundle\PageBundle\Security\Voter
  */
-class ScheduledContentVoterTest extends \PHPUnit_Framework_TestCase
+class ScheduledContentVoterTest extends TestCase
 {
 
     /**
