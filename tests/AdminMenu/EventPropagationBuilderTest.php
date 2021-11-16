@@ -61,7 +61,7 @@ class EventPropagationBuilderTest extends TestCase
      */
     protected $dispatcher;
 
-    function setUp()
+    public function setUp(): void
     {
         $this->pool = $this->getMockBuilder('Sonata\AdminBundle\Admin\Pool')->disableOriginalConstructor()->getMock();
         $this->dispatcher = self::getMockBuilder(EventDispatcher::class)->disableOriginalConstructor()->getMock();

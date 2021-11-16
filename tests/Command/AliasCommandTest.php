@@ -11,7 +11,7 @@ use Zicht\Bundle\PageBundle\Command\AliasCommand;
 
 class AliasCommandTest extends TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         $this->markTestSkipped('Requires a lot of work for a Command we barely use...');
         $this->command = new AliasCommand();
