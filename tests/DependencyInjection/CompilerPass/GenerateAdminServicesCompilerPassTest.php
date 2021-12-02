@@ -28,8 +28,7 @@ namespace ZichtTest\Bundle\PageBundle\DependencyInjection\CompilerPass {
             $c->setParameter('zicht_page.config', array());
             $pass = new GenerateAdminServicesCompilerPass();
             $pass->process($c);
-            // Add assert, just to make sure this test is not marked risky. The actual test is making it till here...
-            $this->assertEquals(true, true);
+            $this->expectNotToPerformAssertions();
         }
 
 
@@ -64,8 +63,7 @@ namespace ZichtTest\Bundle\PageBundle\DependencyInjection\CompilerPass {
             ));
             $pass = new \Zicht\Bundle\PageBundle\DependencyInjection\CompilerPass\GenerateAdminServicesCompilerPass();
             $pass->process($c);
-            // Add assert, just to make sure this test is not marked risky. The actual test is making it till here...
-            $this->assertEquals(true, true);
+            $this->expectNotToPerformAssertions();
         }
     }
 }
