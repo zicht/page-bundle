@@ -1,13 +1,13 @@
-General: General
 Content: Content
+General: General
 Menu: Menu
-
-title: Title
 contentItems: Item
-weight: Weight
-content_item_region: Region
+content_item:
+    add: Add new item
+content_item_region:
+    empty_value: Select region
 content_item_type: Type
-content_item_region.empty_value: "Select region"
-content_item.add: "Add new item"
 left: Left
 right: Right
+title: Title
+weight: Weight
