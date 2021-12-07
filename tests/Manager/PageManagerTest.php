@@ -57,7 +57,7 @@ namespace ZichtTest\Bundle\PageBundle\Manager {
     {
         protected $doctrine, $em, $repos, $eventDispatcher, $pageClassName, $contentItemClassName, $pageManager, $managerForClass;
 
-        function setUp()
+        public function setUp(): void
         {
             $this->managerForClass = $this->createMock('Doctrine\Persistence\ObjectManager');
             $metadata = $this->getMockBuilder('Doctrine\ORM\Mapping\ClassMetadataInfo')->disableOriginalConstructor()->getMock();
@@ -92,11 +92,9 @@ namespace ZichtTest\Bundle\PageBundle\Manager {
             );
         }
 
-        /**
-         * @expectedException \RuntimeException
-         */
         function testGetTemplateWillThrowExceptionIfBundleNameIsUndeterminable()
         {
+            $this->expectException('\RuntimeException');
             $this->pageManager->getTemplate(new \stdClass());
         }
 
@@ -149,22 +147,18 @@ namespace ZichtTest\Bundle\PageBundle\Manager {
         }
 
 
-        /**
-         * @expectedException \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
-         */
         function testFindForViewThrowsNotFoundHttpExceptionIfNotFoundInTable()
         {
+            $this->expectException('\Symfony\Component\HttpKernel\Exception\NotFoundHttpException');
             $connection = $this->stubConnection();
             $connection->expects($this->once())->method('fetchColumn')->will($this->returnValue(null));
             $this->pageManager->findForView('foo');
         }
 
 
-        /**
-         * @expectedException \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
-         */
         function testFindForViewThrowsNotFoundHttpExceptionIfNotFoundInRepository()
         {
+            $this->expectException('\Symfony\Component\HttpKernel\Exception\NotFoundHttpException');
             $this->stubPage(null);
         }
 
@@ -201,11 +195,9 @@ namespace ZichtTest\Bundle\PageBundle\Manager {
             $this->assertFalse($called);
         }
 
-        /**
-         * @expectedException \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
-         */
         function testGetLoadedPageWillThrowNotFoundHttpExceptionIfLoaderReturnsNothing()
         {
+            $this->expectException('\Symfony\Component\HttpKernel\Exception\NotFoundHttpException');
             $called = false;
             $fn = function () use (&$called) {
                 $called = true;
@@ -214,11 +206,9 @@ namespace ZichtTest\Bundle\PageBundle\Manager {
             $this->pageManager->getLoadedPage($fn);
         }
 
-        /**
-         * @expectedException \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
-         */
         function testGetLoadedPageWillThrowNotFoundHttpExceptionIfLoaderIsNotPassed()
         {
+            $this->expectException('\Symfony\Component\HttpKernel\Exception\NotFoundHttpException');
             $this->pageManager->getLoadedPage();
         }
 
@@ -241,11 +231,9 @@ namespace ZichtTest\Bundle\PageBundle\Manager {
             $this->assertEquals($ret, $this->pageManager->findPageBy('Qux\Foo', $conditions));
         }
 
-        /**
-         * @expectedException \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
-         */
         function testFindByWillThrowNotFoundExceptionIfNotFound()
         {
+            $this->expectException('\Symfony\Component\HttpKernel\Exception\NotFoundHttpException');
             $this->doctrine->expects($this->once())->method('getRepository')->with('Qux\Foo')->will($this->returnValue($this->repos));
             $ret = null;
             $conditions = array('foo' => 'bar');

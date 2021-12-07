@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added|Changed|Deprecated|Removed|Fixed|Security
 Nothing so far
 
+## 6.3.0 - 2021-12-03
+### Added
+- Support for PHP 8
+
 ## 6.2.1 - 2021-10-22
 ### Fixed
 - Fixed admin method param names

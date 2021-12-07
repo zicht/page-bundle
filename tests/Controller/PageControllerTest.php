@@ -51,7 +51,7 @@ class PageControllerTest extends TestCase
     /** @var PageController */
     private $controller;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->controller = new PageController();
         $this->pm = $this->getMockBuilder('Zicht\Bundle\PageBundle\Manager\PageManager')->disableOriginalConstructor()->getMock();
@@ -134,11 +134,9 @@ class PageControllerTest extends TestCase
     }
 
 
-    /**
-     * @expectedException Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException
-     */
     function testControllerThrowsAccessDeniedExceptionIfNotAllowed()
     {
+        $this->expectException('Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException');
         $this->deny();
         $id = rand(1, 100);
         $page = new CPage($id);
