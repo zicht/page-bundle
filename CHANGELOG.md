@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added|Changed|Deprecated|Removed|Fixed|Security
 Nothing so far
 
+## 6.3.1 - 2022-03-15
+### Added
+- Support for `zicht/menu-bundle ^5`.
+
 ## 6.3.0 - 2021-12-03
 ### Added
 - Support for PHP 8
