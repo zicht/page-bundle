@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added|Changed|Deprecated|Removed|Fixed|Security
 Nothing so far
 
+## 6.3.2 - 2022-03-29
+### Added
+- Added alias for Aliaser service
+
 ## 6.3.1 - 2022-03-15
 ### Added
 - Support for `zicht/menu-bundle ^5`.

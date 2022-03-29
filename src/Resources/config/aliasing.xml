@@ -16,6 +16,7 @@
             <argument /><!-- Replaced by dependeny injection (based on service id configured in the bundle config -->
             <argument type="service" id="security.access.decision_manager" on-invalid="null" />
         </service>
+        <service id="Zicht\Bundle\UrlBundle\Aliasing\Aliaser" alias="zicht_page.page_aliaser" />
 
         <service id="Zicht\Bundle\PageBundle\Aliasing\Strategy\LanguageAwareAliasingStrategy" class="Zicht\Bundle\PageBundle\Aliasing\Strategy\LanguageAwareAliasingStrategy">
             <!-- Arguments injected by dependeny injection (based on service id configured in the bundle config -->
