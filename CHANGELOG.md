@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+### Fixed
+- Keep allowing zicht/util v1
 ### Added|Changed|Deprecated|Removed|Fixed|Security
 Nothing so far
 
