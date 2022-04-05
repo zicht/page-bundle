@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added|Changed|Deprecated|Removed|Fixed|Security
 Nothing so far
 
+## 6.3.3 - 2022-04-05
+### Added
+- Forward merge of 6.2.3: Added ContentItemTypeType admin retrieval check
+
 ## 6.3.2 - 2022-03-30
 ### Added
 - Forward merge of 6.2.2: Added alias for Aliaser service
