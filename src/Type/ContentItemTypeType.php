@@ -1,7 +1,6 @@
 <?php
 /**
- * @author Gerard van Helden <gerard@zicht.nl>
- * @copyright Zicht Online <http://zicht.nl>
+ * @copyright Zicht Online <https://zicht.nl>
  */
 
 namespace Zicht\Bundle\PageBundle\Type;
@@ -9,8 +8,8 @@ namespace Zicht\Bundle\PageBundle\Type;
 use Sonata\AdminBundle\Admin\Pool;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\FormView;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Routing\Exception\InvalidParameterException;
 use Symfony\Component\Routing\Exception\MissingMandatoryParametersException;
@@ -25,10 +24,8 @@ use Zicht\Util\Str;
 class ContentItemTypeType extends AbstractType
 {
     /**
-     * Constructor
-     *
-     * @param \Sonata\AdminBundle\Admin\Pool $sonata
      * @param string $contentItemClass
+     * @param \Sonata\AdminBundle\Admin\Pool $sonata
      */
     public function __construct($contentItemClass, Pool $sonata = null)
     {
@@ -48,9 +45,7 @@ class ContentItemTypeType extends AbstractType
         );
     }
 
-    /**
-     * @{inheritDoc}
-     */
+    /** {@inheritDoc} */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         if ($options['container']) {
@@ -86,9 +81,7 @@ class ContentItemTypeType extends AbstractType
     }
 
 
-    /**
-     * @{inheritDoc}
-     */
+    /** {@inheritDoc} */
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
         if (isset($view->vars['sonata_admin']['admin'])) {
@@ -116,7 +109,11 @@ class ContentItemTypeType extends AbstractType
                 }
                 if ($isPersistedEntity && !is_null($subject) && $typeAdmin = $this->sonata->getAdminByClass(get_class($subject))) {
                     $view->vars['type'] = Str::humanize($subject->getType());
-                    $childAdmin = $this->sonata->getAdminByAdminCode($parentAdmin->getCode() . '|' . $typeAdmin->getCode());
+                    $childAdminCode = $parentAdmin->getCode() . '|' . $typeAdmin->getCode();
+                    $childAdmin = $this->sonata->getAdminByAdminCode($childAdminCode);
+                    if (!$childAdmin) {
+                        throw new \InvalidArgumentException(sprintf('Could not find admin with admin code "%s" for "%s"', $childAdminCode, get_class($subject)));
+                    }
                     $childAdmin->setRequest($genericAdmin->getRequest());
 
                     if ($subject && $subject->getPage() && $subject->getPage()->getId()) {

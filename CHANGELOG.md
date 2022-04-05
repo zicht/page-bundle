@@ -20,6 +20,10 @@ Nothing so far
 ### Added
 - Support for PHP 8
 
+## 6.2.3 - 2022-04-05
+### Added
+- Added ContentItemTypeType admin retrieval check
+
 ## 6.2.2 - 2022-03-30
 ### Added
 - Added alias for Aliaser service
