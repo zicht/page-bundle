@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added|Changed|Deprecated|Removed|Fixed|Security
 Nothing so far
 
+## 6.2.4 - 2022-04-11
+### Fixed
+- Template path for `@ZichtWebsiteBundle/Page/template.twig.html` should be `@ZichtWebsite/Page/template.twig.html` without the `Bundle` suffix
+
 ## 6.2.3 - 2022-04-05
 ### Added
 - Added ContentItemTypeType admin retrieval check

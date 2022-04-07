@@ -90,12 +90,12 @@ class PageManager
     public function getTemplate($page)
     {
         $className = ClassUtils::getRealClass(get_class($page));
-        if (strpos($className, 'App') === 0) {
+        if (strpos($className, 'App\\') === 0) {
             return sprintf('page/%s.html.twig', $page->getTemplateName());
         }
 
         // Not in App namespace, so determine the page bundle name.
-        $bundle = $this->getBundleName($className);
+        $bundle = $this->getTemplateBundleName($className);
         return sprintf('@%s/Page/%s.html.twig', $bundle, $page->getTemplateName());
     }
 
@@ -127,7 +127,22 @@ class PageManager
 
             throw new \RuntimeException("Could not determine bundle name for " . $className);
         }
+
         $bundle = $vendor . $bundleName;
+
+        return $bundle;
+    }
+
+    /**
+     * @param class-string $className
+     */
+    protected function getTemplateBundleName(string $className): string
+    {
+        $bundle = $this->getBundleName($className);
+
+        if (strlen($bundle) > 6 && substr($bundle, -6) === 'Bundle') {
+            $bundle = substr($bundle, 0, -6);
+        }
 
         return $bundle;
     }

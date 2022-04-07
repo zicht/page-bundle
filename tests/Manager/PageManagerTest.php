@@ -18,27 +18,24 @@ namespace ZichtTest\Bundle\SomeBundle\Entity\ContentItem {
     }
 }
 
-namespace My\PageBundle\Entity {
-
+namespace App\Entity {
     use ZichtTest\Bundle\PageBundle\Assets\PageAdapter;
-
     class FooBarPage extends PageAdapter {
         public function getTitle()
         {
             return '';
         }
 
-        /**
-         * A page must always have an id
-         *
-         * @return mixed
-         */
         public function getId()
         {
             // TODO: Implement getId() method.
         }
 
     }
+}
+namespace My\PageBundle\Entity {
+    use App\Entity\FooBarPage as AppFooBarPage;
+    class FooBarPage extends AppFooBarPage {}
 }
 
 namespace ZichtTest\Bundle\PageBundle\Manager {
@@ -69,10 +66,16 @@ namespace ZichtTest\Bundle\PageBundle\Manager {
             );
         }
 
+        function testGetTemplateWillReturnAppTemplate() {
+            $this->assertEquals(
+                'page/foo-bar.html.twig',
+                $this->pageManager->getTemplate(new \App\Entity\FooBarPage())
+            );
+        }
 
         function testGetTemplateWillReturnBundleTemplate() {
             $this->assertEquals(
-                '@MyPageBundle/Page/foo-bar.html.twig',
+                '@MyPage/Page/foo-bar.html.twig',
                 $this->pageManager->getTemplate(new \My\PageBundle\Entity\FooBarPage())
             );
         }
