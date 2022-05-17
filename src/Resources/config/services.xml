@@ -89,5 +89,9 @@
             <tag name="kernel.event_listener" event="zicht_admin.object_duplicate"/>
         </service>
 
+        <service id="Zicht\Bundle\PageBundle\Controller\DebugPagesController">
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+            <tag name="controller.service_arguments"/>
+        </service>
     </services>
 </container>

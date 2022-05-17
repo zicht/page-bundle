@@ -39,6 +39,21 @@ This Voter looks for the `isPublic` public function to check whether a page can 
 The ScheduledContentVoter requires the page to have `Zicht\Bundle\PageBundle\Model\ScheduledContentInterface` implemented.
 With this voter a page can be scheduled for publication. 
 
+## Debug pages
+Add a reference to the debug pages route/controller to be able to view the "Debug pages" page. Add it in
+`config/routes/zicht_page.yaml`. Use `condition: '%kernel.debug%'` to only enable the route on environments
+where debug mode is enabled (typically local dev environment and the testing environment). Visit the
+`/{_locale}/debug/pages` path to only show pages and their information per language/locale (`/nl/debug/pages`
+for instance). If you want to view all pages and their information (or don't have a multi language site),
+visit the path `/debug/pages`.
+
+```yaml
+zicht_page_debug:
+    resource: '@ZichtPageBundle/Resources/config/routing_debug.yml'
+    prefix: '/'
+    condition: '%kernel.debug%'
+```
+
 # Maintainers
 * Boudewijn Schoon <boudewijn@zicht.nl>
 * Erik Trapman <erik@zicht.nl>
