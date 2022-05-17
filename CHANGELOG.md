@@ -8,6 +8,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added|Changed|Deprecated|Removed|Fixed|Security
 Nothing so far
 
+## 6.3.5 - 2022-05-17
+### Added
+- Added second argument for `addChild` when adding content item admins as children to page admin definitions. By default this is `page` as being the property on the child
+  (content item) referencing the parent (page). You can configure an alternative with `contentItemPageProperty` in your `config/packages/zicht_page.yaml`.
+### Removed
+- Removed dependency for unused symfony/templating in composer.json. Changed deprecated `Symfony\Bundle\FrameworkBundle\Templating\EngineInterface` into
+  `Twig\Environment`
+### Changed
+- Changed usage of deprecated `Sensio\Bundle\FrameworkExtraBundle\Configuration\Route` into `Symfony\Component\Routing\Annotation\Route`
+- Changed passing the root name to the config tree builder constructor instead of to `root()`
+
 ## 6.3.4 - 2022-04-11
 ### Fixed
 - Forward merge of 6.2.4: Template path for `@ZichtWebsiteBundle/Page/template.twig.html` should be `@ZichtWebsite/Page/template.twig.html` without the `Bundle` suffix

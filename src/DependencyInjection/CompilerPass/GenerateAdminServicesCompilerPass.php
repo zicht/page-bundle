@@ -104,6 +104,7 @@ class GenerateAdminServicesCompilerPass implements CompilerPassInterface
             }
         }
 
+        $contentItemPageProperty = $config['contentItemPageProperty'] ?? 'page';
         foreach ($serviceDefinitions['page'] as $pageServiceId) {
             $pageDef = $container->getDefinition($pageServiceId);
             $pageClassName = $pageDef->getArgument(1);
@@ -123,7 +124,7 @@ class GenerateAdminServicesCompilerPass implements CompilerPassInterface
                 $contentItemDefinition = $container->getDefinition($contentItemServiceId);
 
                 if (in_array($contentItemDefinition->getArgument(1), $matrix->getTypes())) {
-                    $pageDef->addMethodCall('addChild', [new Reference($contentItemServiceId)]);
+                    $pageDef->addMethodCall('addChild', [new Reference($contentItemServiceId), $contentItemPageProperty]);
                 }
             }
         }

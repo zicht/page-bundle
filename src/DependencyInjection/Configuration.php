@@ -19,8 +19,8 @@ class Configuration implements ConfigurationInterface
      */
     public function getConfigTreeBuilder()
     {
-        $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('zicht_page');
+        $treeBuilder = new TreeBuilder('zicht_page');
+        $rootNode = $treeBuilder->getRootNode();
 
         $rootNode
             ->children()
@@ -55,6 +55,7 @@ class Configuration implements ConfigurationInterface
                 ->end()
                 ->scalarNode('pageClass')->isRequired()->end()
                 ->scalarNode('contentItemClass')->isRequired()->end()
+                ->scalarNode('contentItemPageProperty')->defaultValue('page')->end()
                 ->arrayNode('admin')
                     ->children()
                         ->arrayNode('base')

@@ -55,7 +55,7 @@ class PageControllerTest extends TestCase
     {
         $this->controller = new PageController();
         $this->pm = $this->getMockBuilder('Zicht\Bundle\PageBundle\Manager\PageManager')->disableOriginalConstructor()->getMock();
-        $this->templating =  $this->getMockBuilder('Symfony\Bundle\FrameworkBundle\Templating\EngineInterface')->getMock();
+        $this->twig =  $this->getMockBuilder('Twig\Environment')->disableOriginalConstructor()->getMock();
         $this->viewValidator =  $this->getMockBuilder('Zicht\Bundle\PageBundle\Security\PageViewValidation')->getMock();
 
         $this->viewValidator->method('validate')->willReturn(null);
@@ -78,7 +78,7 @@ class PageControllerTest extends TestCase
         $this->kernel = $this->getMockBuilder('Symfony\Component\HttpKernel\HttpKernelInterface')->setMethods(array('forward', 'handle'))->getMock();
         $container = new \Symfony\Component\DependencyInjection\Container();
         $container->set('zicht_page.page_manager', $this->pm);
-        $container->set('twig', $this->templating);
+        $container->set('twig', $this->twig);
         $container->set('request', $this->request);
         $container->set('zicht_page.controller.view_validator', $this->viewValidator);
 
@@ -112,7 +112,7 @@ class PageControllerTest extends TestCase
         $page = new Page($id);
         $this->pm->expects($this->once())->method('findForView')->with($id)->will($this->returnValue($page));
         $this->pm->expects($this->once())->method('getTemplate')->with($page)->will($this->returnValue('foo.template'));
-        $this->templating->expects($this->once())->method('render')->with('foo.template', array(
+        $this->twig->expects($this->once())->method('render')->with('foo.template', array(
             'page' => $page,
             'id' => $id
         ));
@@ -141,7 +141,7 @@ class PageControllerTest extends TestCase
         $id = rand(1, 100);
         $page = new CPage($id);
         $this->pm->expects($this->once())->method('findForView')->with($id)->will($this->returnValue($page));
-        
+
         $this->controller->viewAction($this->request, $id);
     }
 }
