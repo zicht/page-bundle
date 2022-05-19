@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added|Changed|Deprecated|Removed|Fixed|Security
 Nothing so far
 
+## 6.4.0 - 2022-05-19
+### Added
+- Added `/debug/pages` to show all page types with info and a link to a random page for debug/testing purposes.
+
 ## 6.3.5 - 2022-05-17
 ### Added
 - Added second argument for `addChild` when adding content item admins as children to page admin definitions. By default this is `page` as being the property on the child
