@@ -1,0 +1,8 @@
+zicht_page_debug_multilang:
+    path: /{_locale}/debug/pages
+    defaults: &zicht_page_debug_defaults
+        _controller: '\Zicht\Bundle\PageBundle\Controller\DebugPagesController::showProjectPageTypeLinksAndInfo'
+
+zicht_page_debug:
+    path: /debug/pages
+    defaults: *zicht_page_debug_defaults

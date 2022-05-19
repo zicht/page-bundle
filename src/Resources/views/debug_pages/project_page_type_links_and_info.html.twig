@@ -1,0 +1,73 @@
+<html>
+<head>
+    <meta charset="UTF-8"/>
+    <title>Debug pages</title>
+    <style>
+        body.c-debug-pages {
+            margin: 24px 16px;
+            margin-bottom: 96px;
+            background: #EDEBE6;
+            font-family: "pt sans", Arial, Helvetica, sans-serif;
+        }
+        .c-debug-pages__container {
+            background: #FFF;
+            box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.05), 0 5px 5px 0 rgba(0, 0, 0, 0.09);
+            border-bottom-right-radius: 24px;
+            padding: 32px 16px;
+        }
+        .c-debug-pages__table {
+            border-collapse: collapse;
+        }
+        .c-debug-pages__table th, .c-debug-pages__table td  {
+            padding: 6px 8px;
+            border-style: solid;
+            border-color: #CCC;
+            border-width: 1px 0;
+        }
+        .c-debug-pages__table th {
+            padding: 8px;
+            border-width: 0 0 3px 0;
+        }
+        sep {
+            margin-left: 2px;
+        }
+    </style>
+</head>
+<body class="c-debug-pages">
+
+<h1>Debug pages</h1>
+<h3>Found {{ pages_info|length }} different page types and {{ total_count|number_format(0, ',', '<sep/>')|raw }} pages in total.</h3>
+
+<div class="c-debug-pages__container">
+    <table class="c-debug-pages__table">
+        <thead>
+            <tr>
+                <th>Page class</th>
+                <th>Count</th>
+                <th>Page display type</th>
+                <th>Page title</th>
+                <th>Page link</th>
+                <th>Content items</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for type, info in pages_info %}
+            <tr>
+                <td>{{ type|escape|replace({ '\\': '\\<wbr/>' })|raw }}</td>
+                <td align="right">{{ info.count|number_format(0, ',', '<sep/>')|raw }}</td>
+                <td>{{ info.page ? info.page.displayType : '&nbsp;'|raw }}</td>
+                <td>{{ info.page ? info.page.title : '&nbsp;'|raw }}</td>
+                <td>{{ info.page ? '<a href="%s" target="_blank">link</a>'|format(object_url(info.page))|raw  : '&nbsp;'|raw }}</td>
+                <td>
+                    {% for ci_type, ci_count in info.content_items %}
+                        {{ ci_type|escape|replace({ '\\': '\\<wbr/>' })|raw }} ({{ ci_count }})<br />
+                    {% endfor %}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>
