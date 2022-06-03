@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added|Changed|Deprecated|Removed|Fixed|Security
 Nothing so far
 
+## 6.4.1 - 2022-06-03
+### Changed
+- Supply ordered list of ContentItems in `ContentItemTypeType`.
+
 ## 6.4.0 - 2022-05-19
 ### Added
 - Added `/debug/pages` to show all page types with info and a link to a random page for debug/testing purposes.

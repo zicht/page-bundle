@@ -6,13 +6,15 @@
 namespace ZichtTest\Bundle\PageBundle\Type;
 
 use PHPUnit\Framework\TestCase;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ContentItemTypeTypeTest extends TestCase
 {
     public function testConstruct()
     {
         $pool = $this->getMockBuilder('Sonata\AdminBundle\Admin\Pool')->disableOriginalConstructor()->getMock();
-        $ret = new \Zicht\Bundle\PageBundle\Type\ContentItemTypeType('foo', $pool);
+        $translator = $this->createMock(TranslatorInterface::class);
+        $ret = new \Zicht\Bundle\PageBundle\Type\ContentItemTypeType('foo', $translator, $pool);
         $this->assertEquals('zicht_content_item_type', $ret->getBlockPrefix());
         return $ret;
     }
