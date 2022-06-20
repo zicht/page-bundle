@@ -13,6 +13,7 @@ use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Routing\Exception\InvalidParameterException;
 use Symfony\Component\Routing\Exception\MissingMandatoryParametersException;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Zicht\Bundle\PageBundle\Entity\ContentItem;
 use Zicht\Bundle\PageBundle\Model\ContentItemContainer;
 use Zicht\Util\Str;
@@ -23,14 +24,14 @@ use Zicht\Util\Str;
  */
 class ContentItemTypeType extends AbstractType
 {
-    /**
-     * @param string $contentItemClass
-     * @param \Sonata\AdminBundle\Admin\Pool $sonata
-     */
-    public function __construct($contentItemClass, Pool $sonata = null)
+    /** @var TranslatorInterface $translator */
+    private $translator;
+
+    public function __construct($contentItemClass, TranslatorInterface $translator, Pool $sonata = null)
     {
         $this->contentItemClass = $contentItemClass;
         $this->sonata = $sonata;
+        $this->translator = $translator;
     }
 
     public function configureOptions(OptionsResolver $resolver)
@@ -40,7 +41,6 @@ class ContentItemTypeType extends AbstractType
                 'inherit_data' => true,
                 'data_class' => $this->contentItemClass,
                 'container' => '',
-                'translation_domain' => 'admin'
             )
         );
     }
@@ -51,20 +51,23 @@ class ContentItemTypeType extends AbstractType
         if ($options['container']) {
             $page = $options['container'];
             $choiceFilter = function ($choices) use ($page) {
-                $ret = array();
+                $ret = [];
                 if ($page instanceof ContentItemContainer && null !== $page->getContentItemMatrix()) {
                     $types = $page->getContentItemMatrix()->getTypes();
 
-                    foreach ($choices as $className => $name) {
-                        if (in_array($className, $types)) {
-                            $ret[$className] = $name;
-                        }
+                    $choices = \array_filter($choices, function ($choice, $key) use ($types) {
+                        return \in_array($key, $types);
+                    }, ARRAY_FILTER_USE_BOTH);
+
+                    // Pre-translate so we can make the list ordered
+                    $translated = [];
+                    foreach ($choices as $className => $label) {
+                        $translated[$this->translator->trans($label, [], 'admin')] = $className;
                     }
-                } else {
-                    return $choices;
+                    asort($translated);
+                    return $translated;
                 }
-                // As of SF2.8
-                return array_flip($ret);
+                return $choices;
             };
         } else {
             $choiceFilter = null;
@@ -73,10 +76,10 @@ class ContentItemTypeType extends AbstractType
             ->add(
                 'convertToType',
                 DiscriminatorMapType::class,
-                array(
+                [
                     'entity' => $this->contentItemClass,
                     'choice_filter' => $choiceFilter,
-                )
+                ]
             );
     }
 
