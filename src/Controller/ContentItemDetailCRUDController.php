@@ -6,6 +6,8 @@
 namespace Zicht\Bundle\PageBundle\Controller;
 
 use Sonata\AdminBundle\Controller\CRUDController;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Controller used for the ContentItem detail CRUD.
@@ -15,26 +17,19 @@ use Sonata\AdminBundle\Controller\CRUDController;
  */
 class ContentItemDetailCRUDController extends CRUDController
 {
-    public function showAction($id = null)
+    public function listAction(Request $request): Response
     {
-        $id = $this->getRequest()->get($this->admin->getIdParameter());
-        $obj = $this->admin->getObject($id);
+        try {
+            $parent = $this->admin->getParent();
+            if ($parent && $container = $parent->getSubject()) {
+                return $this->redirect(
+                    $parent->generateObjectUrl('edit', $container)
+                );
+            }
+        } catch (\LogicException $exception) {
 
-        $page = $obj->getPage();
-        if ($page && $this->container->has('zicht_url.provider') && $this->get('zicht_url.provider')->supports($page)) {
-            return $this->redirect($this->get('zicht_url.provider')->url($page));
+        } finally {
+            return parent::listAction($request);
         }
-
-        return parent::showAction($id);
-    }
-
-    public function listAction()
-    {
-        if (($parent = $this->admin->getParent()) && ($container = $parent->getSubject())) {
-            return $this->redirect(
-                $parent->generateObjectUrl('edit', $container)
-            );
-        }
-        return parent::listAction();
     }
 }

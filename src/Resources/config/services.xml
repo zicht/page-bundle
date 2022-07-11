@@ -30,6 +30,7 @@
             <argument/>
             <argument type="service" id="translator"/>
             <argument type="service" id="sonata.admin.pool" on-invalid="null" />
+            <argument type="service" id="zicht_versioning.manager" on-invalid="null" />
             <tag name="form.type" alias="zicht_content_item_type"/>
         </service>
         <service id="zicht_page.form.type.zicht_content_item_region_type" class="%zicht_page.form.type.zicht_content_item_region_type.class%">
@@ -93,6 +94,11 @@
         <service id="Zicht\Bundle\PageBundle\Controller\DebugPagesController">
             <argument type="service" id="doctrine.orm.entity_manager"/>
             <tag name="controller.service_arguments"/>
+        </service>
+
+        <service id="Zicht\Bundle\PageBundle\Controller\ContentItemDetailCRUDController" autowire="true" public="true">
+            <tag name="controller.service_arguments" />
+            <tag name="container.service_subscriber" />
         </service>
     </services>
 </container>

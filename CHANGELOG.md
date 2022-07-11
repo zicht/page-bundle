@@ -8,6 +8,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added|Changed|Deprecated|Removed|Fixed|Security
 Nothing so far
 
+## 7.0.0 - 2022-07-11
+### Removed
+- Support for Sonata ^3
+### Added
+- Support for Sonata ^4
+
 ## 6.4.2 - 2022-10-04
 ### Changed
 - Introduced PHP CS Fixer + fixed all code in src/ and tests/.
