@@ -27,11 +27,16 @@ class ContentItemTypeType extends AbstractType
     /** @var TranslatorInterface */
     private $translator;
 
-    public function __construct($contentItemClass, TranslatorInterface $translator, Pool $sonata = null)
+    /**
+     * @param string $contentItemClass
+     * @param \Sonata\AdminBundle\Admin\Pool $sonata
+     */
+    public function __construct($contentItemClass, TranslatorInterface $translator, Pool $sonata = null, Zicht\Bundle\VersioningBundle\Manager\VersioningManager $versioningManager = null)
     {
         $this->contentItemClass = $contentItemClass;
-        $this->sonata = $sonata;
         $this->translator = $translator;
+        $this->sonata = $sonata;
+        $this->versioningManager = $versioningManager;
     }
 
     public function configureOptions(OptionsResolver $resolver)
@@ -50,7 +55,6 @@ class ContentItemTypeType extends AbstractType
         if ($options['container']) {
             $page = $options['container'];
             $choiceFilter = function ($choices) use ($page) {
-                $ret = [];
                 if ($page instanceof ContentItemContainer && null !== $page->getContentItemMatrix()) {
                     $types = $page->getContentItemMatrix()->getTypes();
 
@@ -102,7 +106,7 @@ class ContentItemTypeType extends AbstractType
             try {
                 $isPersistedEntity = $subject->getId();
                 // $subject->getId() does not work when the `zicht/versioning-bundle` is used, as those ContentItem entities do exist but do *not* have an id when editing a non-active version.
-                if ($this->sonata->getContainer()->has('zicht_versioning.manager') && $this->sonata->getContainer()->get('zicht_versioning.manager')->isManaged($subject->getPage())) {
+                if ($this->versioningManager && $this->versioningManager->isManaged($subject->getPage())) {
                     if (method_exists($subject, 'getWeight')) {
                         // sonata adds new entries with a weight of 0.
                         $isPersistedEntity = $subject->getWeight() > 0 ? true : false;

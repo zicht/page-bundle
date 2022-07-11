@@ -20,7 +20,7 @@ use Zicht\Bundle\PageBundle\Type\ContentItemTypeType;
  */
 class ContentItemAdmin extends AbstractAdmin
 {
-    protected function configureFormFields(FormMapper $form)
+    protected function configureFormFields(FormMapper $form): void
     {
         if (!$this->isChild()) {
             $form->add('page');
@@ -38,14 +38,14 @@ class ContentItemAdmin extends AbstractAdmin
         }
     }
 
-    protected function configureDatagridFilters(DatagridMapper $filter)
+    protected function configureDatagridFilters(DatagridMapper $filter): void
     {
         $filter->add('page');
     }
 
-    public function configureListFields(ListMapper $list)
+    public function configureListFields(ListMapper $list): void
     {
-        return $list
+        $list
             ->addIdentifier('page')
             ->add(
                 '_action',

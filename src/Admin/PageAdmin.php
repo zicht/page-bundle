@@ -97,14 +97,14 @@ class PageAdmin extends AbstractAdmin
         $this->urlProvider = $urlProvider;
     }
 
-    public function configureShowFields(ShowMapper $showMapper)
+    public function configureShowFields(ShowMapper $showMapper): void
     {
-        return $showMapper->add('title');
+        $showMapper->add('title');
     }
 
-    public function configureListFields(ListMapper $list)
+    public function configureListFields(ListMapper $list): void
     {
-        return $list
+        $list
             ->addIdentifier('title')
             ->add('displayType')
             ->add('date_updated')
@@ -121,11 +121,11 @@ class PageAdmin extends AbstractAdmin
             );
     }
 
-    public function configureFormFields(FormMapper $form)
+    public function configureFormFields(FormMapper $form): void
     {
         $form
             ->tab('admin.tab.general')
-                ->add('title', null, ['required' => true])
+            ->add('title', null, ['required' => true])
             ->end()->end();
 
         if (($subject = $this->getSubject()) && $subject->getId()) {
@@ -197,18 +197,18 @@ class PageAdmin extends AbstractAdmin
         }
     }
 
-    protected function configureDatagridFilters(DatagridMapper $filter)
+    protected function configureDatagridFilters(DatagridMapper $filter): void
     {
         $filter->add('title')
             ->add('id');
     }
 
-    public function preUpdate($object)
+    public function preUpdate(object $object): void
     {
         $this->fixOneToMany($object);
     }
 
-    public function prePersist($object)
+    public function prePersist(object $object): void
     {
         $this->fixOneToMany($object);
     }
@@ -231,10 +231,7 @@ class PageAdmin extends AbstractAdmin
         }
     }
 
-    /**
-     * @param mixed $object
-     */
-    public function preRemove($object)
+    public function preRemove(object $object): void
     {
         if (!is_null($this->urlProvider) && !is_null($this->menuManager)) {
             $url = $this->urlProvider->url($object);
@@ -245,14 +242,6 @@ class PageAdmin extends AbstractAdmin
                 $this->menuManager->flush();
             }
         }
-    }
-
-    /**
-     * @deprecated See Zicht\Bundle\AdminBundle\Util\AdminUtil::reorderTabs
-     */
-    public function reorderTabs(FormMapper $formMapper, array $tabOrder)
-    {
-        AdminUtil::reorderTabs($formMapper, $tabOrder);
     }
 
     /**
@@ -330,8 +319,14 @@ class PageAdmin extends AbstractAdmin
         $this->setFormTabs($tabs);
     }
 
-    public function getLabel()
+//    public function getLabel()
+//    {
+//        return sprintf('admin.label.%s', Str::infix(lcfirst(Str::classname(get_class($this))), '_'));
+//    }
+
+    public function configure(): void
     {
-        return sprintf('admin.label.%s', Str::infix(lcfirst(Str::classname(get_class($this))), '_'));
+        $this->setLabel(sprintf('admin.label.%s', Str::infix(lcfirst(Str::classname(get_class($this))), '_')));
+        $this->setTranslationDomain('admin');
     }
 }
