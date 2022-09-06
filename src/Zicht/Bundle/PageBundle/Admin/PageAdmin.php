@@ -10,7 +10,7 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
-use Sonata\Form\Type\CollectionType as SonataCollectionType;
+use Sonata\CoreBundle\Form\Type\CollectionType;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Zicht\Bundle\AdminBundle\Util\AdminUtil;
@@ -161,7 +161,7 @@ class PageAdmin extends Admin
                     ->tab('admin.tab.content')
                     ->add(
                         'contentItems',
-                        SonataCollectionType::class,
+                        CollectionType::class,
                         array(
                             'btn_add' => 'content_item.add'
                         ),
