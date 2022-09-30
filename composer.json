@@ -10,7 +10,7 @@
         "symfony/console": "^4.4",
         "symfony/security-core": "^4.4",
         "twig/twig": "^2.7 || ^3",
-        "zicht/admin-bundle": "dev-feature/sonata-4 as 6.3.3",
+        "zicht/admin-bundle": "^7",
         "zicht/framework-extra-bundle": "^9",
         "zicht/menu-bundle": "dev-feature/sonata-4 as 5.0.4",
         "zicht/url-bundle": "^5",
