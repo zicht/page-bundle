@@ -13,7 +13,7 @@
         "zicht/admin-bundle": "^7",
         "zicht/framework-extra-bundle": "^9",
         "zicht/menu-bundle": "dev-feature/sonata-4 as 5.0.4",
-        "zicht/url-bundle": "^5",
+        "zicht/url-bundle": "^5 || ^6",
         "zicht/util": "^2"
     },
     "require-dev": {
