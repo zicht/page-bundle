@@ -15,6 +15,7 @@ Nothing so far
 ### Removed
 - Support for Sonata ^3
 - Support for PHP 7.2/7.3
+- Removed compatibility with Zicht Versioning bundle
 
 ## 6.4.2 - 2022-10-04
 ### Changed

@@ -29,12 +29,11 @@ class ContentItemTypeType extends AbstractType
     /**
      * @param string $contentItemClass
      */
-    public function __construct($contentItemClass, TranslatorInterface $translator, Pool $sonata = null, Zicht\Bundle\VersioningBundle\Manager\VersioningManager $versioningManager = null)
+    public function __construct($contentItemClass, TranslatorInterface $translator, Pool $sonata = null)
     {
         $this->contentItemClass = $contentItemClass;
         $this->translator = $translator;
         $this->sonata = $sonata;
-        $this->versioningManager = $versioningManager;
     }
 
     public function configureOptions(OptionsResolver $resolver)
@@ -102,18 +101,7 @@ class ContentItemTypeType extends AbstractType
             $view->vars['edit_url'] = null;
 
             try {
-                $isPersistedEntity = $subject->getId();
-                // $subject->getId() does not work when the `zicht/versioning-bundle` is used, as those ContentItem entities do exist but do *not* have an id when editing a non-active version.
-                if ($this->versioningManager && $this->versioningManager->isManaged($subject->getPage())) {
-                    if (method_exists($subject, 'getWeight')) {
-                        // sonata adds new entries with a weight of 0.
-                        $isPersistedEntity = $subject->getWeight() > 0 ? true : false;
-                    } else {
-                        // unknown how to determine this when the weight is not available. possibly update VersioningBundle to tell us this.
-                        throw new \LogicException('Unable to determine the persisted state of this contentitem');
-                    }
-                }
-                if ($isPersistedEntity && !is_null($subject) && $typeAdmin = $this->sonata->getAdminByClass(get_class($subject))) {
+                if ($subject->getId() && !is_null($subject) && $typeAdmin = $this->sonata->getAdminByClass(get_class($subject))) {
                     $view->vars['type'] = Str::humanize($subject->getType());
                     $childAdminCode = $parentAdmin->getCode() . '|' . $typeAdmin->getCode();
                     $childAdmin = $this->sonata->getAdminByAdminCode($childAdminCode);
