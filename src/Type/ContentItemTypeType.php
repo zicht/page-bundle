@@ -24,12 +24,10 @@ use Zicht\Util\Str;
  */
 class ContentItemTypeType extends AbstractType
 {
-    /** @var TranslatorInterface */
-    private $translator;
+    private TranslatorInterface $translator;
 
     /**
      * @param string $contentItemClass
-     * @param \Sonata\AdminBundle\Admin\Pool $sonata
      */
     public function __construct($contentItemClass, TranslatorInterface $translator, Pool $sonata = null, Zicht\Bundle\VersioningBundle\Manager\VersioningManager $versioningManager = null)
     {
@@ -119,9 +117,6 @@ class ContentItemTypeType extends AbstractType
                     $view->vars['type'] = Str::humanize($subject->getType());
                     $childAdminCode = $parentAdmin->getCode() . '|' . $typeAdmin->getCode();
                     $childAdmin = $this->sonata->getAdminByAdminCode($childAdminCode);
-                    if (!$childAdmin) {
-                        throw new \InvalidArgumentException(sprintf('Could not find admin with admin code "%s" for "%s"', $childAdminCode, get_class($subject)));
-                    }
                     $childAdmin->setRequest($genericAdmin->getRequest());
 
                     if ($subject && $subject->getPage() && $subject->getPage()->getId()) {

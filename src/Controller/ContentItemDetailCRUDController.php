@@ -10,8 +10,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * Controller used for the ContentItem detail CRUD.
- *
  * This redirects to the "edit page" URL if the "list" is displayed within the context of a page. This makes sure
  * the breadcrumbs work (more or less) as expected.
  */
@@ -27,7 +25,6 @@ class ContentItemDetailCRUDController extends CRUDController
                 );
             }
         } catch (\LogicException $exception) {
-
         } finally {
             return parent::listAction($request);
         }

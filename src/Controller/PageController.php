@@ -22,7 +22,7 @@ use Zicht\Bundle\UrlBundle\Url\Provider as UrlProvider;
  */
 class PageController extends AbstractController
 {
-    public static function getSubscribedServices()
+    public static function getSubscribedServices(): array
     {
         return array_merge(
             parent::getSubscribedServices(),
@@ -37,10 +37,9 @@ class PageController extends AbstractController
      * Redirects to the page identified by the passed id.
      *
      * @param string $id
-     * @return Response
      * @Route("page/{id}/redirect", name="page_redirect")
      */
-    public function redirectAction($id)
+    public function redirectAction($id): RedirectResponse
     {
         return new RedirectResponse($this->generateUrl('zicht_page_page_view', ['id' => $id]));
     }
@@ -49,10 +48,9 @@ class PageController extends AbstractController
      * Redirects to the specified page. This is useful for posting an autocomplete ID, which in turn redirects to
      * the specified page.
      *
-     * @return Response
      * @Route("/goto")
      */
-    public function gotoAction(Request $r)
+    public function gotoAction(Request $r): RedirectResponse
     {
         return $this->redirect(
             $this->get('zicht_url.provider')->url($this->getPageManager()->findForView($r->get('id')))
@@ -61,10 +59,9 @@ class PageController extends AbstractController
 
     /**
      * @param string $id
-     * @return Response
      * @Route("page/{id}")
      */
-    public function viewAction(Request $request, $id)
+    public function viewAction(Request $request, $id): Response
     {
         $pageManager = $this->getPageManager();
         $page = $pageManager->findForView($id);
@@ -96,10 +93,7 @@ class PageController extends AbstractController
         return $this->renderPage($page);
     }
 
-    /**
-     * @return ViewValidationInterface|null
-     */
-    protected function getViewActionValidator()
+    protected function getViewActionValidator(): ?ViewValidationInterface
     {
         if (($validator = $this->get('zicht_page.controller.view_validator')) instanceof ViewValidationInterface) {
             return $validator;
@@ -107,13 +101,7 @@ class PageController extends AbstractController
         return null;
     }
 
-    /**
-     * Render a page with the specified additional template variables.
-     *
-     * @param array $vars
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
-    public function renderPage(PageInterface $page, $vars = [])
+    public function renderPage(PageInterface $page, array $vars = []): Response
     {
         return $this->render(
             $this->getPageManager()->getTemplate($page),

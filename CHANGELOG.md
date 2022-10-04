@@ -11,6 +11,7 @@ Nothing so far
 ## 7.0.0 - 2022-10-14
 ### Added
 - Support for Sonata ^4
+- Added more types (e.g. return types)
 ### Removed
 - Support for Sonata ^3
 - Support for PHP 7.2/7.3

@@ -33,7 +33,7 @@ class PageViewValidation implements ViewValidationInterface
         return true;
     }
 
-    public function validate(PageInterface $page)
+    public function validate(PageInterface $page): void
     {
         if (false === $this->isAllowed($page)) {
             throw new AccessDeniedException("Page {$page->getId()} is not accessible to the current user");

@@ -11,8 +11,6 @@ interface ViewValidationInterface
      * This method will do validation and throw for
      * example a AccessDeniedException if the page
      * is not allowed for view.
-     *
-     * @return void
      */
-    public function validate(PageInterface $page);
+    public function validate(PageInterface $page): void;
 }

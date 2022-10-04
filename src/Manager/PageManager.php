@@ -5,37 +5,34 @@
 
 namespace Zicht\Bundle\PageBundle\Manager;
 
-use Doctrine\Common\Persistence\ObjectManager;
-use Doctrine\Common\Persistence\ObjectRepository;
 use Doctrine\Common\Util\ClassUtils;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectRepository;
 use Symfony\Component\EventDispatcher\Event as SymfonyEvent;
-use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Zicht\Bundle\PageBundle\Entity\ViewablePageRepository;
 use Zicht\Bundle\PageBundle\Event;
 use Zicht\Bundle\PageBundle\Model\PageInterface;
 use Zicht\Util\Str;
 
-/**
- * Main service for page management
- */
 class PageManager
 {
     /** @var array */
-    private $mappings;
+    private $mappings = [];
 
     /** @var PageInterface|null */
-    private $loadedPage;
+    private $loadedPage = null;
 
-    /** @var Registry */
+    /** @var ManagerRegistry */
     private $doctrine;
 
     /** @var ObjectManager */
     private $em;
 
-    /** @var EventDispatcher */
+    /** @var EventDispatcherInterface */
     private $eventDispatcher;
 
     /** @var string */
@@ -44,17 +41,8 @@ class PageManager
     /** @var string */
     private $contentItemClassName;
 
-    /**
-     * Construct the page manager with the specified dependencies.
-     *
-     * @param Registry $doctrine
-     * @param EventDispatcher $dispatcher
-     * @param string $pageClassName
-     * @param string $contentItemClassName
-     */
-    public function __construct(ManagerRegistry $doctrine, $dispatcher, $pageClassName, $contentItemClassName)
+    public function __construct(ManagerRegistry $doctrine, EventDispatcherInterface $dispatcher, string $pageClassName, string $contentItemClassName)
     {
-        $this->mappings = [];
         $this->doctrine = $doctrine;
         $this->eventDispatcher = $dispatcher;
 
@@ -142,10 +130,7 @@ class PageManager
         return $this->pageClassName;
     }
 
-    /**
-     * @return ObjectRepository
-     */
-    public function getBaseRepository()
+    public function getBaseRepository(): ObjectRepository
     {
         return $this->doctrine->getRepository($this->pageClassName);
     }
@@ -158,18 +143,12 @@ class PageManager
         $this->mappings[$this->pageClassName] = $pageTypes;
     }
 
-    /**
-     * @return array
-     */
-    public function getPageTypes()
+    public function getPageTypes(): array
     {
         return $this->mappings[$this->pageClassName];
     }
 
-    /**
-     * @return array
-     */
-    public function getMappings()
+    public function getMappings(): array
     {
         return $this->mappings;
     }

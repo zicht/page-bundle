@@ -24,22 +24,15 @@ class Subscriber implements EventSubscriber
         $this->pageManager = $pageManager;
     }
 
-    /**
-     * Returns the page manager service.
-     *
-     * @return PageManager
-     */
-    public function getManager()
+    public function getManager(): PageManager
     {
         return $this->pageManager;
     }
 
     /**
      * Delegates to PageManager::decorateClassMetaData to load the class meta data
-     *
-     * @return void
      */
-    public function loadClassMetaData(LoadClassMetadataEventArgs $args)
+    public function loadClassMetaData(LoadClassMetadataEventArgs $args): void
     {
         $this->getManager()->decorateClassMetaData($args->getClassMetadata());
     }
