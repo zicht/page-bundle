@@ -105,7 +105,7 @@ class PageAdmin extends AbstractAdmin
     public function configureListFields(ListMapper $list): void
     {
         $list
-            ->addIdentifier('title')
+            ->addIdentifier('title', null, ['route' => ['name' => 'edit']])
             ->add('displayType')
             ->add('date_updated')
             ->add(
