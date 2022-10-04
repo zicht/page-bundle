@@ -42,12 +42,14 @@ class DebugPagesController extends AbstractController
             $count = (clone $qb)->select('COUNT(p.id)')->getQuery()->getSingleScalarResult();
             /** @var PageInterface $page */
             $page = $qb->setMaxResults(1)->getQuery()->getOneOrNullResult();
-            $contentItemTypes = array_count_values(array_map(
-                function (ContentItemInterface $contentItem) {
-                    return $contentItem->getType();
-                },
-                $page ? ($page->getContentItems() instanceof \Traversable ? iterator_to_array($page->getContentItems()) : $page->getContentItems()) : []
-            ));
+            $contentItemTypes = array_count_values(
+                array_map(
+                    function (ContentItemInterface $contentItem) {
+                        return $contentItem->getType();
+                    },
+                    $page ? ($page->getContentItems() instanceof \Traversable ? iterator_to_array($page->getContentItems()) : $page->getContentItems()) : []
+                )
+            );
             $pagesInfo[$pageType] = [
                 'page' => $page,
                 'count' => $count,

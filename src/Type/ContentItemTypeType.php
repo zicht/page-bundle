@@ -24,7 +24,7 @@ use Zicht\Util\Str;
  */
 class ContentItemTypeType extends AbstractType
 {
-    /** @var TranslatorInterface $translator */
+    /** @var TranslatorInterface */
     private $translator;
 
     public function __construct($contentItemClass, TranslatorInterface $translator, Pool $sonata = null)
@@ -37,15 +37,14 @@ class ContentItemTypeType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(
-            array(
+            [
                 'inherit_data' => true,
                 'data_class' => $this->contentItemClass,
                 'container' => '',
-            )
+            ]
         );
     }
 
-    /** {@inheritDoc} */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         if ($options['container']) {
@@ -55,9 +54,13 @@ class ContentItemTypeType extends AbstractType
                 if ($page instanceof ContentItemContainer && null !== $page->getContentItemMatrix()) {
                     $types = $page->getContentItemMatrix()->getTypes();
 
-                    $choices = \array_filter($choices, function ($choice, $key) use ($types) {
-                        return \in_array($key, $types);
-                    }, ARRAY_FILTER_USE_BOTH);
+                    $choices = \array_filter(
+                        $choices,
+                        function ($choice, $key) use ($types) {
+                            return \in_array($key, $types);
+                        },
+                        ARRAY_FILTER_USE_BOTH
+                    );
 
                     // Pre-translate so we can make the list ordered
                     $translated = [];
@@ -83,8 +86,6 @@ class ContentItemTypeType extends AbstractType
             );
     }
 
-
-    /** {@inheritDoc} */
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
         if (isset($view->vars['sonata_admin']['admin'])) {
@@ -135,12 +136,6 @@ class ContentItemTypeType extends AbstractType
         }
     }
 
-
-    /**
-     * Returns the name of this type.
-     *
-     * @return string The name of this type
-     */
     public function getBlockPrefix()
     {
         return 'zicht_content_item_type';

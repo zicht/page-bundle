@@ -1,8 +1,8 @@
 <?php
 /**
- * @author Gerard van Helden <gerard@zicht.nl>
  * @copyright Zicht Online <http://zicht.nl>
  */
+
 namespace Zicht\Bundle\PageBundle\Model;
 
 /**
@@ -17,7 +17,6 @@ interface PageInterface extends ContentItemContainer, PublicInterface
      */
     public function getTemplateName();
 
-
     /**
      * A page must always have a title.
      *
@@ -25,14 +24,12 @@ interface PageInterface extends ContentItemContainer, PublicInterface
      */
     public function getTitle();
 
-
     /**
      * A page must always have an id
      *
      * @return mixed
      */
     public function getId();
-
 
     /**
      * A page must be able to display it's own type as a human readable string.

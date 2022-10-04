@@ -1,18 +1,20 @@
 <?php
 /**
- * @author Gerard van Helden <gerard@zicht.nl>
  * @copyright Zicht Online <http://zicht.nl>
  */
+
 namespace Zicht\Bundle\PageBundle\Entity;
 
-use Zicht\Util\Str;
 use Zicht\Bundle\PageBundle\Model\ContentItemInterface;
+use Zicht\Util\Str;
 
 /**
  * Base class for ContentItem entities.
  */
 abstract class ContentItem implements ContentItemInterface
 {
+    protected $convertToType = null;
+
     /**
      * Returns a (dash notated) short type that can be used in databases, css classes, etc.
      *
@@ -33,8 +35,6 @@ abstract class ContentItem implements ContentItemInterface
     /**
      * Copies all properties from the source to the target, if the target has the specified properties.
      *
-     * @param ContentItemInterface $from
-     * @param ContentItemInterface $to
      * @return ContentItemInterface
      */
     public static function convert(ContentItemInterface $from, ContentItemInterface $to)
@@ -76,9 +76,6 @@ abstract class ContentItem implements ContentItemInterface
         return get_class($this);
     }
 
-
-    protected $convertToType = null;
-
     /**
      * Return string
      *
@@ -92,10 +89,7 @@ abstract class ContentItem implements ContentItemInterface
         return $this->getType();
     }
 
-
     /**
-     * Set the type to convert to.
-     *
      * @param string $type
      * @return void
      */
@@ -107,7 +101,7 @@ abstract class ContentItem implements ContentItemInterface
     /**
      * If needed, you can add a custom template name to the content item
      *
-     * @return null|string
+     * @return string|null
      */
     public function getTemplateName()
     {

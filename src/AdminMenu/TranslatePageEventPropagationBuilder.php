@@ -5,9 +5,9 @@
 
 namespace Zicht\Bundle\PageBundle\AdminMenu;
 
+use Symfony\Component\Routing\Router;
 use Symfony\Contracts\EventDispatcher\Event;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\Routing\Router;
 use Zicht\Bundle\AdminBundle\Event\AdminEvents;
 use Zicht\Bundle\AdminBundle\Event\MenuEvent;
 use Zicht\Bundle\AdminBundle\Event\PropagationInterface;
@@ -22,14 +22,9 @@ class TranslatePageEventPropagationBuilder implements PropagationInterface
     /** @var Router */
     private $router;
 
-    /**
-     * @var EventDispatcher
-     */
+    /** @var EventDispatcher */
     private $eventDispatcher;
 
-    /**
-     * @param Router $router
-     */
     public function __construct(Router $router, EventDispatcherInterface $eventDispatcher)
     {
         $this->router = $router;
@@ -39,7 +34,6 @@ class TranslatePageEventPropagationBuilder implements PropagationInterface
     /**
      * Build the relevant event and forward it.
      *
-     * @param Event $event
      * @return mixed|void
      */
     public function buildAndForwardEvent(Event $event)
@@ -60,10 +54,13 @@ class TranslatePageEventPropagationBuilder implements PropagationInterface
 
         $this->eventDispatcher->dispatch(
             new MenuEvent(
-                $this->router->generate('zicht_page_page_view', [
+                $this->router->generate(
+                    'zicht_page_page_view',
+                    [
                     'id' => $page->getId(),
                     '_locale' => 'zz',
-                ]),
+                    ]
+                ),
                 'Vertalingen'
             ),
             AdminEvents::MENU_EVENT
@@ -71,10 +68,13 @@ class TranslatePageEventPropagationBuilder implements PropagationInterface
 
         $this->eventDispatcher->dispatch(
             new MenuEvent(
-                $this->router->generate('zicht_page_page_view', [
+                $this->router->generate(
+                    'zicht_page_page_view',
+                    [
                     'id' => $page->getId(),
                     '_locale' => $page->getLanguage(),
-                ]),
+                    ]
+                ),
                 'Pagina herladen'
             ),
             AdminEvents::MENU_EVENT

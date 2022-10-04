@@ -1,6 +1,5 @@
 <?php
 /**
- * @author Gerard van Helden <gerard@zicht.nl>
  * @copyright Zicht Online <http://zicht.nl>
  */
 
@@ -8,11 +7,6 @@ namespace Zicht\Bundle\PageBundle\Test\Integration;
 
 use Zicht\Bundle\PageBundle\Model\ContentItemMatrix;
 
-/**
- * Class ContentItemMatrixTest
- *
- * @package Zicht\Bundle\PageBundle\Test\Integration
- */
 class ContentItemMatrixTest extends AbstractPageTest
 {
     /**
@@ -28,7 +22,6 @@ class ContentItemMatrixTest extends AbstractPageTest
     {
         $this->markTestSkipped();
 
-
         if (null === $contentItemClassName || null === $region) {
             $this->markTestSkipped("{$pageClassName} has no content item matrix");
         } elseif (!class_exists($contentItemClassName)) {
@@ -36,26 +29,26 @@ class ContentItemMatrixTest extends AbstractPageTest
         }
 
         /** @var \Zicht\Bundle\PageBundle\Model\PageInterface $p */
-        $realPage = new $pageClassName;
+        $realPage = new $pageClassName();
 
-        $recorded = array();
+        $recorded = [];
 
         $pageUnderTest = clone $realPage;
 
-        $contentItem = new $contentItemClassName;
+        $contentItem = new $contentItemClassName();
         $contentItem->setRegion($region);
         $pageUnderTest->addContentItem($contentItem);
 
-        $mockPage = $this->getMock($pageClassName, array('getContentItems', 'getTemplateName'));
+        $mockPage = $this->getMock($pageClassName, ['getContentItems', 'getTemplateName']);
         $mockPage
             ->expects($this->atLeastOnce())
             ->method('getContentItems')
             ->will(
                 $this->returnCallback(
-                    function () use (&$recorded, $pageUnderTest, $region) {
+                    function () use (&$recorded, $pageUnderTest) {
                         $args = func_get_args();
-                        $recorded[]= $args;
-                        $ret = call_user_func_array(array($pageUnderTest, 'getContentItems'), $args);
+                        $recorded[] = $args;
+                        $ret = call_user_func_array([$pageUnderTest, 'getContentItems'], $args);
                         return $ret;
                     }
                 )
@@ -75,17 +68,14 @@ class ContentItemMatrixTest extends AbstractPageTest
         $pageController = $this->createPageController();
         $pageController->renderPage($mockPage)->getContent();
 
-        $called = array();
+        $called = [];
         foreach ($recorded as $calls) {
-            $called[]= $calls[0];
+            $called[] = $calls[0];
         }
         $this->assertContains($region, $called);
     }
 
-
     /**
-     * Content item matrix
-     *
      * @return array
      */
     public function contentItemMatrix()
@@ -93,20 +83,20 @@ class ContentItemMatrixTest extends AbstractPageTest
         $pageManager = $this->createPageManager();
         $mappings = $pageManager->getMappings();
 
-        $ret = array();
+        $ret = [];
         foreach ($mappings[$pageManager->getPageClass()] as $name => $pageClassName) {
-            $realPage = new $pageClassName;
+            $realPage = new $pageClassName();
             $matrix = $realPage->getContentItemMatrix();
 
             /** @var ContentItemMatrix $matrix */
             if (!$matrix) {
-                $ret[]= array($name, $pageClassName);
+                $ret[] = [$name, $pageClassName];
                 continue;
             }
 
             foreach ($matrix->getTypes() as $contentItemClassName) {
                 foreach ($matrix->getRegions($contentItemClassName) as $region) {
-                    $ret[]= array($name, $pageClassName, $region, $contentItemClassName);
+                    $ret[] = [$name, $pageClassName, $region, $contentItemClassName];
                 }
             }
         }

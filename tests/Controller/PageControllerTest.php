@@ -1,6 +1,5 @@
 <?php
 /**
- * @author Gerard van Helden <gerard@zicht.nl>
  * @copyright Zicht Online <http://zicht.nl>
  */
 
@@ -10,22 +9,20 @@ use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Zicht\Bundle\PageBundle\Controller\PageController;
 use ZichtTest\Bundle\PageBundle\Assets\PageAdapter;
 
-class Page extends PageAdapter {
+class Page extends PageAdapter
+{
     public function __construct($id)
     {
         $this->id = $id;
     }
 
-
     public function getTitle()
     {
     }
-
 
     public function getId()
     {
@@ -42,7 +39,7 @@ class CPage extends Page implements \Zicht\Bundle\PageBundle\Entity\ControllerPa
 
     public function getControllerParameters()
     {
-        return array('foo' => 'bar');
+        return ['foo' => 'bar'];
     }
 }
 
@@ -55,8 +52,8 @@ class PageControllerTest extends TestCase
     {
         $this->controller = new PageController();
         $this->pm = $this->getMockBuilder('Zicht\Bundle\PageBundle\Manager\PageManager')->disableOriginalConstructor()->getMock();
-        $this->twig =  $this->getMockBuilder('Twig\Environment')->disableOriginalConstructor()->getMock();
-        $this->viewValidator =  $this->getMockBuilder('Zicht\Bundle\PageBundle\Security\PageViewValidation')->getMock();
+        $this->twig = $this->getMockBuilder('Twig\Environment')->disableOriginalConstructor()->getMock();
+        $this->viewValidator = $this->getMockBuilder('Zicht\Bundle\PageBundle\Security\PageViewValidation')->getMock();
 
         $this->viewValidator->method('validate')->willReturn(null);
 
@@ -75,7 +72,7 @@ class PageControllerTest extends TestCase
 
         $this->request = $request;
 
-        $this->kernel = $this->getMockBuilder('Symfony\Component\HttpKernel\HttpKernelInterface')->setMethods(array('forward', 'handle'))->getMock();
+        $this->kernel = $this->getMockBuilder('Symfony\Component\HttpKernel\HttpKernelInterface')->setMethods(['forward', 'handle'])->getMock();
         $container = new \Symfony\Component\DependencyInjection\Container();
         $container->set('zicht_page.page_manager', $this->pm);
         $container->set('twig', $this->twig);
@@ -104,7 +101,7 @@ class PageControllerTest extends TestCase
         $this->viewValidator->expects($this->once())->method('validate')->will($this->throwException(new AccessDeniedException()));
     }
 
-    function testViewActionFindsPageForView()
+    public function testViewActionFindsPageForView()
     {
         $this->allow();
 
@@ -112,16 +109,18 @@ class PageControllerTest extends TestCase
         $page = new Page($id);
         $this->pm->expects($this->once())->method('findForView')->with($id)->will($this->returnValue($page));
         $this->pm->expects($this->once())->method('getTemplate')->with($page)->will($this->returnValue('foo.template'));
-        $this->twig->expects($this->once())->method('render')->with('foo.template', array(
+        $this->twig->expects($this->once())->method('render')->with(
+            'foo.template',
+            [
             'page' => $page,
-            'id' => $id
-        ));
+            'id' => $id,
+            ]
+        );
 
         $this->controller->viewAction($this->request, $id);
     }
 
-
-    function testViewActionFindsPageForViewAndForwardsIfItIsaControllerPage()
+    public function testViewActionFindsPageForViewAndForwardsIfItIsaControllerPage()
     {
         $this->allow();
 
@@ -133,8 +132,7 @@ class PageControllerTest extends TestCase
         $this->controller->viewAction($this->request, $id);
     }
 
-
-    function testControllerThrowsAccessDeniedExceptionIfNotAllowed()
+    public function testControllerThrowsAccessDeniedExceptionIfNotAllowed()
     {
         $this->expectException('Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException');
         $this->deny();

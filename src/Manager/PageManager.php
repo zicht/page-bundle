@@ -23,39 +23,25 @@ use Zicht\Util\Str;
  */
 class PageManager
 {
-    /**
-     * @var array
-     */
+    /** @var array */
     private $mappings;
 
-    /**
-     * @var null|PageInterface
-     */
+    /** @var PageInterface|null */
     private $loadedPage;
 
-    /**
-     * @var Registry
-     */
+    /** @var Registry */
     private $doctrine;
 
-    /**
-     * @var ObjectManager
-     */
+    /** @var ObjectManager */
     private $em;
 
-    /**
-     * @var EventDispatcher
-     */
+    /** @var EventDispatcher */
     private $eventDispatcher;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     private $pageClassName;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     private $contentItemClassName;
 
     /**
@@ -84,7 +70,6 @@ class PageManager
      *
      * @param PageInterface $page
      * @return string
-     *
      * @throws \RuntimeException
      */
     public function getTemplate($page)
@@ -125,7 +110,7 @@ class PageManager
                 return $this->getBundleName($parentClass);
             }
 
-            throw new \RuntimeException("Could not determine bundle name for " . $className);
+            throw new \RuntimeException('Could not determine bundle name for ' . $className);
         }
 
         $bundle = $vendor . $bundleName;
@@ -158,8 +143,6 @@ class PageManager
     }
 
     /**
-     * Returns the base repository, i.e. the repository of the page class.
-     *
      * @return ObjectRepository
      */
     public function getBaseRepository()
@@ -168,8 +151,6 @@ class PageManager
     }
 
     /**
-     * Sets the available page types
-     *
      * @param array $pageTypes
      */
     public function setPageTypes($pageTypes)
@@ -194,8 +175,6 @@ class PageManager
     }
 
     /**
-     * Sets the available content item types.
-     *
      * @param array $contentItemTypes
      */
     public function setContentItemTypes($contentItemTypes)
@@ -205,15 +184,13 @@ class PageManager
 
     /**
      * Adds the available page types and content item types to the class metadata's discriminatorMap
-     *
-     * @param ClassMetadata $c
      */
     public function decorateClassMetaData(ClassMetadata $c)
     {
         $parentClassName = $c->getName();
 
         if (isset($this->mappings[$parentClassName])) {
-            $c->discriminatorMap = array();
+            $c->discriminatorMap = [];
             $c->discriminatorMap[strtolower(Str::classname($parentClassName))] = $parentClassName;
             foreach ($this->mappings[$parentClassName] as $className) {
                 $bundlePrefix = Str::infix($this->getBundleName($className), '-');
@@ -231,14 +208,13 @@ class PageManager
      *
      * @param string $id
      * @return mixed
-     *
      * @throws NotFoundHttpException
      */
     public function findForView($id)
     {
-        $type = $this->doctrine->getConnection()->fetchColumn('SELECT type FROM page WHERE id=:id', array('id' => $id));
+        $type = $this->doctrine->getConnection()->fetchColumn('SELECT type FROM page WHERE id=:id', ['id' => $id]);
         if (!$type) {
-            throw new NotFoundHttpException;
+            throw new NotFoundHttpException();
         }
         $types = $this->doctrine->getManagerForClass($this->pageClassName)
             ->getClassMetadata($this->pageClassName)->discriminatorMap;
@@ -253,7 +229,7 @@ class PageManager
         }
 
         if (!$ret) {
-            throw new NotFoundHttpException;
+            throw new NotFoundHttpException();
         }
         $this->setLoadedPage($ret);
         return $ret;
@@ -264,15 +240,14 @@ class PageManager
      *
      * @param string $repository
      * @param array $conditions
-     * @return null|object
-     *
+     * @return object|null
      * @throws NotFoundHttpException
      */
     public function findPageBy($repository, $conditions)
     {
         $ret = $this->doctrine->getRepository($repository)->findOneBy($conditions);
         if (!$ret) {
-            throw new NotFoundHttpException;
+            throw new NotFoundHttpException();
         }
         return $ret;
     }
@@ -316,18 +291,15 @@ class PageManager
             }
 
             if (!$this->loadedPage) {
-                throw new NotFoundHttpException("There is no page currently loaded, but it was expected");
+                throw new NotFoundHttpException('There is no page currently loaded, but it was expected');
             }
         }
         return $this->loadedPage;
     }
 
     /**
-     * Dispatch an event
-     *
      * @param SymfonyEvent $event
      * @param string $type
-     *
      * @return SymfonyEvent
      */
     public function dispatch($event, $type)

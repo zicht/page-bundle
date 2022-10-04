@@ -1,6 +1,5 @@
 <?php
 /**
- * @author Gerard van Helden <gerard@zicht.nl>
  * @copyright Zicht Online <http://zicht.nl>
  */
 
@@ -17,7 +16,6 @@ interface ControllerPageInterface
      * @return string|null
      */
     public function getController();
-
 
     /**
      * Returns an array of parameters to pass into the controller.

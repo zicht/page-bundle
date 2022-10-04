@@ -22,13 +22,15 @@ use Zicht\Bundle\UrlBundle\Url\Provider as UrlProvider;
  */
 class PageController extends AbstractController
 {
-    /** {@inheritDoc} */
     public static function getSubscribedServices()
     {
-        return array_merge(parent::getSubscribedServices(), [
+        return array_merge(
+            parent::getSubscribedServices(),
+            [
             'zicht_url.provider' => UrlProvider::class,
             'zicht_page.controller.view_validator' => PageViewValidation::class,
-        ]);
+            ]
+        );
     }
 
     /**
@@ -36,22 +38,18 @@ class PageController extends AbstractController
      *
      * @param string $id
      * @return Response
-     *
      * @Route("page/{id}/redirect", name="page_redirect")
      */
     public function redirectAction($id)
     {
-        return new RedirectResponse($this->generateUrl('zicht_page_page_view', array('id' => $id)));
+        return new RedirectResponse($this->generateUrl('zicht_page_page_view', ['id' => $id]));
     }
-
 
     /**
      * Redirects to the specified page. This is useful for posting an autocomplete ID, which in turn redirects to
      * the specified page.
      *
-     * @param Request $r
      * @return Response
-     *
      * @Route("/goto")
      */
     public function gotoAction(Request $r)
@@ -61,14 +59,9 @@ class PageController extends AbstractController
         );
     }
 
-
     /**
-     * View a page.
-     *
-     * @param Request $request
      * @param string $id
      * @return Response
-     *
      * @Route("page/{id}")
      */
     public function viewAction(Request $request, $id)
@@ -91,11 +84,11 @@ class PageController extends AbstractController
             return $this->forward(
                 $page->getController(),
                 (array)$page->getControllerParameters()
-                + array(
+                + [
                     'parameters' => $request->query->all(),
-                    '_locale'       => $request->attributes->get('_locale'),
+                    '_locale' => $request->attributes->get('_locale'),
                     '_internal_url' => $request->attributes->get('_internal_url'),
-                ),
+                ],
                 $request->query->all()
             );
         }
@@ -104,7 +97,7 @@ class PageController extends AbstractController
     }
 
     /**
-     * @return null|ViewValidationInterface
+     * @return ViewValidationInterface|null
      */
     protected function getViewActionValidator()
     {
@@ -117,18 +110,17 @@ class PageController extends AbstractController
     /**
      * Render a page with the specified additional template variables.
      *
-     * @param PageInterface $page
      * @param array $vars
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function renderPage(PageInterface $page, $vars = array())
+    public function renderPage(PageInterface $page, $vars = [])
     {
         return $this->render(
             $this->getPageManager()->getTemplate($page),
-            $vars + array(
+            $vars + [
                 'page' => $page,
                 'id' => $page->getId(),
-            )
+            ]
         );
     }
 }

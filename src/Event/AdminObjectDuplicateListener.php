@@ -15,13 +15,13 @@ class AdminObjectDuplicateListener
 {
     public function onZichtadminObjectduplicate(ObjectDuplicateEvent $event): void
     {
-        if (!($event->getOldObject() instanceof Page)){
+        if (!($event->getOldObject() instanceof Page)) {
             return;
         }
         $newPage = $event->getNewObject();
         $oldPage = $event->getOldObject();
-        
-        if (method_exists($newPage, 'setIsPublic')){
+
+        if (method_exists($newPage, 'setIsPublic')) {
             $newPage->setIsPublic(false);
         }
     }

@@ -13,7 +13,6 @@ use Zicht\Bundle\PageBundle\Manager\PageManager;
  */
 abstract class AbstractController extends BaseAbstractController
 {
-    /** {@inheritDoc} */
     public static function getSubscribedServices()
     {
         return array_merge(parent::getSubscribedServices(), ['zicht_page.page_manager' => PageManager::class]);

@@ -1,6 +1,5 @@
 <?php
 /**
- * @author    Philip Bergman <philip@zicht.nl>
  * @copyright Zicht Online <http://www.zicht.nl>
  */
 
@@ -16,17 +15,14 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Zicht\Bundle\PageBundle\Entity\ContentItem;
 use Zicht\Bundle\PageBundle\Entity\Page;
 
-/**
- * Class CheckContentItemsCommand
- *
- * @package Zicht\Bundle\PageBundle\Command
- */
 class CheckContentItemsCommand extends Command
 {
     /** @var bool */
     protected $isVeryVerbose;
+
     /** @var bool */
     protected $force;
+
     /** @var ConsoleLogger */
     protected $logger;
 
@@ -41,9 +37,6 @@ class CheckContentItemsCommand extends Command
         $this->doctrine = $doctrine;
     }
 
-    /**
-     * @{inheritDoc}
-     */
     protected function configure()
     {
         $this
@@ -51,9 +44,6 @@ class CheckContentItemsCommand extends Command
             ->setHelp('Check/validate the page content items');
     }
 
-    /**
-     * @{inheritDoc}
-     */
     protected function initialize(InputInterface $input, OutputInterface $output)
     {
         $this->force = $input->getOption('force');
@@ -61,9 +51,6 @@ class CheckContentItemsCommand extends Command
         $this->isVeryVerbose = $output->getVerbosity() >= OutputInterface::VERBOSITY_VERY_VERBOSE;
     }
 
-    /**
-     * @{inheritDoc}
-     */
     public function execute(InputInterface $input, OutputInterface $output)
     {
         $em = $this->doctrine->getManager();
@@ -91,7 +78,6 @@ class CheckContentItemsCommand extends Command
 
                         if (in_array($contentitem->getRegion(), $matrix->getRegions())) {
                             if (!in_array(get_class($contentitem), $matrix->getTypes($contentitem->getRegion()))) {
-
                                 $warningString = sprintf(
                                     '[%04d] [%s] [%s] "%s" not allowed for defined types "%s"',
                                     $entity->getId(),
@@ -148,7 +134,6 @@ class CheckContentItemsCommand extends Command
     }
 
     /**
-     * @param OutputInterface $output
      * @return ConsoleLogger
      */
     protected function getLogger(OutputInterface $output)

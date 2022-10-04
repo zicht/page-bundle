@@ -15,17 +15,11 @@ use Zicht\Bundle\PageBundle\Model\PageInterface;
  */
 class PageVoter extends AbstractAdminAwareVoter
 {
-    /**
-     * @{inheritDoc}
-     */
     public function supportsClass($class)
     {
         return Page::class === $class || is_subclass_of($class, Page::class);
     }
 
-    /**
-     * @{inheritDoc}
-     */
     public function vote(TokenInterface $token, $object, array $attributes)
     {
         // Abstract class checks if user is admin, if not so it will return VoterInterface::ACCESS_ABSTAIN
@@ -47,11 +41,9 @@ class PageVoter extends AbstractAdminAwareVoter
         return $vote;
     }
 
-
     /**
      * Checks whether the given page is public. If not, it abstains from voting
      *
-     * @param PageInterface $page
      * @return bool
      */
     public function isPublic(PageInterface $page)

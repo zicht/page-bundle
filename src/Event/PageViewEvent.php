@@ -2,6 +2,7 @@
 /**
  * @copyright Zicht Online <http://zicht.nl>
  */
+
 namespace Zicht\Bundle\PageBundle\Event;
 
 use Symfony\Contracts\EventDispatcher\Event;
@@ -12,21 +13,16 @@ use Zicht\Bundle\PageBundle\Model\PageInterface;
  */
 class PageViewEvent extends Event
 {
-    /**
-     * @var PageInterface
-     */
+    /** @var PageInterface */
     private $page;
 
     /**
      * Constructs the event for the specified page.
-     *
-     * @param \Zicht\Bundle\PageBundle\Model\PageInterface $page
      */
     public function __construct(PageInterface $page)
     {
         $this->page = $page;
     }
-
 
     /**
      * Return the page attached to this event

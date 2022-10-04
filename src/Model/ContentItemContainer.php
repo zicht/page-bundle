@@ -1,8 +1,8 @@
 <?php
 /**
- * @author Gerard van Helden <gerard@zicht.nl>
  * @copyright Zicht Online <http://zicht.nl>
  */
+
 namespace Zicht\Bundle\PageBundle\Model;
 
 /**
@@ -27,17 +27,11 @@ interface ContentItemContainer
     public function getContentItems($region = null);
 
     /**
-     * Adds a ContentItem
-     *
-     * @param ContentItemInterface $contentItem
      * @return mixed
      */
     public function addContentItem(ContentItemInterface $contentItem);
 
     /**
-     * Remove a ContentItem
-     *
-     * @param ContentItemInterface $contentItem
      * @return mixed
      */
     public function removeContentItem(ContentItemInterface $contentItem);

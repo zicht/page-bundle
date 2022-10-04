@@ -24,22 +24,15 @@ namespace Zicht\Bundle\PageBundle\Model;
 final class ContentItemMatrix
 {
     /**
-     * Points to the current region being configured.
-     *
-     * @var string
+     * @var string Points to the current region being configured.
      */
     private $currentRegion;
 
     /**
-     * Contains the matrix
-     *
-     * @var array
+     * @var array Contains the matrix
      */
     private $matrix;
 
-    /**
-     * Stubbed constructor.
-     */
     public function __construct()
     {
         $this->currentRegion = 'left';
@@ -61,7 +54,6 @@ final class ContentItemMatrix
      *
      * @param string $region
      * @param bool $reset
-     *
      * @return ContentItemMatrix
      */
     public function region($region, $reset = false)
@@ -75,10 +67,7 @@ final class ContentItemMatrix
     }
 
     /**
-     * Remove a region
-     *
      * @param string $region
-     *
      * @return $this
      */
     public function removeRegion($region)
@@ -91,23 +80,20 @@ final class ContentItemMatrix
     }
 
     /**
-     * Remove a type from a region
-     *
      * @param string $type
      * @param string $region
-     *
      * @return $this
      */
     public function removeTypeFromRegion($type, $region)
     {
         if (array_key_exists($region, $this->matrix)) {
             array_walk(
-                $this->matrix[ $region ],
+                $this->matrix[$region],
                 function ($value, $idx, $matrix) use ($type, $region) {
                     $class = explode('\\', $value);
                     $className = array_pop($class);
                     if ($className === $type) {
-                        unset($matrix[ $region ][ $idx ]);
+                        unset($matrix[$region][$idx]);
                     }
                 },
                 $this->matrix
@@ -117,23 +103,16 @@ final class ContentItemMatrix
         return $this;
     }
 
-
     /**
      * Adds the type to the currently selected region.
      *
      * @param string $className
-     *
      * @return ContentItemMatrix
      */
     public function type($className)
     {
         if (!class_exists($className)) {
-            throw new \InvalidArgumentException(
-                sprintf(
-                    'Class %s is non-existent or could not be loaded',
-                    $className
-                )
-            );
+            throw new \InvalidArgumentException(sprintf('Class %s is non-existent or could not be loaded', $className));
         }
         $this->matrix[$this->currentRegion][] = $className;
 
@@ -145,7 +124,6 @@ final class ContentItemMatrix
      * If not specified, returns all types configured.
      *
      * @param string $region
-     *
      * @return array
      */
     public function getTypes($region = null)
@@ -167,7 +145,6 @@ final class ContentItemMatrix
      * If not specified, all regions are returned.
      *
      * @param null $type
-     *
      * @return array
      */
     public function getRegions($type = null)

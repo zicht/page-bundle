@@ -22,8 +22,7 @@ abstract class AbstractAdminAwareVoter extends AbstractVoter
      * @param TokenInterface $token A TokenInterface instance
      * @param object $object The object to secure
      * @param array $attributes An array of attributes associated with the method being invoked
-     *
-     * @return integer either ACCESS_GRANTED, ACCESS_ABSTAIN, or ACCESS_DENIED
+     * @return int either ACCESS_GRANTED, ACCESS_ABSTAIN, or ACCESS_DENIED
      */
     public function vote(TokenInterface $token, $object, array $attributes)
     {
@@ -32,7 +31,7 @@ abstract class AbstractAdminAwareVoter extends AbstractVoter
             return VoterInterface::ACCESS_ABSTAIN;
         }
 
-        /**
+        /*
          * Admin users should see content no matter the scheduled dates
          * Since you can set the decision strategy to unanimous, you want to grant this explicitly
          */

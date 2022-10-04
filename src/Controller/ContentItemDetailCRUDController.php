@@ -1,6 +1,5 @@
 <?php
 /**
- * @author Gerard van Helden <gerard@zicht.nl>
  * @copyright Zicht Online <http://zicht.nl>
  */
 
@@ -16,9 +15,6 @@ use Sonata\AdminBundle\Controller\CRUDController;
  */
 class ContentItemDetailCRUDController extends CRUDController
 {
-    /**
-     * @{inheritDoc}
-     */
     public function showAction($id = null)
     {
         $id = $this->getRequest()->get($this->admin->getIdParameter());
@@ -32,9 +28,6 @@ class ContentItemDetailCRUDController extends CRUDController
         return parent::showAction($id);
     }
 
-    /**
-     * @{inheritDoc}
-     */
     public function listAction()
     {
         if (($parent = $this->admin->getParent()) && ($container = $parent->getSubject())) {

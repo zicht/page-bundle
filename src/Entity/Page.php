@@ -2,15 +2,13 @@
 /**
  * @copyright Zicht Online <http://zicht.nl>
  */
+
 namespace Zicht\Bundle\PageBundle\Entity;
 
 use Zicht\Bundle\PageBundle\Model\ContentItemMatrix;
 use Zicht\Bundle\PageBundle\Model\PageInterface;
 use Zicht\Util\Str;
 
-/**
- * Base class for pages.
- */
 abstract class Page implements PageInterface
 {
     /**
@@ -20,9 +18,6 @@ abstract class Page implements PageInterface
     {
     }
 
-    /**
-     * @{inheritDoc}
-     */
     public function getTemplateName()
     {
         return Str::infix(Str::rstrip(Str::classname(get_class($this)), 'Page'), '-');

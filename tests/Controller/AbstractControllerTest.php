@@ -1,6 +1,5 @@
 <?php
 /**
- * @author Gerard van Helden <gerard@zicht.nl>
  * @copyright Zicht Online <http://zicht.nl>
  */
 
@@ -10,12 +9,12 @@ use PHPUnit\Framework\TestCase;
 
 class AbstractControllerTest extends TestCase
 {
-    function testGetPagemanagerReturnsPageManagerService()
+    public function testGetPagemanagerReturnsPageManagerService()
     {
         $foo = rand(1, 100);
 
         $controller = $this->getMockBuilder('Zicht\Bundle\PageBundle\Controller\AbstractController')
-            ->setMethods(array('get'))->getMock();
+            ->setMethods(['get'])->getMock();
         $controller
             ->expects($this->once())->method('get')
             ->with('zicht_page.page_manager')

@@ -1,18 +1,17 @@
 <?php
 /**
- * @author Gerard van Helden <gerard@zicht.nl>
  * @copyright Zicht Online <http://zicht.nl>
  */
 
 namespace ZichtTest\Bundle\PageBundle\AdminMenu;
 
+use PHPUnit\Framework\TestCase;
 use Sonata\AdminBundle\Admin\Pool;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Contracts\EventDispatcher\Event;
 use Zicht\Bundle\PageBundle\AdminMenu\EventPropagationBuilder;
 use Zicht\Bundle\PageBundle\Event\PageViewEvent;
 use ZichtTest\Bundle\PageBundle\Assets\PageAdapter;
-use PHPUnit\Framework\TestCase;
 
 class P1 extends PageAdapter
 {
@@ -43,7 +42,6 @@ class P1 extends PageAdapter
     }
 }
 
-
 class EventPropagationBuilderTest extends TestCase
 {
     /**
@@ -68,9 +66,9 @@ class EventPropagationBuilderTest extends TestCase
         $this->propagator = new EventPropagationBuilder($this->pool, null, $this->dispatcher);
     }
 
-    function testFiringPageViewEventWillCheckClassHierarchyForAdminClass()
+    public function testFiringPageViewEventWillCheckClassHierarchyForAdminClass()
     {
-        $classes = array();
+        $classes = [];
         $this->pool
             ->expects($this->any())
             ->method('getAdminByClass')
@@ -87,14 +85,14 @@ class EventPropagationBuilderTest extends TestCase
 
         $this->assertEquals(
             $classes,
-            array(
+            [
                 'ZichtTest\Bundle\PageBundle\AdminMenu\P1',
-                'ZichtTest\Bundle\PageBundle\Assets\PageAdapter'
-            )
+                'ZichtTest\Bundle\PageBundle\Assets\PageAdapter',
+            ]
         );
     }
 
-    function testFiringForeignEventDoesNotFail()
+    public function testFiringForeignEventDoesNotFail()
     {
         $this->pool->expects($this->any())->method('getAdminByClass')->will($this->returnValue(null));
         $event = new Event();
@@ -103,17 +101,16 @@ class EventPropagationBuilderTest extends TestCase
         $this->propagator->buildAndForwardEvent($event);
     }
 
-
-    function testFiringPageViewEventWillNotFirEventIfNoAdminIsFound()
+    public function testFiringPageViewEventWillNotFirEventIfNoAdminIsFound()
     {
         $this->pool->expects($this->any())->method('getAdminByClass')->will($this->returnValue(null));
-        $event = new PageViewEvent(new P1("bar"));
+        $event = new PageViewEvent(new P1('bar'));
 
         $this->dispatcher->expects($this->never())->method('dispatch');
         $this->propagator->buildAndForwardEvent($event);
     }
 
-    function testFiringPageViewEventWillFirEventIfAdminIsAvailable()
+    public function testFiringPageViewEventWillFirEventIfAdminIsAvailable()
     {
         $admin = $this->getMockBuilder('Sonata\AdminBundle\Admin\Admin')->disableOriginalConstructor()->getMock();
         $this->pool->expects($this->once())->method('getAdminByClass')->with('ZichtTest\Bundle\PageBundle\AdminMenu\P1')->will($this->returnValue($admin));

@@ -15,16 +15,11 @@ use Zicht\Bundle\PageBundle\Type\ContentItemRegionType;
 use Zicht\Bundle\PageBundle\Type\ContentItemTypeType;
 
 /**
- * Admin for content items.
- *
  * @template T of ContentItem
  * @extends AbstractAdmin<T>
  */
 class ContentItemAdmin extends AbstractAdmin
 {
-    /**
-     * {@inheritDoc}
-     */
     protected function configureFormFields(FormMapper $form)
     {
         if (!$this->isChild()) {
@@ -33,28 +28,21 @@ class ContentItemAdmin extends AbstractAdmin
             $page = $this->getParentFieldDescription()->getAdmin()->getSubject();
 
             // This fixes a weird bug where the router does not get the correct parameters for the containing page.
-            $this->getParentFieldDescription()->setOption('link_parameters', array('id' => $page->getId()));
+            $this->getParentFieldDescription()->setOption('link_parameters', ['id' => $page->getId()]);
 
             $form
                 ->add('weight')
-                ->add('internalName', TextType::class, array('disabled' => true, 'required' => false, 'attr' => ['read_only' => true]))
-                ->add('content_item_region', ContentItemRegionType::class, array('container' => $page))
-                ->add('content_item_type', ContentItemTypeType::class, array('container' => $page));
+                ->add('internalName', TextType::class, ['disabled' => true, 'required' => false, 'attr' => ['read_only' => true]])
+                ->add('content_item_region', ContentItemRegionType::class, ['container' => $page])
+                ->add('content_item_type', ContentItemTypeType::class, ['container' => $page]);
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     protected function configureDatagridFilters(DatagridMapper $filter)
     {
         $filter->add('page');
     }
 
-
-    /**
-     * {@inheritDoc}
-     */
     public function configureListFields(ListMapper $list)
     {
         return $list
@@ -62,13 +50,13 @@ class ContentItemAdmin extends AbstractAdmin
             ->add(
                 '_action',
                 'actions',
-                array(
-                    'actions' => array(
-                        'view' => array(),
-                        'edit' => array(),
-                        'delete' => array(),
-                    )
-                )
+                [
+                    'actions' => [
+                        'view' => [],
+                        'edit' => [],
+                        'delete' => [],
+                    ],
+                ]
             );
     }
 }
