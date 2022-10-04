@@ -11,6 +11,7 @@ Nothing so far
 ## 7.0.0 - 2022-07-11
 ### Removed
 - Support for Sonata ^3
+- Removed compatibility with Zicht Versioning bundle
 ### Added
 - Support for Sonata ^4
 - Added more types (e.g. return types)

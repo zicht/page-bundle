@@ -30,7 +30,6 @@
             <argument/>
             <argument type="service" id="translator"/>
             <argument type="service" id="sonata.admin.pool" on-invalid="null" />
-            <argument type="service" id="zicht_versioning.manager" on-invalid="null" />
             <tag name="form.type" alias="zicht_content_item_type"/>
         </service>
         <service id="zicht_page.form.type.zicht_content_item_region_type" class="%zicht_page.form.type.zicht_content_item_region_type.class%">
