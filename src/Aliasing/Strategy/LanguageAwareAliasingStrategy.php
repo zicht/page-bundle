@@ -48,9 +48,8 @@ class LanguageAwareAliasingStrategy implements AliasingStrategy
 
     /**
      * @param array $localesToPrefix
-     * @return void
      */
-    public function setLocalesToPrefix($localesToPrefix)
+    public function setLocalesToPrefix($localesToPrefix): void
     {
         $this->localesToPrefix = $localesToPrefix;
     }

@@ -13,6 +13,7 @@ Nothing so far
 - Support for Sonata ^3
 ### Added
 - Support for Sonata ^4
+- Added more types (e.g. return types)
 
 ## 6.4.2 - 2022-10-04
 ### Changed

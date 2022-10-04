@@ -13,7 +13,6 @@ use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\Form\Type\CollectionType as SonataCollectionType;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
-use Zicht\Bundle\AdminBundle\Util\AdminUtil;
 use Zicht\Bundle\MenuBundle\Entity\MenuItem;
 use Zicht\Bundle\MenuBundle\Form\MenuItemType;
 use Zicht\Bundle\MenuBundle\Form\Subscriber\MenuItemPersistenceSubscriber;
@@ -70,10 +69,7 @@ class PageAdmin extends AbstractAdmin
         $this->contentItemAdminCode = $contentItemAdminCode;
     }
 
-    /**
-     * @return void
-     */
-    public function setPageManager(PageManager $pageManager)
+    public function setPageManager(PageManager $pageManager): void
     {
         $this->pageManager = $pageManager;
     }
@@ -81,18 +77,13 @@ class PageAdmin extends AbstractAdmin
     /**
      * Set the menumanager, which is needed for flushing the menu items to the persistence layer whenever a page
      * is updated.
-     *
-     * @return void
      */
-    public function setMenuManager(MenuManager $manager)
+    public function setMenuManager(MenuManager $manager): void
     {
         $this->menuManager = $manager;
     }
 
-    /**
-     * @return void
-     */
-    public function setUrlProvider(Provider $urlProvider)
+    public function setUrlProvider(Provider $urlProvider): void
     {
         $this->urlProvider = $urlProvider;
     }
@@ -215,10 +206,8 @@ class PageAdmin extends AbstractAdmin
 
     /**
      * Fixes the many-to-one side of the one-to-many content items and flushes the menu manager.
-     *
-     * @return void
      */
-    protected function fixOneToMany(PageInterface $object)
+    protected function fixOneToMany(PageInterface $object): void
     {
         $items = $object->getContentItems();
         if ($items) {
@@ -318,11 +307,6 @@ class PageAdmin extends AbstractAdmin
 
         $this->setFormTabs($tabs);
     }
-
-//    public function getLabel()
-//    {
-//        return sprintf('admin.label.%s', Str::infix(lcfirst(Str::classname(get_class($this))), '_'));
-//    }
 
     public function configure(): void
     {
