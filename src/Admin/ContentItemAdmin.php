@@ -46,7 +46,7 @@ class ContentItemAdmin extends AbstractAdmin
     public function configureListFields(ListMapper $list): void
     {
         $list
-            ->addIdentifier('page')
+            ->addIdentifier('page', null, ['route' => ['name' => 'edit']])
             ->add(
                 '_action',
                 'actions',
