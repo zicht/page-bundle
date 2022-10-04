@@ -34,15 +34,11 @@ use Zicht\Util\Str;
  */
 class PageAdmin extends AbstractAdmin
 {
-    /**
-     * @var bool
-     */
+    /** @var bool */
     protected $persistFilters = true;
 
-    /**
-     * @var array
-     */
-    protected $templates = array();
+    /** @var array */
+    protected $templates = [];
 
     /**
      * @var PageManager
@@ -50,19 +46,13 @@ class PageAdmin extends AbstractAdmin
      */
     protected $pageManager;
 
-    /**
-     * @var MenuManager
-     */
+    /** @var MenuManager */
     protected $menuManager = null;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $contentItemAdminCode;
 
-    /**
-     * @var Provider|null
-     */
+    /** @var Provider|null */
     private $urlProvider = null;
 
     /**
@@ -81,9 +71,6 @@ class PageAdmin extends AbstractAdmin
     }
 
     /**
-     * Set the page manager
-     *
-     * @param \Zicht\Bundle\PageBundle\Manager\PageManager $pageManager
      * @return void
      */
     public function setPageManager(PageManager $pageManager)
@@ -91,12 +78,10 @@ class PageAdmin extends AbstractAdmin
         $this->pageManager = $pageManager;
     }
 
-
     /**
      * Set the menumanager, which is needed for flushing the menu items to the persistence layer whenever a page
      * is updated.
      *
-     * @param \Zicht\Bundle\MenuBundle\Manager\MenuManager $manager
      * @return void
      */
     public function setMenuManager(MenuManager $manager)
@@ -104,11 +89,7 @@ class PageAdmin extends AbstractAdmin
         $this->menuManager = $manager;
     }
 
-
     /**
-     * Sets the url provider
-     *
-     * @param Provider $urlProvider
      * @return void
      */
     public function setUrlProvider(Provider $urlProvider)
@@ -116,17 +97,11 @@ class PageAdmin extends AbstractAdmin
         $this->urlProvider = $urlProvider;
     }
 
-    /**
-     * @{inheritDoc}
-     */
     public function configureShowFields(ShowMapper $showMapper)
     {
         return $showMapper->add('title');
     }
 
-    /**
-     * @{inheritDoc}
-     */
     public function configureListFields(ListMapper $list)
     {
         return $list
@@ -136,24 +111,21 @@ class PageAdmin extends AbstractAdmin
             ->add(
                 '_action',
                 'actions',
-                array(
-                    'actions' => array(
-                        'view' => array(),
-                        'edit' => array(),
-                        'delete' => array()
-                    )
-                )
+                [
+                    'actions' => [
+                        'view' => [],
+                        'edit' => [],
+                        'delete' => [],
+                    ],
+                ]
             );
     }
 
-    /**
-     * @{inheritDoc}
-     */
     public function configureFormFields(FormMapper $form)
     {
         $form
             ->tab('admin.tab.general')
-                ->add('title', null, array('required' => true))
+                ->add('title', null, ['required' => true])
             ->end()->end();
 
         if (($subject = $this->getSubject()) && $subject->getId()) {
@@ -167,15 +139,15 @@ class PageAdmin extends AbstractAdmin
                     ->add(
                         'contentItems',
                         SonataCollectionType::class,
-                        array(
-                            'btn_add' => 'content_item.add'
-                        ),
-                        array(
-                            'edit'   => 'inline',
+                        [
+                            'btn_add' => 'content_item.add',
+                        ],
+                        [
+                            'edit' => 'inline',
                             'inline' => 'table',
                             'sortable' => 'weight',
-                            'admin_code' => $this->code . '|' . $this->contentItemAdminCode
-                        )
+                            'admin_code' => $this->code . '|' . $this->contentItemAdminCode,
+                        ]
                     )
                     ->end()->end();
 
@@ -194,7 +166,7 @@ class PageAdmin extends AbstractAdmin
                             $type = $data->getConvertToType();
 
                             if (!$data->getId() && $type !== get_class($data)) {
-                                $item = new $type;
+                                $item = new $type();
 
                                 ContentItem::convert($data, $item);
 
@@ -209,7 +181,7 @@ class PageAdmin extends AbstractAdmin
             }
             $form
                 ->tab('admin.tab.menu')
-                ->add('menu_item', MenuItemType::class, array('translation_domain' => $this->getTranslationDomain()))
+                ->add('menu_item', MenuItemType::class, ['translation_domain' => $this->getTranslationDomain()])
                 ->end()
                 ->end();
 
@@ -225,27 +197,17 @@ class PageAdmin extends AbstractAdmin
         }
     }
 
-
-    /**
-     * @{inheritDoc}
-     */
     protected function configureDatagridFilters(DatagridMapper $filter)
     {
         $filter->add('title')
             ->add('id');
     }
 
-    /**
-     * @{inheritDoc}
-     */
     public function preUpdate($object)
     {
         $this->fixOneToMany($object);
     }
 
-    /**
-     * @{inheritDoc}
-     */
     public function prePersist($object)
     {
         $this->fixOneToMany($object);
@@ -254,7 +216,6 @@ class PageAdmin extends AbstractAdmin
     /**
      * Fixes the many-to-one side of the one-to-many content items and flushes the menu manager.
      *
-     * @param \Zicht\Bundle\PageBundle\Model\PageInterface $object
      * @return void
      */
     protected function fixOneToMany(PageInterface $object)
@@ -271,14 +232,12 @@ class PageAdmin extends AbstractAdmin
     }
 
     /**
-     * Pre remove function
-     *
      * @param mixed $object
      */
     public function preRemove($object)
     {
         if (!is_null($this->urlProvider) && !is_null($this->menuManager)) {
-            $url      = $this->urlProvider->url($object);
+            $url = $this->urlProvider->url($object);
             $menuItem = $this->menuManager->getItem($url);
 
             if ($menuItem instanceof MenuItem) {
@@ -289,13 +248,7 @@ class PageAdmin extends AbstractAdmin
     }
 
     /**
-     * Reorder tabs
-     *
-     * @param FormMapper $formMapper
-     * @param array $tabOrder
-     *
      * @deprecated See Zicht\Bundle\AdminBundle\Util\AdminUtil::reorderTabs
-     *
      */
     public function reorderTabs(FormMapper $formMapper, array $tabOrder)
     {
@@ -306,13 +259,12 @@ class PageAdmin extends AbstractAdmin
      * Removes field (and also removes the tab when the tab/group is empty)
      *
      * @param string|array $fieldNames one fieldname or array of fieldnames
-     * @param FormMapper $formMapper
      * @return self
      */
     public function removeFields($fieldNames, FormMapper $formMapper)
     {
         if (!is_array($fieldNames)) {
-            $fieldNames = array($fieldNames);
+            $fieldNames = [$fieldNames];
         }
 
         foreach ($fieldNames as $fieldName) {
@@ -328,7 +280,6 @@ class PageAdmin extends AbstractAdmin
      * Removes tab and all it's fields in it
      *
      * @param string $tabName
-     * @param FormMapper $formMapper
      */
     public function removeTab($tabName, FormMapper $formMapper)
     {
@@ -379,9 +330,6 @@ class PageAdmin extends AbstractAdmin
         $this->setFormTabs($tabs);
     }
 
-    /**
-     * @{inheritDoc}
-     */
     public function getLabel()
     {
         return sprintf('admin.label.%s', Str::infix(lcfirst(Str::classname(get_class($this))), '_'));

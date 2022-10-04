@@ -1,6 +1,5 @@
 <?php
 /**
- * @author Gerard van Helden <gerard@zicht.nl>
  * @copyright Zicht Online <http://zicht.nl>
  */
 
@@ -13,21 +12,11 @@ use Symfony\Component\HttpKernel\KernelEvents;
 use Zicht\Bundle\PageBundle\Controller\PageController;
 use Zicht\Bundle\PageBundle\Manager\PageManager;
 
-/**
- * Class AbstractPageTest
- *
- * @package Zicht\Bundle\PageBundle\Test\Integration
- */
 abstract class AbstractPageTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @var \AppKernel
-     */
+    /** @var \AppKernel */
     public $kernel;
 
-    /**
-     * @{inheritDoc}
-     */
     public function setUp()
     {
         $this->kernel = new \AppKernel();
@@ -45,8 +34,6 @@ abstract class AbstractPageTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Creates page manager
-     *
      * @return PageManager
      */
     protected function createPageManager()
@@ -59,8 +46,6 @@ abstract class AbstractPageTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Creates page controller
-     *
      * @return PageController
      */
     protected function createPageController()

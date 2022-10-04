@@ -1,6 +1,5 @@
 <?php
 /**
- * @author Gerard van Helden <gerard@zicht.nl>
  * @copyright Zicht Online <http://zicht.nl>
  */
 
@@ -19,7 +18,6 @@ class AliasCommandTest extends TestCase
         $this->command->setContainer($this->container);
     }
 
-
     public function testConfig()
     {
         $this->markTestSkipped('Requires a lot of work for a Command we barely use...');
@@ -27,7 +25,6 @@ class AliasCommandTest extends TestCase
         $this->assertGreaterThan(0, strlen($this->command->getName()));
         $this->assertGreaterThan(0, strlen($this->command->getName()));
     }
-
 
     public function testExecute()
     {

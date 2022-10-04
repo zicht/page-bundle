@@ -2,6 +2,7 @@
 /**
  * @copyright Zicht Online <http://zicht.nl>
  */
+
 namespace Zicht\Bundle\PageBundle\AdminMenu;
 
 use Sonata\AdminBundle\Admin\Pool;
@@ -18,19 +19,13 @@ use Zicht\Bundle\UrlBundle\Url\Provider;
  */
 class EventPropagationBuilder implements PropagationInterface
 {
-    /**
-     * @var Pool
-     */
+    /** @var Pool */
     protected $sonata;
 
-    /**
-     * @var Provider
-     */
+    /** @var Provider */
     protected $pageUrlProvider;
 
-    /**
-     * @var EventDispatcher
-     */
+    /** @var EventDispatcher */
     protected $eventDispatcher;
 
     /**
@@ -49,8 +44,7 @@ class EventPropagationBuilder implements PropagationInterface
     /**
      * Build the relevant event and forward it.
      *
-     * @param Event $event
-     * @return null|void
+     * @return void|null
      */
     public function buildAndForwardEvent(Event $event)
     {

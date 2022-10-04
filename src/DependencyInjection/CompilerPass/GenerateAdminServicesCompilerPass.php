@@ -5,8 +5,8 @@
 
 namespace Zicht\Bundle\PageBundle\DependencyInjection\CompilerPass;
 
-use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 use Zicht\Bundle\PageBundle\Model\ContentItemContainer;
 use Zicht\Util\Str;
@@ -16,9 +16,6 @@ use Zicht\Util\Str;
  */
 class GenerateAdminServicesCompilerPass implements CompilerPassInterface
 {
-    /**
-     * @{inheritDoc}
-     */
     public function process(ContainerBuilder $container)
     {
         $config = $container->getParameter('zicht_page.config');
@@ -53,13 +50,7 @@ class GenerateAdminServicesCompilerPass implements CompilerPassInterface
             foreach ($types[$type] as $entityClassName) {
                 $adminClassName = $this->renderAdminClassName($entityClassName);
                 if (!class_exists($adminClassName)) {
-                    throw new \Exception(
-                        sprintf(
-                            'The PageBundle was unable to create a service definition for %s because the associated class %s was not found',
-                            $entityClassName,
-                            $adminClassName
-                        )
-                    );
+                    throw new \Exception(sprintf('The PageBundle was unable to create a service definition for %s because the associated class %s was not found', $entityClassName, $adminClassName));
                 }
 
                 $adminService = clone $def;
@@ -114,7 +105,7 @@ class GenerateAdminServicesCompilerPass implements CompilerPassInterface
             }
 
             /** @var ContentItemContainer $instance */
-            $instance = new $pageClassName;
+            $instance = new $pageClassName();
 
             if (null === $matrix = $instance->getContentItemMatrix()) {
                 continue;

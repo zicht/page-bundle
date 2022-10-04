@@ -1,6 +1,5 @@
 <?php
 /**
- * @author Gerard van Helden <gerard@zicht.nl>
  * @copyright Zicht Online <http://zicht.nl>
  */
 
@@ -11,33 +10,18 @@ use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Zicht\Bundle\PageBundle\Entity\ContentItem;
 
-/**
- * Class ContentItemMatrixValidator
- *
- * @package Zicht\Bundle\PageBundle\Validator\Constraints
- */
 class ContentItemMatrixValidator extends ConstraintValidator
 {
-    /**
-     * @var TranslatorInterface
-     */
+    /** @var TranslatorInterface */
     protected $translator;
 
-    /**
-     * ContentItemMatrixValidator constructor.
-     *
-     * @param TranslatorInterface $translator
-     */
     public function __construct(TranslatorInterface $translator)
     {
         $this->translator = $translator;
     }
 
     /**
-     * Validate
-     *
      * @param mixed $value
-     * @param Constraint $constraint
      */
     public function validate($value, Constraint $constraint)
     {

@@ -1,6 +1,7 @@
-.env
-.idea/
-.phpunit.result.cache
-composer.lock
-docker-compose.y*ml
-vendor/
+/.env
+/.idea/
+/.php-cs-fixer.cache
+/.phpunit.result.cache
+/composer.lock
+/docker-compose.y*ml
+/vendor/

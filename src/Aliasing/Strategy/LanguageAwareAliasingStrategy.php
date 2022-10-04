@@ -1,6 +1,5 @@
 <?php
 /**
- * @author Rik van der Kemp <rik@zicht.nl>
  * @copyright Zicht Online <http://www.zicht.nl>
  */
 
@@ -8,35 +7,21 @@ namespace Zicht\Bundle\PageBundle\Aliasing\Strategy;
 
 use Zicht\Bundle\UrlBundle\Aliasing\AliasingStrategy;
 
-/**
- * Class LanguageAwareAliasingStrategy
- *
- * @package Zicht\Bundle\UrlBundle\Url\Aliasing\Strategy
- */
 class LanguageAwareAliasingStrategy implements AliasingStrategy
 {
-    /**
-     * @var string
-     */
+    /** @var string */
     public $basePath;
 
-    /**
-     * @var array
-     */
+    /** @var array */
     protected $localesToPrefix;
 
-    /**
-     * @var AliasingStrategy
-     */
+    /** @var AliasingStrategy */
     protected $strategyWrapper;
 
     /**
-     * LanguageAwareAliasingStrategy constructor.
-     *
-     * @param AliasingStrategy $strategyWrapper
      * @param array $localesToPrefix
      */
-    public function __construct(AliasingStrategy $strategyWrapper, $localesToPrefix = array())
+    public function __construct(AliasingStrategy $strategyWrapper, $localesToPrefix = [])
     {
         $this->basePath = '/';
         $this->strategyWrapper = $strategyWrapper;
@@ -44,8 +29,6 @@ class LanguageAwareAliasingStrategy implements AliasingStrategy
     }
 
     /**
-     * Generate public alias
-     *
      * @param mixed $subject
      * @param string $currentAlias
      * @return string

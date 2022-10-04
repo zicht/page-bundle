@@ -1,17 +1,16 @@
 <?php
 /**
- * @author Gerard van Helden <gerard@zicht.nl>
  * @copyright Zicht Online <http://zicht.nl>
  */
 
 namespace Zicht\Bundle\PageBundle\Type;
 
+use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Translation\TranslatorInterface;
 use Zicht\Bundle\PageBundle\Model\ContentItemContainer;
 use Zicht\Util\Str;
@@ -21,27 +20,17 @@ use Zicht\Util\Str;
  */
 class ContentItemRegionType extends AbstractType
 {
-    /**
-     * @var string $contentItemClassName
-     */
+    /** @var string */
     protected $contentItemClassName;
 
-    /**
-     * @var array $defaultRegions
-     */
-    protected $defaultRegions = array();
+    /** @var array */
+    protected $defaultRegions = [];
 
-    /**
-     * @var TranslatorInterface $translator
-     */
+    /** @var TranslatorInterface */
     private $translator;
 
     /**
-     * Constructor.
-     *
      * @param string $contentItemClassName
-     * @param array $defaultRegions
-     * @param TranslatorInterface $translator
      */
     public function __construct($contentItemClassName, array $defaultRegions, TranslatorInterface $translator)
     {
@@ -50,25 +39,19 @@ class ContentItemRegionType extends AbstractType
         $this->translator = $translator;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(
-            array(
+            [
                 'inherit_data' => true,
                 'data_class' => $this->contentItemClassName,
                 'container' => '',
                 'default_regions' => $this->defaultRegions,
                 'translation_domain' => 'admin',
-            )
+            ]
         );
     }
 
-    /**
-     * @{inheritDoc}
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $container = $options['container'];
@@ -101,19 +84,16 @@ class ContentItemRegionType extends AbstractType
         }
     }
 
-    /**
-     * @{inheritDoc}
-     */
     public function finishView(FormView $view, FormInterface $form, array $options)
     {
-        $matrix = array();
+        $matrix = [];
         $fullmatrix = $options['container']->getContentItemMatrix()->getMatrix();
 
         foreach ($fullmatrix as $region => $classNames) {
             foreach ($classNames as $className) {
                 $snakeCasedClassName = strtolower(str_replace(' ', '_', Str::humanize($className)));
                 $placeholder = sprintf('content_item.type.%s', $snakeCasedClassName);
-                $matrix[$region][$className] = $this->translator->trans($placeholder, array(), 'admin', 'nl');
+                $matrix[$region][$className] = $this->translator->trans($placeholder, [], 'admin', 'nl');
             }
         }
 
@@ -122,19 +102,6 @@ class ContentItemRegionType extends AbstractType
         $view->vars['matrix'] = json_encode($matrix);
     }
 
-    /**
-     * Returns the name of this type.
-     *
-     * @return string The name of this type
-     */
-    public function getName()
-    {
-        return 'zicht_content_item_region';
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     public function getBlockPrefix()
     {
         return 'zicht_content_item_region';

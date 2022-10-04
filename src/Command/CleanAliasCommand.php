@@ -1,6 +1,5 @@
 <?php
 /**
- * @author Rik van der Kemp <rik@zicht.nl>
  * @copyright Zicht Online <http://www.zicht.nl>
  */
 
@@ -8,7 +7,6 @@ namespace Zicht\Bundle\PageBundle\Command;
 
 use Doctrine\DBAL\Connection;
 use Symfony\Bridge\Doctrine\ManagerRegistry;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputArgument;
@@ -17,8 +15,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 /**
- * Class CleanAliasCommand
- *
  * Remove aliases referencing pages that do not exist anymore.
  */
 class CleanAliasCommand extends Command
@@ -34,9 +30,6 @@ class CleanAliasCommand extends Command
         $this->doctrine = $doctrine;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     protected function configure()
     {
         $this
@@ -44,9 +37,6 @@ class CleanAliasCommand extends Command
             ->setDescription('Clean aliases that are not attached to pages any more.');
     }
 
-    /**
-     * {@inheritDoc}
-     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $locale = $input->getArgument('locale');

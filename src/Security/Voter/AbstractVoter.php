@@ -1,24 +1,16 @@
 <?php
 /**
- * @author    Philip Bergman <philip@zicht.nl>
  * @copyright Zicht Online <http://www.zicht.nl>
  */
+
 namespace Zicht\Bundle\PageBundle\Security\Voter;
 
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 
-/**
- * Class AbstractVoter
- *
- * @package Zicht\Bundle\PageBundle\Security\Voter
- */
 abstract class AbstractVoter implements VoterInterface
 {
     const SUPPORTED_ATTRIBUTES = ['VIEW', 'ACTION_POST_UPDATE', 'ACTION_POST_PERSIST'];
 
-    /**
-     * @{inheritDoc}
-     */
     public function supportsAttribute($attribute)
     {
         return in_array($attribute, self::SUPPORTED_ATTRIBUTES);
@@ -38,11 +30,10 @@ abstract class AbstractVoter implements VoterInterface
     /**
      * Check if the given attributes contain cms roles/attributes
      *
-     * @param array $attributes
      * @return bool
      */
     protected static function hasCmsAttribute(array $attributes = [])
     {
-        return (in_array('ACTION_POST_UPDATE', $attributes) || in_array('ACTION_POST_PERSIST', $attributes));
+        return in_array('ACTION_POST_UPDATE', $attributes) || in_array('ACTION_POST_PERSIST', $attributes);
     }
 }

@@ -1,19 +1,17 @@
 <?php
 /**
- * @author Gerard van Helden <gerard@zicht.nl>
  * @copyright Zicht Online <http://zicht.nl>
  */
 
 namespace Zicht\Bundle\PageBundle\Command;
 
 use Doctrine\Persistence\ManagerRegistry;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Input\InputInterface;
 use Zicht\Bundle\PageBundle\Manager\PageManager;
 use Zicht\Bundle\UrlBundle\Aliasing\Aliaser;
 use Zicht\Bundle\UrlBundle\Aliasing\Aliasing;
@@ -42,9 +40,6 @@ class AliasCommand extends Command
         $this->pageManager = $pageManager;
     }
 
-    /**
-     * @{inheritDoc}
-     */
     protected function configure()
     {
         $this
@@ -54,9 +49,6 @@ class AliasCommand extends Command
             ->addOption('move', '', InputOption::VALUE_NONE, 'Force regeneration (use MOVE strategy for new aliases)');
     }
 
-    /**
-     * @{inheritDoc}
-     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $aliaser = $this->aliaser;
@@ -81,7 +73,7 @@ class AliasCommand extends Command
         }
 
         if ($output->getVerbosity() == OutputInterface::VERBOSITY_VERBOSE) {
-            $output->writeln("Querying records ...");
+            $output->writeln('Querying records ...');
         }
         $items = $q->getQuery()->execute();
 
@@ -96,7 +88,7 @@ class AliasCommand extends Command
             }
             $result = $aliaser->createAlias($page);
             if ($output->getVerbosity() > OutputInterface::VERBOSITY_VERBOSE) {
-                $output->writeln(" -> " . ($result ? '[created]' : '[already aliased]'));
+                $output->writeln(' -> ' . ($result ? '[created]' : '[already aliased]'));
             }
         }
         $progress->finish();

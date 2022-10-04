@@ -1,8 +1,8 @@
 <?php
 /**
- * @author Gerard van Helden <gerard@zicht.nl>
  * @copyright Zicht Online <http://zicht.nl>
  */
+
 namespace ZichtTest\Bundle\PageBundle\Entity;
 
 use PHPUnit\Framework\TestCase;
@@ -19,7 +19,7 @@ abstract class Base extends \Zicht\Bundle\PageBundle\Entity\ContentItem
 
 class MyFooContentItem extends Base
 {
-    private $fooProperty  = 'foo';
+    private $fooProperty = 'foo';
 }
 
 class MyBarContentItem extends Base
@@ -37,7 +37,6 @@ class ContentItemTest extends TestCase
         $item = new MyBarContentItem();
         $this->assertEquals('my-bar', $item->getShortType());
     }
-
 
     public function testConversion()
     {

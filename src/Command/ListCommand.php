@@ -1,16 +1,14 @@
 <?php
 /**
- * @author Gerard van Helden <gerard@zicht.nl>
  * @copyright Zicht Online <http://zicht.nl>
  */
 
 namespace Zicht\Bundle\PageBundle\Command;
 
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Input\InputInterface;
 use Zicht\Bundle\PageBundle\Manager\PageManager;
 use Zicht\Bundle\UrlBundle\Url\Provider;
 
@@ -34,17 +32,11 @@ class ListCommand extends Command
         $this->provider = $provider;
     }
 
-    /**
-     * @{inheritDoc}
-     */
     protected function configure()
     {
         $this->addOption('base-url', '', InputOption::VALUE_REQUIRED, 'Prepend a base url to the url\'s', null);
     }
 
-    /**
-     * @{inheritDoc}
-     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $pages = $this->pageManager->getBaseRepository()->findAll();
