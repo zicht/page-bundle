@@ -41,12 +41,7 @@ class EventPropagationBuilder implements PropagationInterface
         $this->eventDispatcher = $eventDispatcher;
     }
 
-    /**
-     * Build the relevant event and forward it.
-     *
-     * @return void|null
-     */
-    public function buildAndForwardEvent(Event $event)
+    public function buildAndForwardEvent(Event $event): void
     {
         if (!$event instanceof PageViewEvent) {
             return;

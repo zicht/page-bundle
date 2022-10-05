@@ -24,14 +24,16 @@ use Zicht\Util\Str;
  */
 class ContentItemTypeType extends AbstractType
 {
-    /** @var TranslatorInterface */
-    private $translator;
+    private TranslatorInterface $translator;
 
+    /**
+     * @param string $contentItemClass
+     */
     public function __construct($contentItemClass, TranslatorInterface $translator, Pool $sonata = null)
     {
         $this->contentItemClass = $contentItemClass;
-        $this->sonata = $sonata;
         $this->translator = $translator;
+        $this->sonata = $sonata;
     }
 
     public function configureOptions(OptionsResolver $resolver)
@@ -50,7 +52,6 @@ class ContentItemTypeType extends AbstractType
         if ($options['container']) {
             $page = $options['container'];
             $choiceFilter = function ($choices) use ($page) {
-                $ret = [];
                 if ($page instanceof ContentItemContainer && null !== $page->getContentItemMatrix()) {
                     $types = $page->getContentItemMatrix()->getTypes();
 
@@ -100,24 +101,10 @@ class ContentItemTypeType extends AbstractType
             $view->vars['edit_url'] = null;
 
             try {
-                $isPersistedEntity = $subject->getId();
-                // $subject->getId() does not work when the `zicht/versioning-bundle` is used, as those ContentItem entities do exist but do *not* have an id when editing a non-active version.
-                if ($this->sonata->getContainer()->has('zicht_versioning.manager') && $this->sonata->getContainer()->get('zicht_versioning.manager')->isManaged($subject->getPage())) {
-                    if (method_exists($subject, 'getWeight')) {
-                        // sonata adds new entries with a weight of 0.
-                        $isPersistedEntity = $subject->getWeight() > 0 ? true : false;
-                    } else {
-                        // unknown how to determine this when the weight is not available. possibly update VersioningBundle to tell us this.
-                        throw new \LogicException('Unable to determine the persisted state of this contentitem');
-                    }
-                }
-                if ($isPersistedEntity && !is_null($subject) && $typeAdmin = $this->sonata->getAdminByClass(get_class($subject))) {
+                if ($subject->getId() && !is_null($subject) && $typeAdmin = $this->sonata->getAdminByClass(get_class($subject))) {
                     $view->vars['type'] = Str::humanize($subject->getType());
                     $childAdminCode = $parentAdmin->getCode() . '|' . $typeAdmin->getCode();
                     $childAdmin = $this->sonata->getAdminByAdminCode($childAdminCode);
-                    if (!$childAdmin) {
-                        throw new \InvalidArgumentException(sprintf('Could not find admin with admin code "%s" for "%s"', $childAdminCode, get_class($subject)));
-                    }
                     $childAdmin->setRequest($genericAdmin->getRequest());
 
                     if ($subject && $subject->getPage() && $subject->getPage()->getId()) {
