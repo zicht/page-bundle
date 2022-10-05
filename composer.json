@@ -4,16 +4,16 @@
     "type": "symfony-bundle",
     "license": "MIT",
     "require": {
-        "php": "^7.2 || ^8.0",
-        "sonata-project/admin-bundle": "^3.1",
+        "php": "^7.4 || ^8.0",
+        "sonata-project/admin-bundle": "^4",
         "symfony/config": "^4.4",
         "symfony/console": "^4.4",
         "symfony/security-core": "^4.4",
         "twig/twig": "^2.7 || ^3",
-        "zicht/admin-bundle": "^6.1",
+        "zicht/admin-bundle": "^7",
         "zicht/framework-extra-bundle": "^9",
-        "zicht/menu-bundle": "^4 || ^5",
-        "zicht/url-bundle": "^5",
+        "zicht/menu-bundle": "^5.1",
+        "zicht/url-bundle": "^6",
         "zicht/util": "^2"
     },
     "require-dev": {

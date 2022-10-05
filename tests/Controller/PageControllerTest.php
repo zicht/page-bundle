@@ -55,7 +55,7 @@ class PageControllerTest extends TestCase
         $this->twig = $this->getMockBuilder('Twig\Environment')->disableOriginalConstructor()->getMock();
         $this->viewValidator = $this->getMockBuilder('Zicht\Bundle\PageBundle\Security\PageViewValidation')->getMock();
 
-        $this->viewValidator->method('validate')->willReturn(null);
+        $this->viewValidator->method('validate');
 
         $request = $this->createMock(Request::class);
         $request->method('duplicate')->willReturn($request);

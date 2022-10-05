@@ -13,7 +13,6 @@ use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\Form\Type\CollectionType as SonataCollectionType;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
-use Zicht\Bundle\AdminBundle\Util\AdminUtil;
 use Zicht\Bundle\MenuBundle\Entity\MenuItem;
 use Zicht\Bundle\MenuBundle\Form\MenuItemType;
 use Zicht\Bundle\MenuBundle\Form\Subscriber\MenuItemPersistenceSubscriber;
@@ -70,10 +69,7 @@ class PageAdmin extends AbstractAdmin
         $this->contentItemAdminCode = $contentItemAdminCode;
     }
 
-    /**
-     * @return void
-     */
-    public function setPageManager(PageManager $pageManager)
+    public function setPageManager(PageManager $pageManager): void
     {
         $this->pageManager = $pageManager;
     }
@@ -81,36 +77,31 @@ class PageAdmin extends AbstractAdmin
     /**
      * Set the menumanager, which is needed for flushing the menu items to the persistence layer whenever a page
      * is updated.
-     *
-     * @return void
      */
-    public function setMenuManager(MenuManager $manager)
+    public function setMenuManager(MenuManager $manager): void
     {
         $this->menuManager = $manager;
     }
 
-    /**
-     * @return void
-     */
-    public function setUrlProvider(Provider $urlProvider)
+    public function setUrlProvider(Provider $urlProvider): void
     {
         $this->urlProvider = $urlProvider;
     }
 
-    public function configureShowFields(ShowMapper $showMapper)
+    public function configureShowFields(ShowMapper $showMapper): void
     {
-        return $showMapper->add('title');
+        $showMapper->add('title');
     }
 
-    public function configureListFields(ListMapper $list)
+    public function configureListFields(ListMapper $list): void
     {
-        return $list
-            ->addIdentifier('title')
+        $list
+            ->addIdentifier('title', null, ['route' => ['name' => 'edit']])
             ->add('displayType')
             ->add('date_updated')
             ->add(
-                '_action',
-                'actions',
+                ListMapper::NAME_ACTIONS,
+                ListMapper::TYPE_ACTIONS,
                 [
                     'actions' => [
                         'view' => [],
@@ -121,11 +112,11 @@ class PageAdmin extends AbstractAdmin
             );
     }
 
-    public function configureFormFields(FormMapper $form)
+    public function configureFormFields(FormMapper $form): void
     {
         $form
             ->tab('admin.tab.general')
-                ->add('title', null, ['required' => true])
+            ->add('title', null, ['required' => true])
             ->end()->end();
 
         if (($subject = $this->getSubject()) && $subject->getId()) {
@@ -197,28 +188,26 @@ class PageAdmin extends AbstractAdmin
         }
     }
 
-    protected function configureDatagridFilters(DatagridMapper $filter)
+    protected function configureDatagridFilters(DatagridMapper $filter): void
     {
         $filter->add('title')
             ->add('id');
     }
 
-    public function preUpdate($object)
+    public function preUpdate(object $object): void
     {
         $this->fixOneToMany($object);
     }
 
-    public function prePersist($object)
+    public function prePersist(object $object): void
     {
         $this->fixOneToMany($object);
     }
 
     /**
      * Fixes the many-to-one side of the one-to-many content items and flushes the menu manager.
-     *
-     * @return void
      */
-    protected function fixOneToMany(PageInterface $object)
+    protected function fixOneToMany(PageInterface $object): void
     {
         $items = $object->getContentItems();
         if ($items) {
@@ -231,10 +220,7 @@ class PageAdmin extends AbstractAdmin
         }
     }
 
-    /**
-     * @param mixed $object
-     */
-    public function preRemove($object)
+    public function preRemove(object $object): void
     {
         if (!is_null($this->urlProvider) && !is_null($this->menuManager)) {
             $url = $this->urlProvider->url($object);
@@ -245,14 +231,6 @@ class PageAdmin extends AbstractAdmin
                 $this->menuManager->flush();
             }
         }
-    }
-
-    /**
-     * @deprecated See Zicht\Bundle\AdminBundle\Util\AdminUtil::reorderTabs
-     */
-    public function reorderTabs(FormMapper $formMapper, array $tabOrder)
-    {
-        AdminUtil::reorderTabs($formMapper, $tabOrder);
     }
 
     /**
@@ -330,8 +308,9 @@ class PageAdmin extends AbstractAdmin
         $this->setFormTabs($tabs);
     }
 
-    public function getLabel()
+    public function configure(): void
     {
-        return sprintf('admin.label.%s', Str::infix(lcfirst(Str::classname(get_class($this))), '_'));
+        $this->setLabel(sprintf('admin.label.%s', Str::infix(lcfirst(Str::classname(get_class($this))), '_')));
+        $this->setTranslationDomain('admin');
     }
 }
