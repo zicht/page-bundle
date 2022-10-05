@@ -100,8 +100,8 @@ class PageAdmin extends AbstractAdmin
             ->add('displayType')
             ->add('date_updated')
             ->add(
-                '_action',
-                'actions',
+                ListMapper::NAME_ACTIONS,
+                ListMapper::TYPE_ACTIONS,
                 [
                     'actions' => [
                         'view' => [],

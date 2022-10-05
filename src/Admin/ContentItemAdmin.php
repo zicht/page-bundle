@@ -48,8 +48,8 @@ class ContentItemAdmin extends AbstractAdmin
         $list
             ->addIdentifier('page', null, ['route' => ['name' => 'edit']])
             ->add(
-                '_action',
-                'actions',
+                ListMapper::NAME_ACTIONS,
+                ListMapper::TYPE_ACTIONS,
                 [
                     'actions' => [
                         'view' => [],
