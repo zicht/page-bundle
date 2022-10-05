@@ -8,6 +8,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added|Changed|Deprecated|Removed|Fixed|Security
 Nothing so far
 
+## 8.0.0 - 2022-10-06
+### Added
+- Support for Symfony ^5.4
+### Removed
+- Support for Symfony 4
+
 ## 7.0.3 - 2022-11-11
 ### Fixed
 - Set the minimum requirement for sonata-project/admin-bundle to v4.21.0 which contains a bug fix which makes the
