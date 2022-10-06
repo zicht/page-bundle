@@ -13,8 +13,8 @@ namespace ZichtTest\Bundle\PageBundle\Assets {
 }
 
 namespace ZichtTest\Bundle\PageBundle\Type {
-     use PHPUnit\Framework\TestCase;
-     use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+    use PHPUnit\Framework\TestCase;
+    use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
     class ContentItemRegionTypeTest extends TestCase
     {
@@ -78,4 +78,4 @@ namespace ZichtTest\Bundle\PageBundle\Type {
             $type->buildForm($builder, $options);
         }
     }
- }
+}
