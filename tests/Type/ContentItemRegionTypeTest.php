@@ -23,7 +23,7 @@ namespace ZichtTest\Bundle\PageBundle\Type {
             $ret = new \Zicht\Bundle\PageBundle\Type\ContentItemRegionType(
                 'foo',
                 ['a' => 'a', 'b' => 'b'],
-                $this->createMock('Symfony\Component\Translation\TranslatorInterface')
+                $this->createMock('Symfony\Contracts\Translation\TranslatorInterface')
             );
 
             $this->assertEquals('zicht_content_item_region', $ret->getBlockPrefix());
