@@ -26,45 +26,36 @@ use Zicht\Bundle\UrlBundle\Url\Provider;
 use Zicht\Util\Str;
 
 /**
- * Admin for the messages catalogue
- *
  * @template T of Page
  * @extends AbstractAdmin<T>
  */
 class PageAdmin extends AbstractAdmin
 {
-    /** @var bool */
-    protected $persistFilters = true;
+    protected bool $persistFilters = true;
 
-    /** @var array */
-    protected $templates = [];
+    protected array $templates = [];
 
-    /**
-     * @var PageManager
-     * @psalm-suppress PropertyNotSetInConstructor
-     */
-    protected $pageManager;
+    /** @psalm-suppress PropertyNotSetInConstructor */
+    protected PageManager $pageManager;
 
-    /** @var MenuManager */
-    protected $menuManager = null;
+    protected ?MenuManager $menuManager = null;
 
-    /** @var string */
-    protected $contentItemAdminCode;
+    protected string $contentItemAdminCode;
 
-    /** @var Provider|null */
-    private $urlProvider = null;
+    private ?Provider $urlProvider = null;
 
     /**
      * Constructor, overridden to be able to set the (required) content item admin code.
-     *
-     * @param string $code
-     * @param string $class
-     * @param string $baseControllerName
-     * @param string $contentItemAdminCode
      */
-    public function __construct($code, $class, $baseControllerName, $contentItemAdminCode)
+    public function __construct(?string $code = null, ?string $class = null, ?string $baseControllerName = null, ?string $contentItemAdminCode = null)
     {
-        parent::__construct($code, $class, $baseControllerName);
+        if (\func_num_args() > 1) {
+            // BC
+            parent::__construct($code, $class, $baseControllerName);
+        } else {
+            // Content item admin code is first argument, like it should.
+            $contentItemAdminCode = $code;
+        }
 
         $this->contentItemAdminCode = $contentItemAdminCode;
     }

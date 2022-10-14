@@ -59,4 +59,13 @@ class ContentItemAdmin extends AbstractAdmin
                 ]
             );
     }
+
+    /**
+     * There's a bug in Sonata Admin AbstractAdmin::setSubject(), so addding this here for now.
+     * @see https://github.com/sonata-project/SonataAdminBundle/issues/7944
+     */
+    public function __clone(): void
+    {
+        $this->setSubject(null);
+    }
 }
