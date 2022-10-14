@@ -7,7 +7,9 @@ namespace Zicht\Bundle\PageBundle\DependencyInjection\CompilerPass;
 
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
+use Zicht\Bundle\PageBundle\Admin\PageAdmin;
 use Zicht\Bundle\PageBundle\Model\ContentItemContainer;
 use Zicht\Util\Str;
 
@@ -61,10 +63,19 @@ class GenerateAdminServicesCompilerPass implements CompilerPassInterface
                 $tags = $adminService->getTags();
                 $tags['sonata.admin'][0]['show_in_dashboard'] = 0;
                 $tags['sonata.admin'][0]['label'] = $id;
-                $adminService->setTags($tags);
 
-                $adminService->replaceArgument(0, $id);
-                $adminService->replaceArgument(1, $entityClassName);
+                // Check constructor arguments to determine BC (PageAdmin has at least 1 argument. ContentItemAdmin has minimal 0 arguments.)
+                $maxArgumentsCount = is_a($adminService->getClass(), PageAdmin::class, true) ? 1 : 0;
+                if (count($adminService->getArguments()) > $maxArgumentsCount) {
+                    // BC
+                    $adminService->replaceArgument(0, $id);
+                    $adminService->replaceArgument(1, $entityClassName);
+                } else {
+                    $tags['sonata.admin'][0]['code'] = $id;
+                    $tags['sonata.admin'][0]['model_class'] = $entityClassName;
+                }
+
+                $adminService->setTags($tags);
 
                 // If there's a (partial) definition for this Page or ContentItem Admin already, then take
                 // the relevant values and place them onto (or merge them into) our admin service.
@@ -98,9 +109,9 @@ class GenerateAdminServicesCompilerPass implements CompilerPassInterface
         $contentItemPageProperty = $config['contentItemPageProperty'] ?? 'page';
         foreach ($serviceDefinitions['page'] as $pageServiceId) {
             $pageDef = $container->getDefinition($pageServiceId);
-            $pageClassName = $pageDef->getArgument(1);
+            $pageClassName = $this->getModelClassOfSonataAdmin($pageDef);
 
-            if (!is_a($pageClassName, 'Zicht\Bundle\PageBundle\Model\ContentItemContainer', true)) {
+            if (!is_a($pageClassName, ContentItemContainer::class, true)) {
                 continue;
             }
 
@@ -113,8 +124,9 @@ class GenerateAdminServicesCompilerPass implements CompilerPassInterface
 
             foreach ($serviceDefinitions['contentItem'] as $contentItemServiceId) {
                 $contentItemDefinition = $container->getDefinition($contentItemServiceId);
+                $contentItemClassName = $this->getModelClassOfSonataAdmin($contentItemDefinition);
 
-                if (in_array($contentItemDefinition->getArgument(1), $matrix->getTypes())) {
+                if (in_array($contentItemClassName, $matrix->getTypes())) {
                     $pageDef->addMethodCall('addChild', [new Reference($contentItemServiceId), $contentItemPageProperty]);
                 }
             }
@@ -133,5 +145,23 @@ class GenerateAdminServicesCompilerPass implements CompilerPassInterface
             str_replace('\\Entity\\', '\\Admin\\', $fullyQualifiedClassName),
             'Admin'
         );
+    }
+
+    private function getModelClassOfSonataAdmin(Definition $definition): string
+    {
+        $tags = $definition->getTags();
+        if (array_key_exists('sonata.admin', $tags) && is_array($sonataAdminTag = array_shift($tags['sonata.admin']))
+            && array_key_exists('model_class', $sonataAdminTag) && !empty($sonataAdminTag['model_class'])) {
+            return $sonataAdminTag['model_class'];
+        }
+
+        // Check constructor arguments to determine BC (PageAdmin has at least 1 argument. ContentItemAdmin has minimal 0 arguments.)
+        $maxArgumentsCount = is_a($definition->getClass(), PageAdmin::class, true) ? 1 : 0;
+        if (count($definition->getArguments()) > $maxArgumentsCount) {
+            // BC
+            return $definition->getArgument(1);
+        }
+
+        throw new \RuntimeException('Could not get Sonata Admin model class for Sonata Admin service definition with class ' . $definition->getClass());
     }
 }
