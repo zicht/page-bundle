@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added|Changed|Deprecated|Removed|Fixed|Security
 Nothing so far
 
+## 7.0.2 - 2022-10-17
+### Fixed
+- Removed `finally` in ContentItemDetailCRUDController listAction. This resulted in _always_ showing the original (parent) listAction.
+
 ## 7.0.1 - 2022-10-14
 ### Fixed
 - Temporary fix for Sonata Admin bug determining the wrong class based upon the subject
