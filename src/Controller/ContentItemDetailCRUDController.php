@@ -25,8 +25,8 @@ class ContentItemDetailCRUDController extends CRUDController
                 );
             }
         } catch (\LogicException $exception) {
-        } finally {
-            return parent::listAction($request);
         }
+
+        return parent::listAction($request);
     }
 }
