@@ -5,9 +5,9 @@
 
 namespace Zicht\Bundle\PageBundle\Validator\Constraints;
 
-use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Zicht\Bundle\PageBundle\Entity\ContentItem;
 
 class ContentItemMatrixValidator extends ConstraintValidator
