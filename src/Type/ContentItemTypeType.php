@@ -55,6 +55,14 @@ class ContentItemTypeType extends AbstractType
                 if ($page instanceof ContentItemContainer && null !== $page->getContentItemMatrix()) {
                     $types = $page->getContentItemMatrix()->getTypes();
 
+                    if (!$choices) {
+                        return [];
+                    }
+
+                    if (is_string($choices)) {
+                        $choices = [$choices => $choices];
+                    }
+
                     $choices = \array_filter(
                         $choices,
                         function ($choice, $key) use ($types) {

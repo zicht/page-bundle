@@ -92,12 +92,14 @@
 
         <service id="Zicht\Bundle\PageBundle\Controller\DebugPagesController">
             <argument type="service" id="doctrine.orm.entity_manager"/>
-            <tag name="controller.service_arguments"/>
         </service>
 
-        <service id="Zicht\Bundle\PageBundle\Controller\ContentItemDetailCRUDController" autowire="true" public="true">
+        <prototype namespace="Zicht\Bundle\PageBundle\Controller\" resource="../../Controller/" autowire="true" public="true">
             <tag name="controller.service_arguments" />
             <tag name="container.service_subscriber" />
-        </service>
+            <call method="setContainer">
+                <argument type="service" id="Psr\Container\ContainerInterface" />
+            </call>
+        </prototype>
     </services>
 </container>
