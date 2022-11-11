@@ -51,7 +51,7 @@ class CheckContentItemsCommand extends Command
         $this->isVeryVerbose = $output->getVerbosity() >= OutputInterface::VERBOSITY_VERY_VERBOSE;
     }
 
-    public function execute(InputInterface $input, OutputInterface $output)
+    public function execute(InputInterface $input, OutputInterface $output): int
     {
         $em = $this->doctrine->getManager();
 
@@ -119,6 +119,8 @@ class CheckContentItemsCommand extends Command
                 }
             }
         }
+
+        return 0;
     }
 
     /**

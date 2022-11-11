@@ -49,7 +49,7 @@ class AliasCommand extends Command
             ->addOption('move', '', InputOption::VALUE_NONE, 'Force regeneration (use MOVE strategy for new aliases)');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $aliaser = $this->aliaser;
 
@@ -93,5 +93,7 @@ class AliasCommand extends Command
         }
         $progress->finish();
         call_user_func($onDone);
+
+        return 0;
     }
 }
