@@ -37,7 +37,7 @@ class ListCommand extends Command
         $this->addOption('base-url', '', InputOption::VALUE_REQUIRED, 'Prepend a base url to the url\'s', null);
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $pages = $this->pageManager->getBaseRepository()->findAll();
         $urlProvider = $this->provider;
@@ -47,5 +47,7 @@ class ListCommand extends Command
         foreach ($pages as $page) {
             $output->writeln($baseUrl . $urlProvider->url($page));
         }
+
+        return 0;
     }
 }

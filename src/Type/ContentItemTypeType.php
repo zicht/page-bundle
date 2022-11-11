@@ -55,6 +55,14 @@ class ContentItemTypeType extends AbstractType
                 if ($page instanceof ContentItemContainer && null !== $page->getContentItemMatrix()) {
                     $types = $page->getContentItemMatrix()->getTypes();
 
+                    if (!$choices) {
+                        return [];
+                    }
+
+                    if (is_string($choices)) {
+                        $choices = [$choices => $choices];
+                    }
+
                     $choices = \array_filter(
                         $choices,
                         function ($choice, $key) use ($types) {
@@ -111,9 +119,9 @@ class ContentItemTypeType extends AbstractType
                         try {
                             $view->vars['edit_url'] = $childAdmin->generateObjectUrl('edit', $subject, ['childId' => $subject->getId()]);
                         } catch (InvalidParameterException $e) {
-                            //2.2 edit url not needed when generating other admins (this is done in the POST of the sonata_collection_type)
+                            // 2.2 edit url not needed when generating other admins (this is done in the POST of the sonata_collection_type)
                         } catch (MissingMandatoryParametersException $e) {
-                            //>= 2.3
+                            // >= 2.3
                         } catch (\Exception $e) {
                         }
                     }

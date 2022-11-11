@@ -23,9 +23,9 @@ namespace ZichtTest\Bundle\PageBundle\Url {
             $this->pageManager->expects($this->any())->method('getPageClass')->will($this->returnValue('Foo\Bar\Page'));
 
             $this->urlProvider = new \Zicht\Bundle\PageBundle\Url\PageUrlProvider(
-            $this->getMockBuilder('Symfony\Component\Routing\RouterInterface')->getMock(),
-            $this->pageManager
-        );
+                $this->getMockBuilder('Symfony\Component\Routing\RouterInterface')->getMock(),
+                $this->pageManager
+            );
         }
 
         public function testSupports()
@@ -42,14 +42,14 @@ namespace ZichtTest\Bundle\PageBundle\Url {
             $rand = rand(1, 100);
             $page->expects($this->once())->method('getId')->will($this->returnValue($rand));
             $this->assertEquals(
-            [
-                'zicht_page_page_view',
                 [
-                    'id' => $rand,
+                    'zicht_page_page_view',
+                    [
+                        'id' => $rand,
+                    ],
                 ],
-            ],
-            $this->urlProvider->routing($page)
-        );
+                $this->urlProvider->routing($page)
+            );
         }
 
         public function testSuggest()
@@ -71,11 +71,11 @@ namespace ZichtTest\Bundle\PageBundle\Url {
             $qb->expects($this->any())->method('getQuery')->will($this->returnValue($q));
 
             $q->expects($this->any())->method('execute')->will(
-            $this->returnValue([
-                new \Foo\Bar\Page(),
-                new \Foo\Bar\Page(),
-            ])
-        );
+                $this->returnValue([
+                    new \Foo\Bar\Page(),
+                    new \Foo\Bar\Page(),
+                ])
+            );
 
             $items = $this->urlProvider->suggest('foo');
             $this->assertCount(2, $items);

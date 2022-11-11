@@ -6,14 +6,14 @@
     "require": {
         "php": "^7.4 || ^8.0",
         "sonata-project/admin-bundle": "^4.21.0",
-        "symfony/config": "^4.4",
-        "symfony/console": "^4.4",
-        "symfony/security-core": "^4.4",
+        "symfony/config": "^5.4",
+        "symfony/console": "^5.4",
+        "symfony/security-core": "^5.4",
         "twig/twig": "^2.7 || ^3",
-        "zicht/admin-bundle": "^7",
-        "zicht/framework-extra-bundle": "^9",
-        "zicht/menu-bundle": "^5.1",
-        "zicht/url-bundle": "^6",
+        "zicht/admin-bundle": "^8",
+        "zicht/framework-extra-bundle": "^10",
+        "zicht/menu-bundle": "^6",
+        "zicht/url-bundle": "^7",
         "zicht/util": "^2"
     },
     "require-dev": {
@@ -22,16 +22,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Zicht\\Bundle\\PageBundle\\": [
-                "src/"
-            ]
+            "Zicht\\Bundle\\PageBundle\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "ZichtTest\\Bundle\\PageBundle\\": [
-                "tests/"
-            ]
+            "ZichtTest\\Bundle\\PageBundle\\": "tests/"
         }
     },
     "minimum-stability": "stable",

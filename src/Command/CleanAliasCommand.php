@@ -37,7 +37,7 @@ class CleanAliasCommand extends Command
             ->setDescription('Clean aliases that are not attached to pages any more.');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $locale = $input->getArgument('locale');
 
