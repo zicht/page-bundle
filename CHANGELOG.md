@@ -8,6 +8,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added|Changed|Deprecated|Removed|Fixed|Security
 Nothing so far
 
+## 7.0.3 - 2022-11-11
+### Fixed
+- Set the minimum requirement for sonata-project/admin-bundle to v4.21.0 which contains a bug fix which makes the
+  temporary fix for this bug determining the wrong class based upon the subject, introduced in v7.0.1, no longer
+  necessary.
+
 ## 7.0.2 - 2022-10-17
 ### Fixed
 - Removed `finally` in ContentItemDetailCRUDController listAction. This resulted in _always_ showing the original (parent) listAction.
