@@ -10,10 +10,10 @@
         "symfony/console": "^5.4",
         "symfony/security-core": "^5.4",
         "twig/twig": "^2.7 || ^3",
-        "zicht/admin-bundle": "dev-feature/symfony-5",
-        "zicht/framework-extra-bundle": "dev-feature/symfony-5",
-        "zicht/menu-bundle": "dev-feature/symfony-5",
-        "zicht/url-bundle": "dev-feature/symfony-5",
+        "zicht/admin-bundle": "^8",
+        "zicht/framework-extra-bundle": "^10",
+        "zicht/menu-bundle": "^6",
+        "zicht/url-bundle": "^7",
         "zicht/util": "^2"
     },
     "require-dev": {
