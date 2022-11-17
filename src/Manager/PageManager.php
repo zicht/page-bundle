@@ -6,6 +6,7 @@
 namespace Zicht\Bundle\PageBundle\Manager;
 
 use Doctrine\Common\Util\ClassUtils;
+use Doctrine\DBAL\Connection;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Persistence\ObjectManager;
@@ -191,7 +192,10 @@ class PageManager
      */
     public function findForView($id)
     {
-        $type = $this->doctrine->getConnection()->fetchColumn('SELECT type FROM page WHERE id=:id', ['id' => $id]);
+        /** @var Connection $conn */
+        $conn = $this->doctrine->getConnection();
+        // "app-home"
+        $type = $conn->executeQuery('SELECT type FROM page WHERE id=:id', ['id' => $id])->fetchOne();
         if (!$type) {
             throw new NotFoundHttpException();
         }
