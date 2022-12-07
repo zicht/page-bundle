@@ -194,7 +194,6 @@ class PageManager
     {
         /** @var Connection $conn */
         $conn = $this->doctrine->getConnection();
-        // "app-home"
         $type = $conn->executeQuery('SELECT type FROM page WHERE id=:id', ['id' => $id])->fetchOne();
         if (!$type) {
             throw new NotFoundHttpException();
