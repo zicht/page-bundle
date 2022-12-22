@@ -1,0 +1,4 @@
+content_item:
+    invalid:
+        region_empty: The region for the item of type "%type%" is empty. Place the item in a valid region.
+        region_type_combination: The item of type "%type%" cannot exist in the region "%region%". Please choose a valid region.

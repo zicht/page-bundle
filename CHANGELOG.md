@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added|Changed|Deprecated|Removed|Fixed|Security
 Nothing so far
 
+## 6.4.3 - 2022-12-22
+### Fixed
+- Improved Content Item Matrix validation messages
+
 ## 6.4.2 - 2022-10-04
 ### Changed
 - Introduced PHP CS Fixer + fixed all code in src/ and tests/.

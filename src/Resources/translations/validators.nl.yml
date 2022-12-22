@@ -1,3 +1,4 @@
 content_item:
     invalid:
-        region_type_combination: De regio %region% en het type %type% komen niet overeen
+        region_empty: De regio voor het item van het type "%type%" is leeg. Plaats het item in een geldige regio.
+        region_type_combination: Het item van het type "%type%" kan niet in de regio "%region%" voor komen. Kies een geldige regio.
