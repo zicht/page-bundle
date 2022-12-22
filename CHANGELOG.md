@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added|Changed|Deprecated|Removed|Fixed|Security
 Nothing so far
 
+## 8.0.1 - 2022-12-22
+### Fixed
+- Forward merge of v6.4.3: Improved Content Item Matrix validation messages
+
 ## 8.0.0 - 2022-10-06
 ### Added
 - Support for Symfony ^5.4
