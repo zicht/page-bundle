@@ -33,6 +33,10 @@ Nothing so far
 - Support for PHP 7.2/7.3
 - Removed compatibility with Zicht Versioning bundle
 
+## 6.4.3 - 2022-12-22
+### Fixed
+- Improved Content Item Matrix validation messages
+
 ## 6.4.2 - 2022-10-04
 ### Changed
 - Introduced PHP CS Fixer + fixed all code in src/ and tests/.

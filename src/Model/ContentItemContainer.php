@@ -21,18 +21,12 @@ interface ContentItemContainer
     /**
      * Returns a list of ContentItems
      *
-     * @param null $region
-     * @return mixed
+     * @param string|null $region
+     * @return iterable<int, ContentItem>
      */
     public function getContentItems($region = null);
 
-    /**
-     * @return mixed
-     */
     public function addContentItem(ContentItemInterface $contentItem);
 
-    /**
-     * @return mixed
-     */
     public function removeContentItem(ContentItemInterface $contentItem);
 }
