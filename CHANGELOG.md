@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added|Changed|Deprecated|Removed|Fixed|Security
 Nothing so far
 
+## 7.0.4
+### Fixed
+- Forward merge of v6.4.3: Improved Content Item Matrix validation messages
+
 ## 7.0.3 - 2022-11-11
 ### Fixed
 - Set the minimum requirement for sonata-project/admin-bundle to v4.21.0 which contains a bug fix which makes the
