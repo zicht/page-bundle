@@ -14,6 +14,10 @@ Nothing so far
 ### Removed
 - Support for Symfony 4
 
+## 7.0.4
+### Fixed
+- Forward merge of v6.4.3: Improved Content Item Matrix validation messages
+
 ## 7.0.3 - 2022-11-11
 ### Fixed
 - Set the minimum requirement for sonata-project/admin-bundle to v4.21.0 which contains a bug fix which makes the
@@ -38,6 +42,10 @@ Nothing so far
 - Support for Sonata ^3
 - Support for PHP 7.2/7.3
 - Removed compatibility with Zicht Versioning bundle
+
+## 6.4.3 - 2022-12-22
+### Fixed
+- Improved Content Item Matrix validation messages
 
 ## 6.4.2 - 2022-10-04
 ### Changed
