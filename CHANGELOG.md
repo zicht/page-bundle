@@ -22,6 +22,10 @@ Nothing so far
 ### Removed
 - Support for Symfony 4
 
+## 7.0.5 - 2023-01-06
+### Fixed
+- Forward merge of v6.4.4: Faulty reference to `ContentItem` in `ContentItemContainer::getContentItems`
+
 ## 7.0.4
 ### Fixed
 - Forward merge of v6.4.3: Improved Content Item Matrix validation messages
@@ -50,6 +54,10 @@ Nothing so far
 - Support for Sonata ^3
 - Support for PHP 7.2/7.3
 - Removed compatibility with Zicht Versioning bundle
+
+## 6.4.4 - 2023-01-06
+### Fixed
+- Faulty reference to `ContentItem` in `ContentItemContainer::getContentItems`
 
 ## 6.4.3 - 2022-12-22
 ### Fixed
