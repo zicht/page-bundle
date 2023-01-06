@@ -5,6 +5,8 @@
 
 namespace Zicht\Bundle\PageBundle\Model;
 
+use Zicht\Bundle\PageBundle\Entity\ContentItem;
+
 /**
  * If an item that contains ContentItems implements this interface, the ContentItemTypeType and ContentItemRegionType
  * know how to render the available options for it.
