@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added|Changed|Deprecated|Removed|Fixed|Security
 Nothing so far
 
+## 7.0.5 - 2023-01-06
+### Fixed
+- Forward merge of v6.4.4: Faulty reference to `ContentItem` in `ContentItemContainer::getContentItems`
+
 ## 7.0.4
 ### Fixed
 - Forward merge of v6.4.3: Improved Content Item Matrix validation messages
