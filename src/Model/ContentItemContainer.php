@@ -24,7 +24,7 @@ interface ContentItemContainer
      * Returns a list of ContentItems
      *
      * @param string|null $region
-     * @return iterable<int, ContentItem>
+     * @return (\Traversable<int, ContentItem>&\Countable)|list<ContentItem>
      */
     public function getContentItems($region = null);
 

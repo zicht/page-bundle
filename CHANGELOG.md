@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added|Changed|Deprecated|Removed|Fixed|Security
 Nothing so far
 
+## 6.4.5 - 2023-04-26
+### Fixed
+- Backwards cherry-pick of v8.0.3: More static analysis info on `ContentItem` and `Page`
+
 ## 6.4.4 - 2023-01-06
 ### Fixed
 - Faulty reference to `ContentItem` in `ContentItemContainer::getContentItems`

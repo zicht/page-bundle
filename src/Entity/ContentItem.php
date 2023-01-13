@@ -10,6 +10,8 @@ use Zicht\Util\Str;
 
 /**
  * Base class for ContentItem entities.
+ *
+ * @method setPage(?Page $page)
  */
 abstract class ContentItem implements ContentItemInterface
 {
