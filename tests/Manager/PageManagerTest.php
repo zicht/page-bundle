@@ -168,7 +168,9 @@ namespace ZichtTest\Bundle\PageBundle\Manager {
         {
             $this->expectException('\Symfony\Component\HttpKernel\Exception\NotFoundHttpException');
             $connection = $this->stubConnection();
-            $connection->expects($this->once())->method('fetchColumn')->will($this->returnValue(null));
+            $statement = $this->createMock('Doctrine\DBAL\Driver\Result');
+            $statement->method('fetchOne')->willReturn(null);
+            $connection->expects($this->once())->method('executeQuery')->will($this->returnValue($statement));
             $this->pageManager->findForView('foo');
         }
 
@@ -256,7 +258,9 @@ namespace ZichtTest\Bundle\PageBundle\Manager {
         protected function stubPage($value)
         {
             $connection = $this->stubConnection();
-            $connection->expects($this->once())->method('fetchColumn')->will($this->returnValue('bar'));
+            $statement = $this->createMock('Doctrine\DBAL\Driver\Result');
+            $statement->method('fetchOne')->willReturn('bar');
+            $connection->expects($this->once())->method('executeQuery')->will($this->returnValue($statement));
             $this->managerForClass->expects($this->once())->method('getClassMetaData')->with($this->pageClassName)->will(
                 $this->returnValue(
                     (object)[
