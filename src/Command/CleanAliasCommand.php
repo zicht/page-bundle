@@ -7,6 +7,7 @@ namespace Zicht\Bundle\PageBundle\Command;
 
 use Doctrine\DBAL\Connection;
 use Symfony\Bridge\Doctrine\ManagerRegistry;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputArgument;
@@ -17,12 +18,10 @@ use Symfony\Component\Console\Question\ConfirmationQuestion;
 /**
  * Remove aliases referencing pages that do not exist anymore.
  */
+#[AsCommand('zicht:page:clean:alias')]
 class CleanAliasCommand extends Command
 {
-    protected static $defaultName = 'zicht:page:clean:alias';
-
-    /** @var ManagerRegistry */
-    private $doctrine;
+    private ManagerRegistry $doctrine;
 
     public function __construct(ManagerRegistry $doctrine, string $name = null)
     {
@@ -103,6 +102,6 @@ class CleanAliasCommand extends Command
         $connection->query(sprintf('DELETE FROM url_alias WHERE id IN (%s)', implode(', ', $aliasIds)));
         $output->writeln(sprintf('Removed %d aliases', count($records)));
 
-        return 0;
+        return Command::SUCCESS;
     }
 }

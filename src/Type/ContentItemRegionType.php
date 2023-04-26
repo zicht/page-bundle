@@ -102,7 +102,7 @@ class ContentItemRegionType extends AbstractType
         $view->vars['matrix'] = json_encode($matrix);
     }
 
-    public function getBlockPrefix()
+    public function getBlockPrefix(): string
     {
         return 'zicht_content_item_region';
     }

@@ -6,7 +6,9 @@
 namespace Zicht\Bundle\PageBundle\Command;
 
 use Doctrine\Persistence\ManagerRegistry;
+use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -14,21 +16,17 @@ use Symfony\Component\Console\Logger\ConsoleLogger;
 use Symfony\Component\Console\Output\OutputInterface;
 use Zicht\Bundle\PageBundle\Entity\Page;
 
+#[AsCommand('zicht:page:contentitems:check')]
 class CheckContentItemsCommand extends Command
 {
-    /** @var bool */
-    protected $isVeryVerbose;
+    private ManagerRegistry $doctrine;
 
-    /** @var bool */
-    protected $force;
+    /** @psalm-suppress PropertyNotSetInConstructor */
+    protected LoggerInterface $logger;
 
-    /** @var ConsoleLogger */
-    protected $logger;
+    protected bool $isVeryVerbose = false;
 
-    /** @var ManagerRegistry */
-    private $doctrine;
-
-    protected static $defaultName = 'zicht:page:contentitems:check';
+    protected bool $force = false;
 
     public function __construct(ManagerRegistry $doctrine, string $name = null)
     {
@@ -118,7 +116,7 @@ class CheckContentItemsCommand extends Command
             }
         }
 
-        return 0;
+        return Command::SUCCESS;
     }
 
     /**

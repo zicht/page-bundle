@@ -135,7 +135,7 @@ class ContentItemTypeType extends AbstractType
         }
     }
 
-    public function getBlockPrefix()
+    public function getBlockPrefix(): string
     {
         return 'zicht_content_item_type';
     }

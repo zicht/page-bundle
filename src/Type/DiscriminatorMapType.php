@@ -60,7 +60,7 @@ class DiscriminatorMapType extends ChoiceType
         return ChoiceType::class;
     }
 
-    public function getBlockPrefix()
+    public function getBlockPrefix(): string
     {
         return 'zicht_discriminator_map';
     }
