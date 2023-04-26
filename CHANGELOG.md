@@ -41,6 +41,10 @@ Nothing so far
 - Support for PHP 7.2/7.3
 - Removed compatibility with Zicht Versioning bundle
 
+## 6.4.5 - 2023-04-26
+### Fixed
+- Backwards cherry-pick of v8.0.3: More static analysis info on `ContentItem` and `Page`
+
 ## 6.4.4 - 2023-01-06
 ### Fixed
 - Faulty reference to `ContentItem` in `ContentItemContainer::getContentItems`
