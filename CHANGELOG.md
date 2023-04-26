@@ -30,6 +30,10 @@ Nothing so far
 ### Removed
 - Support for Symfony 4
 
+## 7.0.6 - 2023-04-26
+### Fixed
+- Forward merge of v6.4.5: Backwards cherry-pick of v8.0.3: More static analysis info on `ContentItem` and `Page`
+
 ## 7.0.5 - 2023-01-06
 ### Fixed
 - Forward merge of v6.4.4: Faulty reference to `ContentItem` in `ContentItemContainer::getContentItems`
@@ -62,6 +66,10 @@ Nothing so far
 - Support for Sonata ^3
 - Support for PHP 7.2/7.3
 - Removed compatibility with Zicht Versioning bundle
+
+## 6.4.5 - 2023-04-26
+### Fixed
+- Backwards cherry-pick of v8.0.3: More static analysis info on `ContentItem` and `Page`
 
 ## 6.4.4 - 2023-01-06
 ### Fixed
