@@ -19,7 +19,6 @@ abstract class AbstractVoter implements VoterInterface
     /**
      * Check if one or more of the given items is not empty
      *
-     * @param ...$value
      * @return bool
      */
     protected static function notEmpty(...$value)
