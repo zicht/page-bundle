@@ -5,30 +5,48 @@
 
 namespace Zicht\Bundle\PageBundle\Controller;
 
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-use Zicht\Bundle\PageBundle\Entity\ControllerPageInterface;
-use Zicht\Bundle\PageBundle\Model\PageInterface;
-use Zicht\Bundle\PageBundle\Model\ViewValidationInterface;
+use Zicht\Bundle\PageBundle\Manager\PageManager;
 use Zicht\Bundle\PageBundle\Security\PageViewValidation;
 use Zicht\Bundle\UrlBundle\Url\Provider as UrlProvider;
 
 /**
  * Controller for public page actions
+ *
+ * @final in the future. You should not extend this PageController as this will result in duplication of
+ *        its routes and will cause unexpected behaviour. Use the {@see PageControllerTrait} to use handy functionalities
+ *        that were formerly available only in this PageController.
  */
 class PageController extends AbstractController
 {
+    use PageControllerTrait;
+
+    private PageManager $pageManager;
+
+    private UrlProvider $urlProvider;
+
+    private PageViewValidation $pageViewValidation;
+
+    public function __construct(PageManager $pageManager, UrlProvider $urlProvider, PageViewValidation $pageViewValidation)
+    {
+        $this->pageManager = $pageManager;
+        $this->urlProvider = $urlProvider;
+        $this->pageViewValidation = $pageViewValidation;
+    }
+
+    /** @deprecated Use the injected services instead of getting them from the container. */
     public static function getSubscribedServices(): array
     {
         return array_merge(
             parent::getSubscribedServices(),
             [
-            'zicht_url.provider' => UrlProvider::class,
-            'zicht_page.controller.view_validator' => PageViewValidation::class,
+                'zicht_url.provider' => UrlProvider::class,
+                'zicht_page.controller.view_validator' => PageViewValidation::class,
+                'zicht_page.page_manager' => PageManager::class,
             ]
         );
     }
@@ -53,7 +71,7 @@ class PageController extends AbstractController
     public function gotoAction(Request $r): RedirectResponse
     {
         return $this->redirect(
-            $this->get('zicht_url.provider')->url($this->getPageManager()->findForView($r->get('id')))
+            $this->urlProvider->url($this->getPageManager()->findForView($r->get('id')))
         );
     }
 
@@ -63,52 +81,19 @@ class PageController extends AbstractController
      */
     public function viewAction(Request $request, $id): Response
     {
-        $pageManager = $this->getPageManager();
-        $page = $pageManager->findForView($id);
-
-        if (null !== ($validator = $this->getViewActionValidator())) {
-            try {
-                $validator->validate($page);
-            } catch (AccessDeniedException $e) {
-                // AccessDeniedException will cause a redirect to the login page, so we're throwing
-                // an AccessDeniedHttpException instead to make Symfony return a 403 response
-                // (don't pass the previous exception, as this will again cause a redirect to the login page)
-                throw new AccessDeniedHttpException($e->getMessage());
-            }
+        if (get_class($this) !== __CLASS__) {
+            trigger_deprecation('zicht/page-bundle', '8.2', 'Extending the "%s" controller is deprecated as it will be final in the future. Implement your own "viewAction()" and/or use "%s" functionalities.', __CLASS__, PageControllerTrait::class);
         }
 
-        if ($page instanceof ControllerPageInterface && $page->getController() !== null) {
-            return $this->forward(
-                $page->getController(),
-                (array)$page->getControllerParameters()
-                + [
-                    'parameters' => $request->query->all(),
-                    '_locale' => $request->attributes->get('_locale'),
-                    '_internal_url' => $request->attributes->get('_internal_url'),
-                ],
-                $request->query->all()
-            );
+        $page = $this->pageManager->findForView($id);
+
+        $this->isViewActionAllowed($page);
+
+        $forward = $this->shouldForwardControllerPage($page, $request);
+        if ($forward instanceof Response) {
+            return $forward;
         }
 
         return $this->renderPage($page);
-    }
-
-    protected function getViewActionValidator(): ?ViewValidationInterface
-    {
-        if (($validator = $this->get('zicht_page.controller.view_validator')) instanceof ViewValidationInterface) {
-            return $validator;
-        }
-        return null;
-    }
-
-    public function renderPage(PageInterface $page, array $vars = []): Response
-    {
-        return $this->render(
-            $this->getPageManager()->getTemplate($page),
-            $vars + [
-                'page' => $page,
-                'id' => $page->getId(),
-            ]
-        );
     }
 }

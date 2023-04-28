@@ -41,6 +41,7 @@ trait ScheduledContentRepositoryTrait
      */
     private function generatePublisedWhereClausesCriteria(string $alias = 'p', \DateTimeInterface $refDate = null): Criteria
     {
+        trigger_deprecation('zicht/page-bundle', '6.1.5', 'Method "%s()" is deprecated. Use static call to "getPublishedCriteria()" instead.', __METHOD__);
         return static::getPublishedCriteria($alias, $refDate);
     }
 }

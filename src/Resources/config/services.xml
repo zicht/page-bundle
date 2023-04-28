@@ -90,8 +90,15 @@
             <tag name="kernel.event_listener" event="zicht_admin.object_duplicate"/>
         </service>
 
+        <service id="Zicht\Bundle\PageBundle\Controller\PageController">
+            <argument type="service" id="zicht_page.page_manager"/>
+            <argument type="service" id="zicht_url.provider"/>
+            <argument type="service" id="zicht_page.controller.view_validator"/>
+        </service>
+
         <service id="Zicht\Bundle\PageBundle\Controller\DebugPagesController">
             <argument type="service" id="doctrine.orm.entity_manager"/>
+            <argument type="service" id="zicht_page.page_manager"/>
         </service>
 
         <prototype namespace="Zicht\Bundle\PageBundle\Controller\" resource="../../Controller/" autowire="true" public="true">

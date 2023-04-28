@@ -187,7 +187,7 @@ class PageManager
      * Find a page in the repository and trigger a view event.
      *
      * @param string $id
-     * @return mixed
+     * @return PageInterface
      * @throws NotFoundHttpException
      */
     public function findForView($id)
@@ -202,19 +202,22 @@ class PageManager
             ->getClassMetadata($this->pageClassName)->discriminatorMap;
 
         $class = $types[$type];
-        $repos = $this->doctrine->getRepository($class);
+        /** @var ObjectRepository<PageInterface> $repository */
+        $repository = $this->doctrine->getRepository($class);
 
-        if ($repos instanceof ViewablePageRepository) {
-            $ret = $repos->findForView($id);
+        if ($repository instanceof ViewablePageRepository) {
+            $page = $repository->findForView($id);
         } else {
-            $ret = $repos->find($id);
+            $page = $repository->find($id);
         }
 
-        if (!$ret) {
+        if (!$page) {
             throw new NotFoundHttpException();
         }
-        $this->setLoadedPage($ret);
-        return $ret;
+
+        $this->setLoadedPage($page);
+
+        return $page;
     }
 
     /**

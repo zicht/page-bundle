@@ -7,30 +7,34 @@ namespace Zicht\Bundle\PageBundle\Controller;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Zicht\Bundle\PageBundle\Manager\PageManager;
 use Zicht\Bundle\PageBundle\Model\ContentItemInterface;
 use Zicht\Bundle\PageBundle\Model\PageInterface;
 
-class DebugPagesController extends AbstractController
+final class DebugPagesController extends AbstractController
 {
     private EntityManagerInterface $entityManager;
 
-    public function __construct(EntityManagerInterface $entityManager)
+    private PageManager $pageManager;
+
+    public function __construct(EntityManagerInterface $entityManager, PageManager $pageManager)
     {
         $this->entityManager = $entityManager;
+        $this->pageManager = $pageManager;
     }
 
     public function showProjectPageTypeLinksAndInfo(Request $request): Response
     {
-        $pageManager = $this->getPageManager();
         /** @var EntityRepository $repository */
-        $repository = $pageManager->getBaseRepository();
+        $repository = $this->pageManager->getBaseRepository();
 
         $pagesInfo = [];
         $totalCount = 0;
         $locale = $request->getLocale();
-        foreach ($pageManager->getPageTypes() as $pageType) {
+        foreach ($this->pageManager->getPageTypes() as $pageType) {
             $qb = $repository->createQueryBuilder('p');
             $qb->where($qb->expr()->isInstanceOf('p', $pageType));
             if ($locale && $this->pageSupportsLanguage($pageType)) {

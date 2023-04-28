@@ -37,7 +37,7 @@ class Subscriber implements EventSubscriber
         $this->getManager()->decorateClassMetaData($args->getClassMetadata());
     }
 
-    public function getSubscribedEvents()
+    public function getSubscribedEvents(): array
     {
         return [
             Events::loadClassMetadata,
