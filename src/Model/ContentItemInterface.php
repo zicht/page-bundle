@@ -13,7 +13,7 @@ interface ContentItemInterface
     /**
      * Return the type name for the content item, usually it's class name.
      *
-     * @return mixed
+     * @return string
      */
     public function getType();
 

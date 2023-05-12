@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Zicht\Bundle\PageBundle\Controller\PageController;
+use Zicht\Bundle\UrlBundle\Url\Provider as UrlProvider;
 use ZichtTest\Bundle\PageBundle\Assets\PageAdapter;
 
 class Page extends PageAdapter
@@ -50,10 +51,11 @@ class PageControllerTest extends TestCase
 
     public function setUp(): void
     {
-        $this->controller = new PageController();
         $this->pm = $this->getMockBuilder('Zicht\Bundle\PageBundle\Manager\PageManager')->disableOriginalConstructor()->getMock();
-        $this->twig = $this->getMockBuilder('Twig\Environment')->disableOriginalConstructor()->getMock();
         $this->viewValidator = $this->getMockBuilder('Zicht\Bundle\PageBundle\Security\PageViewValidation')->getMock();
+        $urlProvider = $this->getMockBuilder(UrlProvider::class)->getMock();
+        $this->controller = new PageController($this->pm, $urlProvider, $this->viewValidator);
+        $this->twig = $this->getMockBuilder('Twig\Environment')->disableOriginalConstructor()->getMock();
 
         $this->viewValidator->method('validate');
 
@@ -112,8 +114,8 @@ class PageControllerTest extends TestCase
         $this->twig->expects($this->once())->method('render')->with(
             'foo.template',
             [
-            'page' => $page,
-            'id' => $id,
+                'page' => $page,
+                'id' => $id,
             ]
         );
 

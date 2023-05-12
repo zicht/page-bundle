@@ -8,6 +8,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added|Changed|Deprecated|Removed|Fixed|Security
 Nothing so far
 
+## 8.2.0 - 2023-04-28
+### Added
+- `PageControllerTrait` for handy functionalities that were in the `PageController` before.
+### Deprecated
+- `\Zicht\Bundle\PageBundle\Controller\AbstractController`
+- Extending `\Zicht\Bundle\PageBundle\Controller\PageController`. This class is soft marked `@final` now through annotation.
+### Fixed
+- Some minor deprecation warnings.
+
 ## 8.1.0 - 2022-12-07
 ### Added
 - Forward compatability for `doctrine/dbal ^3`
