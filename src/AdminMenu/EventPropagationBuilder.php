@@ -25,14 +25,11 @@ class EventPropagationBuilder implements PropagationInterface
     /** @var Provider */
     protected $pageUrlProvider;
 
-    /** @var EventDispatcher */
+    /** @var EventDispatcherInterface */
     protected $eventDispatcher;
 
     /**
      * Construct with the specified admin pool
-     *
-     * @param Pool $sonata
-     * @param Provider $pageUrlProvider
      */
     public function __construct(Pool $sonata = null, Provider $pageUrlProvider = null, EventDispatcherInterface $eventDispatcher)
     {
@@ -41,13 +38,13 @@ class EventPropagationBuilder implements PropagationInterface
         $this->eventDispatcher = $eventDispatcher;
     }
 
-    public function buildAndForwardEvent(Event $event): void
+    public function buildAndForwardEvent(Event $e): void
     {
-        if (!$event instanceof PageViewEvent) {
+        if (!$e instanceof PageViewEvent) {
             return;
         }
 
-        $page = $event->getPage();
+        $page = $e->getPage();
         $admin = $this->sonata->getAdminByClass(get_class($page));
 
         if ($admin === null) {
@@ -55,12 +52,10 @@ class EventPropagationBuilder implements PropagationInterface
         }
 
         if ($page->getId() && $admin !== null) {
-            $title = $event->getPage()->getTitle();
-            /** @var \Zicht\Bundle\PageBundle\Event\PageViewEvent $event */
-            /** @var \Zicht\Bundle\PageBundle\Event\PageViewEvent $e */
+            $title = $e->getPage()->getTitle();
             $this->eventDispatcher->dispatch(
                 new MenuEvent(
-                    $admin->generateObjectUrl('edit', $event->getPage()),
+                    $admin->generateObjectUrl('edit', $e->getPage()),
                     sprintf(
                         'Beheer pagina "%s"',
                         strlen($title) > 20 ? substr($title, 0, 20) . '...' : $title

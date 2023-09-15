@@ -15,6 +15,7 @@ namespace ZichtTest\Bundle\PageBundle\Assets {
 namespace ZichtTest\Bundle\PageBundle\Type {
     use PHPUnit\Framework\TestCase;
     use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+    use Symfony\Component\Form\FormBuilderInterface;
 
     class ContentItemRegionTypeTest extends TestCase
     {
@@ -53,7 +54,7 @@ namespace ZichtTest\Bundle\PageBundle\Type {
         public function testBuildFormWithContainerSpecifiedWillAddRegionChoiceWithAvailableChoices($args)
         {
             list($options, $type) = $args;
-            $builder = $this->getMockBuilder('Symfony\Component\Form\FormBuilder')->disableOriginalConstructor()->getMock();
+            $builder = $this->getMockBuilder(FormBuilderInterface::class)->disableOriginalConstructor()->getMock();
             $container = $this->getMockBuilder('Zicht\Bundle\PageBundle\Model\ContentItemContainer')->getMock();
             $matrix = \Zicht\Bundle\PageBundle\Model\ContentItemMatrix::create()
                 ->region('x')
@@ -73,7 +74,7 @@ namespace ZichtTest\Bundle\PageBundle\Type {
         public function testBuildFormWithoutContainerSpecifiedWillAddDefaultRegions($args)
         {
             list($options, $type) = $args;
-            $builder = $this->getMockBuilder('Symfony\Component\Form\FormBuilder')->disableOriginalConstructor()->getMock();
+            $builder = $this->getMockBuilder(FormBuilderInterface::class)->disableOriginalConstructor()->getMock();
             $builder->expects($this->once())->method('add')->with('region', ChoiceType::class, ['choices' => ['a' => 'a', 'b' => 'b'], 'translation_domain' => 'admin']);
             $type->buildForm($builder, $options);
         }

@@ -31,11 +31,7 @@ use Zicht\Util\Str;
  */
 class PageAdmin extends AbstractAdmin
 {
-    protected bool $persistFilters = true;
-
-    protected array $templates = [];
-
-    /** @psalm-suppress PropertyNotSetInConstructor */
+    /** @psalm-suppress PropertyNotSetInConstructor, PossiblyUnusedProperty */
     protected PageManager $pageManager;
 
     protected ?MenuManager $menuManager = null;
@@ -47,7 +43,7 @@ class PageAdmin extends AbstractAdmin
     /**
      * Constructor, overridden to be able to set the (required) content item admin code.
      */
-    public function __construct(?string $code = null, ?string $class = null, ?string $baseControllerName = null, ?string $contentItemAdminCode = null)
+    public function __construct(string $code = null, string $class = null, string $baseControllerName = null, string $contentItemAdminCode = null)
     {
         if (\func_num_args() > 1) {
             // BC
@@ -79,9 +75,9 @@ class PageAdmin extends AbstractAdmin
         $this->urlProvider = $urlProvider;
     }
 
-    public function configureShowFields(ShowMapper $showMapper): void
+    public function configureShowFields(ShowMapper $show): void
     {
-        $showMapper->add('title');
+        $show->add('title');
     }
 
     public function configureListFields(ListMapper $list): void
