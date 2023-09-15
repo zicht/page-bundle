@@ -20,18 +20,18 @@ class PageVoter extends AbstractAdminAwareVoter
         return Page::class === $class || is_subclass_of($class, Page::class);
     }
 
-    public function vote(TokenInterface $token, $object, array $attributes)
+    public function vote(TokenInterface $token, $subject, array $attributes)
     {
         // Abstract class checks if user is admin, if not so it will return VoterInterface::ACCESS_ABSTAIN
-        $vote = parent::vote($token, $object, $attributes);
+        $vote = parent::vote($token, $subject, $attributes);
 
-        if ($vote === VoterInterface::ACCESS_ABSTAIN && is_object($object) && $this->supportsClass(get_class($object))) {
+        if ($vote === VoterInterface::ACCESS_ABSTAIN && is_object($subject) && $this->supportsClass(get_class($subject))) {
             foreach ($attributes as $attribute) {
                 if (!$this->supportsAttribute($attribute)) {
                     continue;
                 }
 
-                if ($this->isPublic($object)) {
+                if ($this->isPublic($subject)) {
                     $vote = VoterInterface::ACCESS_GRANTED;
                     break;
                 }

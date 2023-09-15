@@ -12,7 +12,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Logger\ConsoleLogger;
 use Symfony\Component\Console\Output\OutputInterface;
-use Zicht\Bundle\PageBundle\Entity\ContentItem;
 use Zicht\Bundle\PageBundle\Entity\Page;
 
 class CheckContentItemsCommand extends Command
@@ -72,7 +71,6 @@ class CheckContentItemsCommand extends Command
                     $this->logger->debug($debugString);
                     $matrix = $entity->getContentItemMatrix();
 
-                    /** @var ContentItem $contentitem */
                     foreach ($entity->getContentItems() as $contentitem) {
                         $failed = false;
 

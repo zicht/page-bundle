@@ -18,9 +18,8 @@ class AdminObjectDuplicateListener
         if (!($event->getOldObject() instanceof Page)) {
             return;
         }
-        $newPage = $event->getNewObject();
-        $oldPage = $event->getOldObject();
 
+        $newPage = $event->getNewObject();
         if (method_exists($newPage, 'setIsPublic')) {
             $newPage->setIsPublic(false);
         }

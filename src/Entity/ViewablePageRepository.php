@@ -1,7 +1,7 @@
 <?php
 /**
  * @copyright Zicht Online <http://zicht.nl>
-  */
+ */
 
 namespace Zicht\Bundle\PageBundle\Entity;
 

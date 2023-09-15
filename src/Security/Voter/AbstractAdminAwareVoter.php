@@ -20,11 +20,11 @@ abstract class AbstractAdminAwareVoter extends AbstractVoter
      * ACCESS_GRANTED, ACCESS_DENIED, or ACCESS_ABSTAIN.
      *
      * @param TokenInterface $token A TokenInterface instance
-     * @param object $object The object to secure
+     * @param object $subject The object to secure
      * @param array $attributes An array of attributes associated with the method being invoked
      * @return int either ACCESS_GRANTED, ACCESS_ABSTAIN, or ACCESS_DENIED
      */
-    public function vote(TokenInterface $token, $object, array $attributes)
+    public function vote(TokenInterface $token, $subject, array $attributes)
     {
         // ignore checks for switch user
         if (in_array('ROLE_PREVIOUS_ADMIN', $attributes)) {
@@ -35,7 +35,7 @@ abstract class AbstractAdminAwareVoter extends AbstractVoter
          * Admin users should see content no matter the scheduled dates
          * Since you can set the decision strategy to unanimous, you want to grant this explicitly
          */
-        if (!is_null($object) && $this->supportsClass(get_class($object)) && count($token->getRoleNames()) > 0) {
+        if (!is_null($subject) && $this->supportsClass(get_class($subject)) && count($token->getRoleNames()) > 0) {
             foreach ($token->getRoleNames() as $role) {
                 if (in_array($role, ['ROLE_ADMIN', 'ROLE_SUPER_ADMIN'])) {
                     return VoterInterface::ACCESS_GRANTED;

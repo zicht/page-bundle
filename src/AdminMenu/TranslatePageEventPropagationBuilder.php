@@ -22,7 +22,7 @@ class TranslatePageEventPropagationBuilder implements PropagationInterface
     /** @var Router */
     private $router;
 
-    /** @var EventDispatcher */
+    /** @var EventDispatcherInterface */
     private $eventDispatcher;
 
     public function __construct(Router $router, EventDispatcherInterface $eventDispatcher)
@@ -31,9 +31,9 @@ class TranslatePageEventPropagationBuilder implements PropagationInterface
         $this->eventDispatcher = $eventDispatcher;
     }
 
-    public function buildAndForwardEvent(Event $event): void
+    public function buildAndForwardEvent(Event $e): void
     {
-        if (!$event instanceof PageViewEvent) {
+        if (!$e instanceof PageViewEvent) {
             return;
         }
 
@@ -42,7 +42,7 @@ class TranslatePageEventPropagationBuilder implements PropagationInterface
         }
 
         /** @var Page $page */
-        $page = $event->getPage();
+        $page = $e->getPage();
         if (!$page->getId()) {
             return;
         }

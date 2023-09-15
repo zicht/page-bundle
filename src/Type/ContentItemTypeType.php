@@ -24,7 +24,11 @@ use Zicht\Util\Str;
  */
 class ContentItemTypeType extends AbstractType
 {
+    private string $contentItemClass;
+
     private TranslatorInterface $translator;
+
+    private ?Pool $sonata;
 
     /**
      * @param string $contentItemClass
@@ -109,7 +113,7 @@ class ContentItemTypeType extends AbstractType
             $view->vars['edit_url'] = null;
 
             try {
-                if ($subject->getId() && !is_null($subject) && $typeAdmin = $this->sonata->getAdminByClass(get_class($subject))) {
+                if ($subject->getId() && !is_null($subject) && $this->sonata && $typeAdmin = $this->sonata->getAdminByClass(get_class($subject))) {
                     $view->vars['type'] = Str::humanize($subject->getType());
                     $childAdminCode = $parentAdmin->getCode() . '|' . $typeAdmin->getCode();
                     $childAdmin = $this->sonata->getAdminByAdminCode($childAdminCode);

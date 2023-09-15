@@ -9,8 +9,15 @@ use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\HttpKernel\HttpKernelInterface;
+use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Twig\Environment as TwigEnvironment;
 use Zicht\Bundle\PageBundle\Controller\PageController;
+use Zicht\Bundle\PageBundle\Manager\PageManager;
+use Zicht\Bundle\PageBundle\Security\PageViewValidation;
 use Zicht\Bundle\UrlBundle\Url\Provider as UrlProvider;
 use ZichtTest\Bundle\PageBundle\Assets\PageAdapter;
 
@@ -51,11 +58,11 @@ class PageControllerTest extends TestCase
 
     public function setUp(): void
     {
-        $this->pm = $this->getMockBuilder('Zicht\Bundle\PageBundle\Manager\PageManager')->disableOriginalConstructor()->getMock();
-        $this->viewValidator = $this->getMockBuilder('Zicht\Bundle\PageBundle\Security\PageViewValidation')->getMock();
+        $this->pm = $this->getMockBuilder(PageManager::class)->disableOriginalConstructor()->getMock();
+        $this->viewValidator = $this->getMockBuilder(PageViewValidation::class)->getMock();
         $urlProvider = $this->getMockBuilder(UrlProvider::class)->getMock();
         $this->controller = new PageController($this->pm, $urlProvider, $this->viewValidator);
-        $this->twig = $this->getMockBuilder('Twig\Environment')->disableOriginalConstructor()->getMock();
+        $this->twig = $this->getMockBuilder(TwigEnvironment::class)->disableOriginalConstructor()->getMock();
 
         $this->viewValidator->method('validate');
 
@@ -74,7 +81,7 @@ class PageControllerTest extends TestCase
 
         $this->request = $request;
 
-        $this->kernel = $this->getMockBuilder('Symfony\Component\HttpKernel\HttpKernelInterface')->setMethods(['forward', 'handle'])->getMock();
+        $this->kernel = $this->getMockBuilder(HttpKernelInterface::class)->setMethods(['forward', 'handle'])->getMock();
         $container = new \Symfony\Component\DependencyInjection\Container();
         $container->set('zicht_page.page_manager', $this->pm);
         $container->set('twig', $this->twig);
@@ -87,7 +94,7 @@ class PageControllerTest extends TestCase
         $container->set('request_stack', $rs);
 
         $container->set('http_kernel', $this->kernel);
-        $this->security = $this->createMock('Symfony\Component\Security\Core\Authorization\AuthorizationChecker');
+        $this->security = $this->createMock(AuthorizationChecker::class);
         $container->set('security.authorization_checker', $this->security);
 
         $this->controller->setContainer($container);
@@ -129,14 +136,14 @@ class PageControllerTest extends TestCase
         $id = rand(1, 100);
         $page = new CPage($id);
         $this->pm->expects($this->once())->method('findForView')->with($id)->will($this->returnValue($page));
-        $this->kernel->expects($this->once())->method('handle')->willReturn($this->createMock('Symfony\Component\HttpFoundation\Response'));
+        $this->kernel->expects($this->once())->method('handle')->willReturn($this->createMock(Response::class));
 
         $this->controller->viewAction($this->request, $id);
     }
 
     public function testControllerThrowsAccessDeniedExceptionIfNotAllowed()
     {
-        $this->expectException('Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException');
+        $this->expectException(AccessDeniedHttpException::class);
         $this->deny();
         $id = rand(1, 100);
         $page = new CPage($id);
