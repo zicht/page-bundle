@@ -6,7 +6,7 @@
 namespace Zicht\Bundle\PageBundle\Security\Voter;
 
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\Security\Core\Authentication\Token\AnonymousToken;
+use Symfony\Component\Security\Core\Authentication\Token\NullToken;
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 use Zicht\Bundle\PageBundle\Model\ScheduledContentInterface;
 
@@ -17,7 +17,7 @@ class ScheduledContentVoterTest extends TestCase
 {
     public function testScheduledContentVoterShouldAbstainWithIncorrectClass()
     {
-        $token = new AnonymousToken('key', 'user');
+        $token = new NullToken();
         $voter = new ScheduledContentVoter();
         $vote = $voter->vote($token, new \stdClass(), ['VIEW']);
         $this->assertEquals(VoterInterface::ACCESS_ABSTAIN, $vote);
@@ -29,7 +29,7 @@ class ScheduledContentVoterTest extends TestCase
     public function testScheduledContentVoterShouldAbstainWhenDatesOrNull()
     {
         $mock = new MockScheduledObject();
-        $token = new AnonymousToken('key', 'user');
+        $token = new NullToken();
         $voter = new ScheduledContentVoter();
         $vote = $voter->vote($token, $mock, ['VIEW']);
 
@@ -44,7 +44,7 @@ class ScheduledContentVoterTest extends TestCase
         $mock = new MockScheduledObject();
         $mock->from = new \DateTime('yesterday');
 
-        $token = new AnonymousToken('key', 'user');
+        $token = new NullToken();
         $voter = new ScheduledContentVoter();
         $vote = $voter->vote($token, $mock, ['VIEW']);
 
@@ -60,7 +60,7 @@ class ScheduledContentVoterTest extends TestCase
         $mock->from = null;
         $mock->till = new \DateTime('tomorrow');
 
-        $token = new AnonymousToken('key', 'user');
+        $token = new NullToken();
         $voter = new ScheduledContentVoter();
         $vote = $voter->vote($token, $mock, ['VIEW']);
 
@@ -76,7 +76,7 @@ class ScheduledContentVoterTest extends TestCase
         $mock->from = new \DateTime('yesterday');
         $mock->till = new \DateTime('tomorrow');
 
-        $token = new AnonymousToken('key', 'user');
+        $token = new NullToken();
         $voter = new ScheduledContentVoter();
         $vote = $voter->vote($token, $mock, ['VIEW']);
 
@@ -92,7 +92,7 @@ class ScheduledContentVoterTest extends TestCase
         $mock->from = new \DateTime('yesterday');
         $mock->till = new \DateTime('3 hours ago');
 
-        $token = new AnonymousToken('key', 'user');
+        $token = new NullToken();
         $voter = new ScheduledContentVoter();
         $vote = $voter->vote($token, $mock, ['VIEW']);
 
@@ -108,7 +108,7 @@ class ScheduledContentVoterTest extends TestCase
         $mock->from = new \DateTime('+3 hours');
         $mock->till = new \DateTime('tomorrow');
 
-        $token = new AnonymousToken('key', 'user');
+        $token = new NullToken();
         $voter = new ScheduledContentVoter();
         $vote = $voter->vote($token, $mock, ['VIEW']);
 
