@@ -6,8 +6,9 @@
 namespace ZichtTest\Bundle\PageBundle\Entity;
 
 use PHPUnit\Framework\TestCase;
+use Zicht\Bundle\PageBundle\Entity\ContentItem;
 
-abstract class Base extends \Zicht\Bundle\PageBundle\Entity\ContentItem
+abstract class Base extends ContentItem
 {
     private $commonProperty = 'foo-common';
 
@@ -19,12 +20,10 @@ abstract class Base extends \Zicht\Bundle\PageBundle\Entity\ContentItem
 
 class MyFooContentItem extends Base
 {
-    private $fooProperty = 'foo';
 }
 
 class MyBarContentItem extends Base
 {
-    private $barProperty = 'bar';
 }
 
 class ContentItemTest extends TestCase
@@ -42,7 +41,7 @@ class ContentItemTest extends TestCase
     {
         $foo = new MyFooContentItem();
         $bar = new MyBarContentItem();
-        \Zicht\Bundle\PageBundle\Entity\ContentItem::convert($foo, $bar);
+        ContentItem::convert($foo, $bar);
 
         $this->assertEquals($foo->getCommonProperty(), $bar->getCommonProperty());
     }

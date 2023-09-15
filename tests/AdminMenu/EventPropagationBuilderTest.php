@@ -6,6 +6,7 @@
 namespace ZichtTest\Bundle\PageBundle\AdminMenu;
 
 use PHPUnit\Framework\TestCase;
+use Sonata\AdminBundle\Admin\AdminInterface;
 use Sonata\AdminBundle\Admin\Pool;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Contracts\EventDispatcher\Event;
@@ -62,9 +63,9 @@ class EventPropagationBuilderTest extends TestCase
     public function setUp(): void
     {
         $this->markTestSkipped('Mark skipped until resolving mocking final class Pool');
-        $this->pool = $this->getMockBuilder('Sonata\AdminBundle\Admin\Pool')->disableOriginalConstructor()->getMock();
-        $this->dispatcher = self::getMockBuilder(EventDispatcher::class)->disableOriginalConstructor()->getMock();
-        $this->propagator = new EventPropagationBuilder($this->pool, null, $this->dispatcher);
+        // $this->pool = $this->getMockBuilder('Sonata\AdminBundle\Admin\Pool')->disableOriginalConstructor()->getMock();
+        // $this->dispatcher = self::getMockBuilder(EventDispatcher::class)->disableOriginalConstructor()->getMock();
+        // $this->propagator = new EventPropagationBuilder($this->pool, null, $this->dispatcher);
     }
 
     public function testFiringPageViewEventWillCheckClassHierarchyForAdminClass()
@@ -79,18 +80,10 @@ class EventPropagationBuilderTest extends TestCase
                 })
             );
 
-        $dispatcher = self::getMockBuilder(EventDispatcher::class)->disableOriginalConstructor()->getMock();
-
         $event = new PageViewEvent(new P1('bar'));
         $this->propagator->buildAndForwardEvent($event);
 
-        $this->assertEquals(
-            $classes,
-            [
-                'ZichtTest\Bundle\PageBundle\AdminMenu\P1',
-                'ZichtTest\Bundle\PageBundle\Assets\PageAdapter',
-            ]
-        );
+        $this->assertEquals($classes, [P1::class, PageAdapter::class]);
     }
 
     public function testFiringForeignEventDoesNotFail()
@@ -113,8 +106,8 @@ class EventPropagationBuilderTest extends TestCase
 
     public function testFiringPageViewEventWillFirEventIfAdminIsAvailable()
     {
-        $admin = $this->getMockBuilder('Sonata\AdminBundle\Admin\Admin')->disableOriginalConstructor()->getMock();
-        $this->pool->expects($this->once())->method('getAdminByClass')->with('ZichtTest\Bundle\PageBundle\AdminMenu\P1')->will($this->returnValue($admin));
+        $admin = $this->getMockBuilder(AdminInterface::class)->disableOriginalConstructor()->getMock();
+        $this->pool->expects($this->once())->method('getAdminByClass')->with(P1::class)->will($this->returnValue($admin));
         $page = new P1('bar');
         $event = new PageViewEvent($page);
         $url = '/foo';

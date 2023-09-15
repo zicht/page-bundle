@@ -18,7 +18,9 @@
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^3",
-        "phpunit/phpunit": "^9.6"
+        "phpunit/phpunit": "^9.6",
+        "symfony/form": "^5.4",
+        "vimeo/psalm": "^5"
     },
     "autoload": {
         "psr-4": {
@@ -32,6 +34,7 @@
     },
     "minimum-stability": "stable",
     "scripts": {
+        "analysis": "psalm",
         "lint": "php-cs-fixer fix --dry-run --diff -vvv",
         "lint-fix": "php-cs-fixer fix",
         "test": "phpunit"

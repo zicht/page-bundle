@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+### Added
+- Added Vimeo Psalm and fixed the code base.
 ### Added|Changed|Deprecated|Removed|Fixed|Security
 Nothing so far
 

@@ -19,35 +19,32 @@ use Zicht\Bundle\UrlBundle\Url\Provider;
  */
 class EventPropagationBuilder implements PropagationInterface
 {
-    /** @var Pool */
+    /** @var EventDispatcherInterface */
+    protected $eventDispatcher;
+
+    /** @var Pool|null */
     protected $sonata;
 
-    /** @var Provider */
+    /** @var Provider|null */
     protected $pageUrlProvider;
-
-    /** @var EventDispatcher */
-    protected $eventDispatcher;
 
     /**
      * Construct with the specified admin pool
-     *
-     * @param Pool $sonata
-     * @param Provider $pageUrlProvider
      */
-    public function __construct(Pool $sonata = null, Provider $pageUrlProvider = null, EventDispatcherInterface $eventDispatcher)
+    public function __construct(EventDispatcherInterface $eventDispatcher, ?Pool $sonata = null, ?Provider $pageUrlProvider = null)
     {
+        $this->eventDispatcher = $eventDispatcher;
         $this->sonata = $sonata;
         $this->pageUrlProvider = $pageUrlProvider;
-        $this->eventDispatcher = $eventDispatcher;
     }
 
-    public function buildAndForwardEvent(Event $event): void
+    public function buildAndForwardEvent(Event $e): void
     {
-        if (!$event instanceof PageViewEvent) {
+        if (!$e instanceof PageViewEvent) {
             return;
         }
 
-        $page = $event->getPage();
+        $page = $e->getPage();
         $admin = $this->sonata->getAdminByClass(get_class($page));
 
         if ($admin === null) {
@@ -55,12 +52,10 @@ class EventPropagationBuilder implements PropagationInterface
         }
 
         if ($page->getId() && $admin !== null) {
-            $title = $event->getPage()->getTitle();
-            /** @var \Zicht\Bundle\PageBundle\Event\PageViewEvent $event */
-            /** @var \Zicht\Bundle\PageBundle\Event\PageViewEvent $e */
+            $title = $e->getPage()->getTitle();
             $this->eventDispatcher->dispatch(
                 new MenuEvent(
-                    $admin->generateObjectUrl('edit', $event->getPage()),
+                    $admin->generateObjectUrl('edit', $e->getPage()),
                     sprintf(
                         'Beheer pagina "%s"',
                         strlen($title) > 20 ? substr($title, 0, 20) . '...' : $title
