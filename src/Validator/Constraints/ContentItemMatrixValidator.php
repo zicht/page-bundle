@@ -8,7 +8,6 @@ namespace Zicht\Bundle\PageBundle\Validator\Constraints;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Contracts\Translation\TranslatorInterface;
-use Zicht\Bundle\PageBundle\Entity\ContentItem;
 use Zicht\Bundle\PageBundle\Model\ContentItemContainer;
 use Zicht\Util\Str;
 
@@ -30,10 +29,6 @@ class ContentItemMatrixValidator extends ConstraintValidator
         $matrix = $value->getContentItemMatrix();
 
         if (null !== $matrix) {
-            /**
-             * @var int $i
-             * @var ContentItem $contentItem
-             */
             foreach ($value->getContentItems() as $i => $contentItem) {
                 $type = get_class($contentItem);
                 $typeName = $this->translator->trans('content_item.type.' . strtolower(str_replace(' ', '_', Str::humanize($contentItem->getType()))), [], 'admin');

@@ -50,7 +50,6 @@ abstract class ContentItem implements ContentItemInterface
                 $convertToType = [];
                 /* @var $p \ReflectionProperty */
                 foreach ($reflectionFrom->getProperties() as $property) {
-                    $property->setAccessible(true);
                     $method = 'set' . ucfirst($property->getName());
 
                     if (!$reflectionTo->hasMethod($method)) {

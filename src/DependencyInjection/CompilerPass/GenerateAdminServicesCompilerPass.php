@@ -115,7 +115,6 @@ class GenerateAdminServicesCompilerPass implements CompilerPassInterface
                 continue;
             }
 
-            /** @var ContentItemContainer $instance */
             $instance = new $pageClassName();
 
             if (null === $matrix = $instance->getContentItemMatrix()) {

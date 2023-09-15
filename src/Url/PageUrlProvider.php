@@ -30,19 +30,19 @@ class PageUrlProvider extends AbstractRoutingProvider implements SuggestableProv
         return ($object instanceof $pageClassName) && $object->getId();
     }
 
-    public function routing($page, array $options = [])
+    public function routing($object, array $options = [])
     {
-        if (is_callable([$page, 'getLanguage']) && $page->getLanguage()) {
+        if (is_callable([$object, 'getLanguage']) && $object->getLanguage()) {
             if (array_key_exists('_locale', $options)) {
                 $locale = $options['_locale'];
             } else {
-                $locale = $page->getLanguage();
+                $locale = $object->getLanguage();
             }
 
             return [
                 'zicht_page_page_view',
                 [
-                    'id' => $page->getId(),
+                    'id' => $object->getId(),
                     '_locale' => $locale,
                 ],
             ];
@@ -50,7 +50,7 @@ class PageUrlProvider extends AbstractRoutingProvider implements SuggestableProv
             return [
                 'zicht_page_page_view',
                 [
-                    'id' => $page->getId(),
+                    'id' => $object->getId(),
                 ],
             ];
         }
@@ -75,7 +75,7 @@ class PageUrlProvider extends AbstractRoutingProvider implements SuggestableProv
         return $suggestions;
     }
 
-    public function all(AuthorizationCheckerInterface $security)
+    public function all(AuthorizationCheckerInterface $securityContextInterface)
     {
         $ret = [];
         $pages = $this->pageManager->getBaseRepository()->createQueryBuilder('p')
@@ -84,7 +84,7 @@ class PageUrlProvider extends AbstractRoutingProvider implements SuggestableProv
             ->execute();
 
         foreach ($pages as $page) {
-            if ($security->isGranted(['VIEW'], $page)) {
+            if ($securityContextInterface->isGranted(['VIEW'], $page)) {
                 $ret[] = [
                     'value' => $this->url($page),
                     'title' => $this->getLabel($page),
