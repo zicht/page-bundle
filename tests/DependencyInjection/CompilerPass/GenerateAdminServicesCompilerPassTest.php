@@ -42,7 +42,7 @@ namespace ZichtTest\Bundle\PageBundle\DependencyInjection\CompilerPass {
 
         public function testValidConfig()
         {
-            $c = new \Symfony\Component\DependencyInjection\ContainerBuilder();
+            $c = new ContainerBuilder();
 
             $defs = [
                 'zicht_page.page_manager' => new \Symfony\Component\DependencyInjection\Definition(),
@@ -64,15 +64,15 @@ namespace ZichtTest\Bundle\PageBundle\DependencyInjection\CompilerPass {
             $c->setParameter(
                 'zicht_page.config',
                 [
-                'admin' => [
-                    'base' => [
-                        'page' => 'page.admin',
-                        'contentItem' => 'ci.admin',
+                    'admin' => [
+                        'base' => [
+                            'page' => 'page.admin',
+                            'contentItem' => 'ci.admin',
+                        ],
                     ],
-                ],
                 ]
             );
-            $pass = new \Zicht\Bundle\PageBundle\DependencyInjection\CompilerPass\GenerateAdminServicesCompilerPass();
+            $pass = new GenerateAdminServicesCompilerPass();
             $pass->process($c);
             $this->expectNotToPerformAssertions();
         }

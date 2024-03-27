@@ -4,16 +4,16 @@
     "type": "symfony-bundle",
     "license": "MIT",
     "require": {
-        "php": "^7.4 || ^8.0",
+        "php": "^8.0",
         "sonata-project/admin-bundle": "^4.21.0",
-        "symfony/config": "^5.4",
-        "symfony/console": "^5.4",
-        "symfony/security-core": "^5.4",
+        "symfony/config": "^5.4 || ^6",
+        "symfony/console": "^5.4 || ^6",
+        "symfony/security-core": "^5.4 || ^6",
         "twig/twig": "^2.7 || ^3",
-        "zicht/admin-bundle": "^8",
-        "zicht/framework-extra-bundle": "^10",
-        "zicht/menu-bundle": "^6",
-        "zicht/url-bundle": "^7",
+        "zicht/admin-bundle": "^8 || ^9.x-dev",
+        "zicht/framework-extra-bundle": "^10 || ^11.x-dev",
+        "zicht/menu-bundle": "^6 || ^7.x-dev",
+        "zicht/url-bundle": "^7 || ^8.x-dev",
         "zicht/util": "^2"
     },
     "require-dev": {
@@ -38,5 +38,10 @@
         "lint": "php-cs-fixer fix --dry-run --diff -vvv",
         "lint-fix": "php-cs-fixer fix",
         "test": "phpunit"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-feature-symfony-6": "9.x-dev"
+        }
     }
 }

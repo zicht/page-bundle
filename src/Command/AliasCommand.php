@@ -6,6 +6,7 @@
 namespace Zicht\Bundle\PageBundle\Command;
 
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputArgument;
@@ -19,18 +20,14 @@ use Zicht\Bundle\UrlBundle\Aliasing\Aliasing;
 /**
  * Generates URL aliases for all pages.
  */
+#[AsCommand('zicht:page:alias')]
 class AliasCommand extends Command
 {
-    protected static $defaultName = 'zicht:page:alias';
+    private ManagerRegistry $doctrine;
 
-    /** @var ManagerRegistry */
-    private $doctrine;
+    private Aliaser $aliaser;
 
-    /** @var Aliaser */
-    private $aliaser;
-
-    /** @var PageManager */
-    private $pageManager;
+    private PageManager $pageManager;
 
     public function __construct(ManagerRegistry $doctrine, Aliaser $aliaser, PageManager $pageManager, string $name = null)
     {
@@ -94,6 +91,6 @@ class AliasCommand extends Command
         $progress->finish();
         call_user_func($onDone);
 
-        return 0;
+        return Command::SUCCESS;
     }
 }

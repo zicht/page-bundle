@@ -9,7 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController as BaseAbstract
 use Zicht\Bundle\PageBundle\Manager\PageManager;
 
 /**
- * @deprecated extend {@see \Symfony\Bundle\FrameworkBundle\Controller\AbstractController} directly.
+ * @deprecated extend {@see BaseAbstractController} directly.
  */
 abstract class AbstractController extends BaseAbstractController
 {

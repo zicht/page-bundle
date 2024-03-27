@@ -52,8 +52,8 @@ class TranslatePageEventPropagationBuilder implements PropagationInterface
                 $this->router->generate(
                     'zicht_page_page_view',
                     [
-                    'id' => $page->getId(),
-                    '_locale' => 'zz',
+                        'id' => $page->getId(),
+                        '_locale' => 'zz',
                     ]
                 ),
                 'Vertalingen'
@@ -66,8 +66,8 @@ class TranslatePageEventPropagationBuilder implements PropagationInterface
                 $this->router->generate(
                     'zicht_page_page_view',
                     [
-                    'id' => $page->getId(),
-                    '_locale' => $page->getLanguage(),
+                        'id' => $page->getId(),
+                        '_locale' => $page->getLanguage(),
                     ]
                 ),
                 'Pagina herladen'

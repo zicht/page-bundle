@@ -5,6 +5,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+### Added
+- Support for Symfony 6
+### Removed
+- Support for PHP 7.4
+### Changed
+- Made PageController final (natively instead of by annotation)
+- Using attributes instead of annotations for routes
 ### Added|Changed|Deprecated|Removed|Fixed|Security
 Nothing so far
 

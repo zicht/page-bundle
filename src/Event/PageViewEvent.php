@@ -27,7 +27,7 @@ class PageViewEvent extends Event
     /**
      * Return the page attached to this event
      *
-     * @return \Zicht\Bundle\PageBundle\Model\PageInterface
+     * @return PageInterface
      */
     public function getPage()
     {

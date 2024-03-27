@@ -5,31 +5,29 @@
 
 namespace Zicht\Bundle\PageBundle\Command;
 
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Zicht\Bundle\PageBundle\Manager\PageManager;
-use Zicht\Bundle\UrlBundle\Url\Provider;
+use Zicht\Bundle\UrlBundle\Url\Provider as UrlProvider;
 
 /**
  * List all page urls. Useful for testing.
  */
+#[AsCommand('zicht:page:list')]
 class ListCommand extends Command
 {
-    protected static $defaultName = 'zicht:page:list';
+    private PageManager $pageManager;
 
-    /** @var PageManager */
-    private $pageManager;
+    private UrlProvider $urlProvider;
 
-    /** @var Provider */
-    private $provider;
-
-    public function __construct(PageManager $pageManager, Provider $provider, string $name = null)
+    public function __construct(PageManager $pageManager, UrlProvider $urlProvider, string $name = null)
     {
         parent::__construct($name);
         $this->pageManager = $pageManager;
-        $this->provider = $provider;
+        $this->urlProvider = $urlProvider;
     }
 
     protected function configure()
@@ -40,14 +38,12 @@ class ListCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $pages = $this->pageManager->getBaseRepository()->findAll();
-        $urlProvider = $this->provider;
-
         $baseUrl = rtrim($input->getOption('base-url'), '/');
 
         foreach ($pages as $page) {
-            $output->writeln($baseUrl . $urlProvider->url($page));
+            $output->writeln($baseUrl . $this->urlProvider->url($page));
         }
 
-        return 0;
+        return Command::SUCCESS;
     }
 }
